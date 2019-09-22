@@ -1,0 +1,1 @@
+This is a tampermonkey script, you can view it on [greasyforks]()
