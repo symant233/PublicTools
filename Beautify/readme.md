@@ -1,1 +1,3 @@
-This is a tampermonkey script, you can view it on [greasyforks]()
+This is a tampermonkey script, you can view it on [greasyforks](https://greasyfork.org/zh-CN/scripts/390421-beautify).
+
+This script is under construction...
