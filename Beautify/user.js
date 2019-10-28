@@ -1,12 +1,14 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    undefined
-// @version      0.0.2
+// @version      0.0.3
 // @description  美化<误>各网页界面
 // @author       symant233
 // @require      https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
 // @match        *://cn.vuejs.org/v2/guide/*
 // @match        *://www.runoob.com/*
+// @match        *://www.zxzjs.com/*
+// @match        https://www.gorpg.club/*
 // @grant        none
 // ==/UserScript==
 
@@ -37,11 +39,32 @@
         $('.qrcode').remove; //右侧悬浮二维码
     }
 
+    function zxzjs() {
+        //缩小间距 省的用滚轮
+        $('.stui-header').css("margin", "0px");
+        $('.stui-page__item').css("margin", "0px");
+        $('.stui-screen').css("padding", "0px");
+        //$('.stui-vodlist li').css("padding", "0px 10px");
+        $('.stui-pannel').css("margin-bottom", "0px");
+        //$('.head.clearfix').css("padding", "5px");
+    }
+
+    function gorpg() {
+        if (document.URL == "https://www.gorpg.club/k_misign-sign") {$('#JD_sign').click();}
+        $('.bus_ads').remove();
+        $('.bus_daohan').css("margin", "0px");
+    }
     var domain = document.domain;
     if (domain == 'cn.vuejs.org') {
         vue_doc();
     }
     else if (domain == 'www.runoob.com') {
         runoob();
+    }
+    else if (domain == 'www.zxzjs.com') {
+        zxzjs();
+    }
+    else if (domain == 'www.gorpg.club') {
+        gorpg();
     }
 })();
