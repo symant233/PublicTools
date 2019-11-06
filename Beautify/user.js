@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    undefined
-// @version      0.0.3
+// @version      0.0.4
 // @description  美化<误>各网页界面
 // @author       symant233
 // @require      https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
@@ -9,13 +9,16 @@
 // @match        *://www.runoob.com/*
 // @match        *://www.zxzjs.com/*
 // @match        https://www.gorpg.club/*
+// @match        https://backdoor.sdslabs.co/*
+// @match        https://*.duckduckgo.com/*
 // @grant        none
 // ==/UserScript==
 
 (function() {
     'use strict';
-
     var $ = window.jQuery;
+    $('body').append('<style>::-webkit-scrollbar{width:10px}::-webkit-scrollbar-track{background:#f1f1f1}::-webkit-scrollbar-thumb{background:#aaa}::-webkit-scrollbar-thumb:hover{background:#777}</style>')
+
     function vue_doc(){
         //缩小导航栏
         $('body').css("padding-top", "43px");
@@ -37,6 +40,13 @@
         $('#sidebar-right-re').parent().remove(); //右侧广告
         $('.feedback-btn').remove(); //反馈按钮
         $('.qrcode').remove; //右侧悬浮二维码
+        $('.navigation').css("background", "grey");
+        if (document.location['href'].split('/')[3] == "try") {
+            $('nav').remove();
+            $("body").css("padding-top", "60px");
+            $('footer').remove();
+        }
+        $('body').append('<style>::-webkit-scrollbar{width:10px}::-webkit-scrollbar-track{background:#f1f1f1}::-webkit-scrollbar-thumb{background:#aaa}::-webkit-scrollbar-thumb:hover{background:#777}</style>');
     }
 
     function zxzjs() {
@@ -50,7 +60,7 @@
     }
 
     function gorpg() {
-        if (document.URL == "https://www.gorpg.club/k_misign-sign") {$('#JD_sign').click();}
+        //if (document.URL == "https://www.gorpg.club/k_misign-sign") {$('#JD_sign').click();}
         $('.bus_ads').remove();
         $('.bus_daohan').css("margin", "0px");
     }
@@ -66,5 +76,8 @@
     }
     else if (domain == 'www.gorpg.club') {
         gorpg();
+    }
+    else if (domain == 'backdoor.sdslabs.co') {
+        $('#hints-display').css('display','inline');
     }
 })();
