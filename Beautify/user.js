@@ -5,12 +5,7 @@
 // @description  美化<误>各网页界面
 // @author       symant233
 // @require      https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
-// @match        *://cn.vuejs.org/v2/guide/*
-// @match        *://www.runoob.com/*
-// @match        *://www.zxzjs.com/*
-// @match        https://www.gorpg.club/*
-// @match        https://backdoor.sdslabs.co/*
-// @match        https://*.duckduckgo.com/*
+// @include      *://*.*
 // @grant        none
 // ==/UserScript==
 
@@ -18,7 +13,7 @@
     'use strict';
     var $ = window.jQuery;
     $('body').append('<style>::-webkit-scrollbar{width:10px}::-webkit-scrollbar-track{background:#f1f1f1}::-webkit-scrollbar-thumb{background:#aaa}::-webkit-scrollbar-thumb:hover{background:#777}</style>')
-
+    console.log('Tampermonkey script @Beautify loaded.');
     function vue_doc(){
         //缩小导航栏
         $('body').css("padding-top", "43px");
@@ -27,8 +22,6 @@
         $('#nav').css("top", "1px");
         $('.sidebar').css("top", "43px");
         $('.sidebar-inner').css("padding-top", "13px");
-        // 更改scrollbar样式
-        $('body').append('<style>::-webkit-scrollbar{width:10px}::-webkit-scrollbar-track{background:#f1f1f1}::-webkit-scrollbar-thumb{background:#aaa}::-webkit-scrollbar-thumb:hover{background:#777}</style>')
     }
 
     function runoob() {
@@ -49,7 +42,7 @@
         $('body').append('<style>::-webkit-scrollbar{width:10px}::-webkit-scrollbar-track{background:#f1f1f1}::-webkit-scrollbar-thumb{background:#aaa}::-webkit-scrollbar-thumb:hover{background:#777}</style>');
     }
 
-    function zxzjs() {
+    function zxzj() {
         //缩小间距 省的用滚轮
         $('.stui-header').css("margin", "0px");
         $('.stui-page__item').css("margin", "0px");
@@ -64,20 +57,44 @@
         $('.bus_ads').remove();
         $('.bus_daohan').css("margin", "0px");
     }
+
     var domain = document.domain;
-    if (domain == 'cn.vuejs.org') {
-        vue_doc();
-    }
-    else if (domain == 'www.runoob.com') {
-        runoob();
-    }
-    else if (domain == 'www.zxzjs.com') {
-        zxzjs();
-    }
-    else if (domain == 'www.gorpg.club') {
-        gorpg();
-    }
-    else if (domain == 'backdoor.sdslabs.co') {
-        $('#hints-display').css('display','inline');
+    switch (domain){
+        case 'cn.vuejs.org': {
+           vue_doc();
+           break;
+        }
+        case 'www.runoob.com': {
+            runoob();
+            break;
+        }
+        case 'www.zxzj.me': {
+            zxzj();
+            break;
+        }
+        case 'www.gorpg.club': {
+            gorpg();
+            break;
+        }
+        case 'backdoor.sdslabs.co': {
+            $('#hints-display').css('display','inline');
+            break;
+        }
+        case 'csdn.net': {
+            console.log('Beautify@ try to click');
+            var r = $('.btn-readmore')[0].click();
+            console.log('Beautify@ clicked:' + r);
+            break;
+        }
+        case 'es6.ruanyifeng.com': {
+            $('#content').css("width", "999px");
+            $('#content').css("padding-bottom", "0px");
+            $('#back_to_top').css("margin-left", "1333px");
+            $('#edit').css("margin-left", "1333px");
+            $('#flip').css("margin-left", "1333px");
+            break;
+        }
+        default:
+            break;
     }
 })();
