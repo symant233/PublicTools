@@ -1,17 +1,18 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    undefined
-// @version      0.0.4
+// @version      0.0.5
 // @description  美化<误>各网页界面
 // @author       symant233
 // @require      https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
 // @include      *://*.*
+// @exclude      *://*.chaoxing.com/*
 // @grant        none
 // ==/UserScript==
 
 (function() {
     'use strict';
-    var $ = window.jQuery;
+    if (!$) { var $ = window.jQuery; }
     $('body').append('<style>::-webkit-scrollbar{width:10px}::-webkit-scrollbar-track{background:#f1f1f1}::-webkit-scrollbar-thumb{background:#aaa}::-webkit-scrollbar-thumb:hover{background:#777}</style>')
     console.log('Tampermonkey script @Beautify loaded.');
     function vue_doc(){
@@ -26,6 +27,8 @@
 
     function runoob() {
         //隐藏头部logo 移动搜索框位置到navbar
+        $('#index-nav').append(`<form action="//www.runoob.com/" target="_blank" style="display: inline;float: right;">
+            <input class="placeholder" id="s" name="s" placeholder="搜索……" autocomplete="off"></form>`);
         $('.pc-nav').append(`<form action="//www.runoob.com/" target="_blank" style="display: inline;">
             <input class="placeholder" id="s" name="s" placeholder="搜索……" autocomplete="off"></form>`);
         $('.logo-search').remove();
@@ -34,7 +37,7 @@
         $('.feedback-btn').remove(); //反馈按钮
         $('.qrcode').remove; //右侧悬浮二维码
         $('.navigation').css("background", "grey");
-        if (document.location['href'].split('/')[3] == "try") {
+        if (document.location.href.split('/')[3] == "try") {
             $('nav').remove();
             $("body").css("padding-top", "60px");
             $('footer').remove();
@@ -89,9 +92,9 @@
         case 'es6.ruanyifeng.com': {
             $('#content').css("width", "999px");
             $('#content').css("padding-bottom", "0px");
-            $('#back_to_top').css("margin-left", "1333px");
-            $('#edit').css("margin-left", "1333px");
-            $('#flip').css("margin-left", "1333px");
+            $('#back_to_top').css("margin-left", "1433px");
+            $('#edit').css("margin-left", "1433px");
+            $('#flip').css("margin-left", "1373px");
             break;
         }
         default:
