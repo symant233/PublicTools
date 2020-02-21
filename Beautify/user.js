@@ -1,13 +1,19 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    undefined
-// @version      0.0.5
+// @version      0.0.6
 // @description  美化<误>各网页界面
 // @author       symant233
 // @require      https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
-// @include      *://*.*
+// @match        *://cn.vuejs.org/v2/guide/*
+// @match        *://www.runoob.com/*
+// @match        *://www.zxzjs.me/*
+// @match        https://www.gorpg.club/*
+// @match        *://*.csdn.net/*
+// @match        *://es6.ruanyifeng.com/*
 // @exclude      *://*.chaoxing.com/*
-// @grant        none
+// @grant        GPL-3.0
+// @homepageURL  https://github.com/symant233/PublicTools
 // ==/UserScript==
 
 (function() {
@@ -63,40 +69,31 @@
 
     var domain = document.domain;
     switch (domain){
-        case 'cn.vuejs.org': {
+        case 'cn.vuejs.org':
            vue_doc();
            break;
-        }
-        case 'www.runoob.com': {
+        case 'www.runoob.com':
             runoob();
             break;
-        }
-        case 'www.zxzj.me': {
+        case 'www.zxzj.me':
             zxzj();
             break;
-        }
-        case 'www.gorpg.club': {
+        case 'www.gorpg.club':
             gorpg();
             break;
-        }
-        case 'backdoor.sdslabs.co': {
-            $('#hints-display').css('display','inline');
-            break;
-        }
         case 'csdn.net': {
             console.log('Beautify@ try to click');
             var r = $('.btn-readmore')[0].click();
             console.log('Beautify@ clicked:' + r);
             break;
         }
-        case 'es6.ruanyifeng.com': {
+        case 'es6.ruanyifeng.com':
             $('#content').css("width", "999px");
             $('#content').css("padding-bottom", "0px");
             $('#back_to_top').css("margin-left", "1433px");
             $('#edit').css("margin-left", "1433px");
             $('#flip').css("margin-left", "1373px");
             break;
-        }
         default:
             break;
     }
