@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Beautify
-// @namespace    undefined
+// @namespace    https://github.com/symant233
 // @version      0.0.6
 // @description  美化<误>各网页界面
 // @author       symant233
@@ -12,8 +12,9 @@
 // @match        *://*.csdn.net/*
 // @match        *://es6.ruanyifeng.com/*
 // @exclude      *://*.chaoxing.com/*
-// @grant        GPL-3.0
+// @license      GPL-3.0
 // @homepageURL  https://github.com/symant233/PublicTools
+// @supportURL   https://github.com/symant233/PublicTools/issues
 // ==/UserScript==
 
 (function() {
