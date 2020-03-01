@@ -6,41 +6,36 @@ import json
 class Paoluz:
 
     def __init__(self):
-        # print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), end=' ')
         self.session = requests.Session()
         self.constant = {
-            'LOGIN': 'http://paoluz.club/auth/login',
-            # 'USER': 'http://paoluz.club/user',
+            # 'LOGIN': 'http://paoluz.club/auth/login',
+            'USER': 'http://paoluz.club/user',
             'CHECK': 'http://paoluz.club/user/checkin'
         }
 
-    def login(self, id, passwd):
-        url = self.constant['LOGIN']
-        data = {
-            'email': id,
-            'passwd': passwd,
-            'code': ''
-        }
-        r = self.session.post(url, data=data)
-        try:
-            r = json.loads(r.content.decode())
-            print(id.split('@')[0], r['msg'], end=' ')
-        except:
-            print(id.split('@')[0], r.status_code, end=' ')
-
-    def check(self):
+    def check(self, cookie):
         url = self.constant['CHECK']
-        r = self.session.post(url)
+        data = {
+            "accept": "application/json, text/javascript, */*; q=0.01",
+            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,ja;q=0.7",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-origin",
+            'cookie': cookie,
+            'dnt': 1,
+            'Origin': 'https://paoluz.club',
+            'Referer': 'https://paoluz.club/user',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/81.0.4044.26 Safari/537.36',
+            'x-requested-with': 'XMLHttpRequest'
+        }
+        r = self.session.post(url, headers=data)
         try:
-            r = json.loads(r.content.decode())  # binary string to dict
+            r = json.loads(r.content.decode()) # binary string to dict
             print(r['msg'])
         except:
             print('checkin: ', r.status_code)
 
-
 if __name__ == "__main__":
-
-    # simply use:
+    cookie = ''
     p = Paoluz()
-    p.login('test@gmail.com', 'password123')
-    p.check()
+    p.check(cookie)

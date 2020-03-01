@@ -7,7 +7,7 @@
 // @require      https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
 // @match        *://cn.vuejs.org/v2/guide/*
 // @match        *://www.runoob.com/*
-// @match        *://www.zxzjs.me/*
+// @match        *://www.zxzj.me/*
 // @match        https://www.gorpg.club/*
 // @match        *://*.csdn.net/*
 // @match        *://es6.ruanyifeng.com/*
