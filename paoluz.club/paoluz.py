@@ -8,9 +8,9 @@ class Paoluz:
     def __init__(self):
         self.session = requests.Session()
         self.constant = {
-            # 'LOGIN': 'http://paoluz.club/auth/login',
-            'USER': 'http://paoluz.club/user',
-            'CHECK': 'http://paoluz.club/user/checkin'
+            # 'LOGIN': 'https://paoluz.club/auth/login',
+            'USER': 'https://paoluz.club/user',
+            'CHECK': 'https://paoluz.club/user/checkin'
         }
 
     def check(self, cookie):
@@ -21,12 +21,13 @@ class Paoluz:
             "sec-fetch-dest": "empty",
             "sec-fetch-mode": "cors",
             "sec-fetch-site": "same-origin",
+			"x-requested-with": "XMLHttpRequest",
             'cookie': cookie,
             'dnt': 1,
             'Origin': 'https://paoluz.club',
             'Referer': 'https://paoluz.club/user',
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/81.0.4044.26 Safari/537.36',
-            'x-requested-with': 'XMLHttpRequest'
+			'referrer': 'https://paoluz.club/user',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.26 Safari/537.36 Edg/81.0.416.16',
         }
         r = self.session.post(url, headers=data)
         try:
@@ -36,6 +37,6 @@ class Paoluz:
             print('checkin: ', r.status_code)
 
 if __name__ == "__main__":
-    cookie = ''
+    cookie = r''
     p = Paoluz()
     p.check(cookie)

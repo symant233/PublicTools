@@ -2,7 +2,7 @@
 import requests
 import json
 
-TOKEN = r''
+TOKEN = r""
 
 class Kuying:
 
@@ -33,6 +33,6 @@ class Kuying:
             print('checkin: ', r.status_code)
 
 if __name__ == "__main__":
-    # 将cookie放在顶部的TOKEN中
+
     t = Kuying()
     t.check()

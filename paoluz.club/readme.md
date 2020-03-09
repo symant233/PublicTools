@@ -1,5 +1,5 @@
 ### Modify
-在`if __name__ == "__main__":`里按照示例添加你的cookie
+在`if __name__ == "__main__":`里添加你的cookie
 
 ### Usage
 `python paoluz.py`
