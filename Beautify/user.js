@@ -11,6 +11,7 @@
 // @match        https://www.gorpg.club/*
 // @match        *://*.csdn.net/*
 // @match        *://es6.ruanyifeng.com/*
+// @match        *://wenku.baidu.com/*
 // @exclude      *://*.chaoxing.com/*
 // @license      GPL-3.0
 // @homepageURL  https://github.com/symant233/PublicTools
@@ -49,7 +50,6 @@
             $("body").css("padding-top", "60px");
             $('footer').remove();
         }
-        $('body').append('<style>::-webkit-scrollbar{width:10px}::-webkit-scrollbar-track{background:#f1f1f1}::-webkit-scrollbar-thumb{background:#aaa}::-webkit-scrollbar-thumb:hover{background:#777}</style>');
     }
 
     function zxzj() {
@@ -94,6 +94,10 @@
             $('#back_to_top').css("margin-left", "1433px");
             $('#edit').css("margin-left", "1433px");
             $('#flip').css("margin-left", "1373px");
+            break;
+        case 'wenku.baidu.com':
+            $('.btn-know').click();
+            $('.banner-more-btn').click();
             break;
         default:
             break;

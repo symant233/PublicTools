@@ -1,6 +1,4 @@
 ## DEMO
-https://symant.tk/custom/via.html
-
 https://symant233.github.io/custom/via.html
 
 ![early release](https://ae01.alicdn.com/kf/Hebc7099f3acb41f588abb12f7cd89388T.jpg)
