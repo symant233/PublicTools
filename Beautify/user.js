@@ -1,14 +1,14 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233
-// @version      0.0.6
+// @version      0.0.7
 // @description  美化<误>各网页界面
 // @author       symant233
 // @require      https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
 // @match        *://cn.vuejs.org/v2/guide/*
 // @match        *://www.runoob.com/*
 // @match        *://www.zxzj.me/*
-// @match        https://www.gorpg.club/*
+// @match        *://www.gorpg.club/*
 // @match        *://*.csdn.net/*
 // @match        *://es6.ruanyifeng.com/*
 // @match        *://wenku.baidu.com/*
@@ -89,15 +89,15 @@
             break;
         }
         case 'es6.ruanyifeng.com':
-            $('#content').css("width", "999px");
+            $('#content').css("width", "63%");
             $('#content').css("padding-bottom", "0px");
-            $('#back_to_top').css("margin-left", "1433px");
-            $('#edit').css("margin-left", "1433px");
-            $('#flip').css("margin-left", "1373px");
+            $('#back_to_top').css("right", "35px");
+            $('#edit').css("right", "35px");
+            $('#flip').css("right", "10px");
             break;
         case 'wenku.baidu.com':
             $('.btn-know').click();
-            $('.banner-more-btn').click();
+            $('.moreBtn').click();
             break;
         default:
             break;
