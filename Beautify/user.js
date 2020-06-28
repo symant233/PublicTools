@@ -96,8 +96,11 @@
             $('#flip').css("right", "10px");
             break;
         case 'wenku.baidu.com':
-            $('.btn-know').click();
-            $('.moreBtn').click();
+            setTimeout(function() {
+                console.log('show more');
+                $('.btn-know').click();
+                $('.moreBtn').click();
+            }, 1500 );
             break;
         default:
             break;
