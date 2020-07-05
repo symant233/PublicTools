@@ -5,7 +5,7 @@
 // @description  美化<误>各网页界面
 // @author       symant233
 // @require      https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
-// @match        *://cn.vuejs.org/v2/guide/*
+// @match        *://cn.vuejs.org/v2/*
 // @match        *://www.runoob.com/*
 // @match        *://www.zxzj.me/*
 // @match        *://www.gorpg.club/*
@@ -21,7 +21,7 @@
 (function() {
     'use strict';
     if (!$) { var $ = window.jQuery; }
-    $('body').append('<style>::-webkit-scrollbar{width:10px}::-webkit-scrollbar-track{background:#f1f1f1}::-webkit-scrollbar-thumb{background:#aaa}::-webkit-scrollbar-thumb:hover{background:#777}</style>')
+    $('body').append('<style>::-webkit-scrollbar{width:10px;height:7px;}::-webkit-scrollbar-track{background:#f1f1f1}::-webkit-scrollbar-thumb{background:#aaa}::-webkit-scrollbar-thumb:hover{background:#777}</style>')
     console.log('Tampermonkey script @Beautify loaded.');
     function vue_doc(){
         //缩小导航栏

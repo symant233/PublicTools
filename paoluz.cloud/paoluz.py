@@ -2,15 +2,14 @@
 import requests
 import json
 
-
 class Paoluz:
 
     def __init__(self):
         self.session = requests.Session()
         self.constant = {
-            # 'LOGIN': 'https://paoluz.club/auth/login',
-            'USER': 'https://paoluz.club/user',
-            'CHECK': 'https://paoluz.club/user/checkin'
+            # 'LOGIN': 'https://paoluz.cloud/auth/login',
+            'USER': 'https://paoluz.cloud/user',
+            'CHECK': 'https://paoluz.cloud/user/checkin'
         }
 
     def check(self, cookie):
@@ -24,9 +23,9 @@ class Paoluz:
 			"x-requested-with": "XMLHttpRequest",
             'cookie': cookie,
             'dnt': 1,
-            'Origin': 'https://paoluz.club',
-            'Referer': 'https://paoluz.club/user',
-			'referrer': 'https://paoluz.club/user',
+            'Origin': 'https://paoluz.cloud',
+            'Referer': 'https://paoluz.cloud/user',
+			'referrer': 'https://paoluz.cloud/user',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.26 Safari/537.36 Edg/81.0.416.16',
         }
         r = self.session.post(url, headers=data)
