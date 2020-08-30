@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233
-// @version      0.0.7
+// @version      0.0.8
 // @description  美化<误>各网页界面
 // @author       symant233
 // @require      https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
@@ -12,6 +12,7 @@
 // @match        *://*.csdn.net/*
 // @match        *://es6.ruanyifeng.com/*
 // @match        *://wenku.baidu.com/*
+// @match        *://didi.github.io/cube-ui/*
 // @exclude      *://*.chaoxing.com/*
 // @license      GPL-3.0
 // @homepageURL  https://github.com/symant233/PublicTools
@@ -93,6 +94,7 @@
             $('#content').css("padding-bottom", "0px");
             $('#back_to_top').css("right", "35px");
             $('#edit').css("right", "35px");
+            $('#theme').css("right", "35px");
             $('#flip').css("right", "10px");
             break;
         case 'wenku.baidu.com':
@@ -101,6 +103,13 @@
                 $('.btn-know').click();
                 $('.moreBtn').click();
             }, 1500 );
+            break;
+        case 'didi.github.io':
+            setTimeout(function() {
+                document.getElementsByClassName('navigator')[0].style.height = "54px";
+                document.getElementsByClassName('navigator')[0].style.lineHeight = "54px";
+                document.getElementsByClassName('home-view')[0].style.paddingTop = "38px";
+            }, 500 );
             break;
         default:
             break;

@@ -20,9 +20,7 @@
 *.rar
 
 #vscode settings
-settings.json
 test/
-.vscode/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
