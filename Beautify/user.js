@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233
-// @version      0.0.8
+// @version      0.0.9
 // @description  美化<误>各网页界面
 // @author       symant233
 // @require      https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
+// @require      https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js
 // @match        *://cn.vuejs.org/v2/*
 // @match        *://www.runoob.com/*
 // @match        *://www.zxzj.me/*
@@ -13,6 +14,7 @@
 // @match        *://es6.ruanyifeng.com/*
 // @match        *://wenku.baidu.com/*
 // @match        *://didi.github.io/cube-ui/*
+// @match        *://www.bilibili.com/video/*
 // @exclude      *://*.chaoxing.com/*
 // @license      GPL-3.0
 // @homepageURL  https://github.com/symant233/PublicTools
@@ -111,6 +113,35 @@
                 document.getElementsByClassName('home-view')[0].style.paddingTop = "38px";
             }, 500 );
             break;
+        case 'www.bilibili.com': {
+            // 宽屏模式 来自 https://github.com/bilibili-helper/bilibili-helper-o/blob/637d0741b0d81154c7bc330f8fce19b926f5a71b/src/js/modules/videoWiden/UI/index.js
+            function setWide () {
+                const btn = document.querySelector('.bilibili-player-video-btn-widescreen:not(.closed)');
+                if (btn && !btn.getAttribute('bilibili-helper-data')) {
+                    btn.setAttribute('bilibili-helper-data', true);
+                    btn.click();
+                }
+            }
+            new Promise(resolve => {
+                setWide();
+                const player = document.querySelector('#bofqi, #bilibiliPlayer');
+                if (player) {
+                    new MutationObserver((mutationList) => {
+                        _.map(mutationList, (mutation) => {
+                            if (mutation.oldValue) {
+                                setWide();
+                            }
+                        });
+                    }).observe(player, {
+                        attributes: true,
+                        attributeOldValue: true,
+                        subtree: true,
+                    });
+                }
+                resolve();
+            });
+            break;
+        }
         default:
             break;
     }
