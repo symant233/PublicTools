@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233
-// @version      0.0.9
+// @version      0.0.10
 // @description  美化<误>各网页界面
 // @author       symant233
 // @require      https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
@@ -15,6 +15,7 @@
 // @match        *://wenku.baidu.com/*
 // @match        *://didi.github.io/cube-ui/*
 // @match        *://www.bilibili.com/video/*
+// @match        *://cn.bing.com/search?*
 // @exclude      *://*.chaoxing.com/*
 // @license      GPL-3.0
 // @homepageURL  https://github.com/symant233/PublicTools
@@ -140,6 +141,10 @@
                 }
                 resolve();
             });
+            break;
+        }
+        case 'cn.bing.com': {
+            $("head").append('<style>#b_content{padding-left: 85px;}</style>');
             break;
         }
         default:
