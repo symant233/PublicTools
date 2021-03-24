@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233
-// @version      0.0.10
+// @version      0.0.12
 // @description  美化<误>各网页界面
 // @author       symant233
 // @require      https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
@@ -15,7 +15,9 @@
 // @match        *://wenku.baidu.com/*
 // @match        *://didi.github.io/cube-ui/*
 // @match        *://www.bilibili.com/video/*
-// @match        *://cn.bing.com/search?*
+// @match        *://cn.bing.com/search?q=*
+// @match        *://duckduckgo.com/?q=*
+// @match        *://baike.baidu.com/*
 // @exclude      *://*.chaoxing.com/*
 // @license      GPL-3.0
 // @homepageURL  https://github.com/symant233/PublicTools
@@ -141,12 +143,25 @@
                 }
                 resolve();
             });
+            // PiP 画中画模式快捷键`p`
+            document.addEventListener('keyup', function (e) {
+                if (e.key === 'p') {
+                    $('.bilibili-player-iconfont-pip-on').click();
+                }
+            }, false);
             break;
         }
         case 'cn.bing.com': {
             $("head").append('<style>#b_content{padding-left: 85px;}</style>');
             break;
         }
+        case 'duckduckgo.com': {
+            $("head").append('<style>#links_wrapper{padding-left: 108px;}</style>');
+            break;
+        }
+        case 'baike.baidu.com':
+            $('.content-wrapper .content').css('font', 'unset'); // 移除阴间字体
+            break;
         default:
             break;
     }
