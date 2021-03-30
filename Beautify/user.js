@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233
-// @version      0.0.12
+// @version      0.0.13
 // @description  美化<误>各网页界面
 // @author       symant233
 // @require      https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
@@ -18,6 +18,7 @@
 // @match        *://cn.bing.com/search?q=*
 // @match        *://duckduckgo.com/?q=*
 // @match        *://baike.baidu.com/*
+// @match        https://yz.chsi.com.cn/sytj/tj/*
 // @exclude      *://*.chaoxing.com/*
 // @license      GPL-3.0
 // @homepageURL  https://github.com/symant233/PublicTools
@@ -161,7 +162,26 @@
         }
         case 'baike.baidu.com':
             $('.content-wrapper .content').css('font', 'unset'); // 移除阴间字体
+            //$('#sl-player-el-video').trigger('pause'); //暂停自动播放
+            //$('.sl-player-el-close').click();
+            $('#sl-player-el-video').remove(); // 删除播放器
+            $('.sl-player-el-container').remove(); // 删除播放器容器
             break;
+        case 'yz.chsi.com.cn': {
+            // 去除不符合不能调剂的信息
+            function filter() {
+                const tmp = $("#content-qecxList > table > tbody").children();
+                for ( let i in tmp ) {
+                    if ( tmp[i].lastElementChild.innerText.includes("不符合") || tmp[i].lastElementChild.firstElementChild.title.includes('不符合') ) {
+                        tmp[i].remove();
+                        console.log(tmp[i].textContent + 'removed');
+                    }
+                }
+            }
+            $('<button id="btn-filter" style="width: 50px;">过滤</button>').appendTo('.ewm-fix');
+            $('#btn-filter').click(filter);
+            break;
+        }
         default:
             break;
     }
