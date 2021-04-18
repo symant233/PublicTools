@@ -1,11 +1,10 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233
-// @version      0.0.13
+// @version      0.0.14
 // @description  美化<误>各网页界面
 // @author       symant233
 // @require      https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
-// @require      https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js
 // @match        *://cn.vuejs.org/v2/*
 // @match        *://www.runoob.com/*
 // @match        *://www.zxzj.me/*
@@ -19,6 +18,8 @@
 // @match        *://duckduckgo.com/?q=*
 // @match        *://baike.baidu.com/*
 // @match        https://yz.chsi.com.cn/sytj/tj/*
+// @match        https://www.30secondsofcode.org/*
+// @match        https://developer.mozilla.org/*
 // @exclude      *://*.chaoxing.com/*
 // @license      GPL-3.0
 // @homepageURL  https://github.com/symant233/PublicTools
@@ -131,7 +132,7 @@
                 const player = document.querySelector('#bofqi, #bilibiliPlayer');
                 if (player) {
                     new MutationObserver((mutationList) => {
-                        _.map(mutationList, (mutation) => {
+                        mutationList.forEach((mutation) => {
                             if (mutation.oldValue) {
                                 setWide();
                             }
@@ -180,6 +181,21 @@
             }
             $('<button id="btn-filter" style="width: 50px;">过滤</button>').appendTo('.ewm-fix');
             $('#btn-filter').click(filter);
+            document.addEventListener('keyup', function (e) {
+                if (e.key === 'Enter' && e.ctrlKey) {
+                    $('.tj-seach-btn').click();
+                }
+            }, false);
+            break;
+        }
+        case 'www.30secondsofcode.org':
+            $("head").append('<style>.nav-bar{height:auto;}</style>');
+            break;
+        case 'developer.mozilla.org': {
+            $("head").append('<style>.page-header{padding:12px 24px;}.breadcrumb-locale-container{margin:0px;}.logo{height:59px;}</style>');
+            let link = document.location.href;
+            link = link.replace('/en-US/', '/zh-CN/');
+            $(".language-icon").click(()=>{document.location.href = link; })
             break;
         }
         default:
