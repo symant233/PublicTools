@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233
-// @version      0.0.14
+// @version      0.0.15
 // @description  美化<误>各网页界面
 // @author       symant233
 // @require      https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
@@ -13,13 +13,15 @@
 // @match        *://es6.ruanyifeng.com/*
 // @match        *://wenku.baidu.com/*
 // @match        *://didi.github.io/cube-ui/*
-// @match        *://www.bilibili.com/video/*
+// @include      /^https:\/\/www\.bilibili\.com\/(video|bangumi)\/.*/
 // @match        *://cn.bing.com/search?q=*
 // @match        *://duckduckgo.com/?q=*
 // @match        *://baike.baidu.com/*
 // @match        https://yz.chsi.com.cn/sytj/tj/*
 // @match        https://www.30secondsofcode.org/*
 // @match        https://developer.mozilla.org/*
+// @match        https://juejin.cn/editor/drafts/*
+// @match        https://xui.ptlogin2.qq.com/cgi-bin/xlogin*
 // @exclude      *://*.chaoxing.com/*
 // @license      GPL-3.0
 // @homepageURL  https://github.com/symant233/PublicTools
@@ -29,7 +31,12 @@
 (function() {
     'use strict';
     if (!$) { var $ = window.jQuery; }
-    $('body').append('<style>::-webkit-scrollbar{width:10px;height:7px;}::-webkit-scrollbar-track{background:#f1f1f1}::-webkit-scrollbar-thumb{background:#aaa}::-webkit-scrollbar-thumb:hover{background:#777}</style>')
+    $('body').append(`<style>
+    ::-webkit-scrollbar{width:10px;height:7px;}
+    ::-webkit-scrollbar-track{background:#f1f1f1}
+    ::-webkit-scrollbar-thumb{background:#aaa}
+    ::-webkit-scrollbar-thumb:hover{background:#777}
+    </style>`)
     console.log('Tampermonkey script @Beautify loaded.');
     function vue_doc(){
         //缩小导航栏
@@ -40,7 +47,6 @@
         $('.sidebar').css("top", "43px");
         $('.sidebar-inner').css("padding-top", "13px");
     }
-
     function runoob() {
         //隐藏头部logo 移动搜索框位置到navbar
         $('#index-nav').append(`<form action="//www.runoob.com/" target="_blank" style="display: inline;float: right;">
@@ -59,7 +65,6 @@
             $('footer').remove();
         }
     }
-
     function zxzj() {
         //缩小间距 省的用滚轮
         $('.stui-header').css("margin", "0px");
@@ -69,15 +74,12 @@
         $('.stui-pannel').css("margin-bottom", "0px");
         //$('.head.clearfix').css("padding", "5px");
     }
-
     function gorpg() {
         //if (document.URL == "https://www.gorpg.club/k_misign-sign") {$('#JD_sign').click();}
         $('.bus_ads').remove();
         $('.bus_daohan').css("margin", "0px");
     }
-
-    var domain = document.domain;
-    switch (domain){
+    switch (document.domain){
         case 'cn.vuejs.org':
            vue_doc();
            break;
@@ -167,6 +169,10 @@
             //$('.sl-player-el-close').click();
             $('#sl-player-el-video').remove(); // 删除播放器
             $('.sl-player-el-container').remove(); // 删除播放器容器
+            $("head").append(`<style>.lemmaWgt-searchHeader{height:55px;}
+            .wgt-searchbar-new.wgt-searchbar .logo-container{padding: 6px 0;}
+            .wgt-searchbar-new.wgt-searchbar .search{padding: 7px 0;}
+            </style>`);
             break;
         case 'yz.chsi.com.cn': {
             // 去除不符合不能调剂的信息
@@ -192,12 +198,32 @@
             $("head").append('<style>.nav-bar{height:auto;}</style>');
             break;
         case 'developer.mozilla.org': {
-            $("head").append('<style>.page-header{padding:12px 24px;}.breadcrumb-locale-container{margin:0px;}.logo{height:59px;}</style>');
+            $("head").append(`<style>
+            .page-header{padding:12px 24px;}
+            .breadcrumb-locale-container{margin:0px;}
+            .logo{height:59px;}
+            #license{margin:0px;}
+            </style>`);
             let link = document.location.href;
             link = link.replace('/en-US/', '/zh-CN/');
             $(".language-icon").click(()=>{document.location.href = link; })
             break;
         }
+        case 'juejin.cn':
+            $("head").append(`<style>
+            .header.editor-header{height:4rem;}
+            .main .bytemd{height:calc(100vh - 4rem);}
+            </style>`);
+            break;
+        case 'xui.ptlogin2.qq.com':
+            // 服了 graph.qq.com 套了个 iframe 我说怎么死活没有用...
+            // 自动启用账号密码登录 去他大爷的扫码登录
+            $("head").append(`<style>
+            .web_qr_login {display:block !important;}
+            .qlogin{display:none !important;}
+            #bottom_qlogin{display:none !important;}
+            </style>`);
+            break;
         default:
             break;
     }
