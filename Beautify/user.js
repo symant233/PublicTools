@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233
-// @version      0.0.15
+// @version      0.0.16
 // @description  美化<误>各网页界面
 // @author       symant233
 // @require      https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
@@ -22,6 +22,8 @@
 // @match        https://developer.mozilla.org/*
 // @match        https://juejin.cn/editor/drafts/*
 // @match        https://xui.ptlogin2.qq.com/cgi-bin/xlogin*
+// @match        https://steamcommunity.com/*
+// @match        https://www.pixiv.net/*
 // @exclude      *://*.chaoxing.com/*
 // @license      GPL-3.0
 // @homepageURL  https://github.com/symant233/PublicTools
@@ -32,11 +34,28 @@
     'use strict';
     if (!$) { var $ = window.jQuery; }
     $('body').append(`<style>
-    ::-webkit-scrollbar{width:10px;height:7px;}
-    ::-webkit-scrollbar-track{background:#f1f1f1}
-    ::-webkit-scrollbar-thumb{background:#aaa}
-    ::-webkit-scrollbar-thumb:hover{background:#777}
-    </style>`)
+    ::-webkit-scrollbar {
+        height: 16px;
+        width: 11px;
+        background-color: initial;
+    }
+    ::-webkit-scrollbar-button {height: 0;}
+    ::-webkit-scrollbar-thumb {
+        background-color: rgba(0,0,0,.2);
+        background-clip: padding-box;
+        border: solid transparent;
+        border-width: 1px 1px 1px 1px;
+        box-shadow: inset 1px 1px 0 rgb(0 0 0 / 10%), inset 0 -1px 0 rgb(0 0 0 / 7%);
+    }
+    ::-webkit-scrollbar-thumb:hover{
+        background: rgba(0,0,0,.4);
+        background-clip: padding-box;
+    }
+    ::-webkit-scrollbar-track {
+        background-clip: padding-box;
+        border: solid transparent;
+        border-width: 0 0 0 4px;
+    }</style>`);
     console.log('Tampermonkey script @Beautify loaded.');
     function vue_doc(){
         //缩小导航栏
@@ -81,8 +100,8 @@
     }
     switch (document.domain){
         case 'cn.vuejs.org':
-           vue_doc();
-           break;
+            vue_doc();
+            break;
         case 'www.runoob.com':
             runoob();
             break;
@@ -223,6 +242,34 @@
             .qlogin{display:none !important;}
             #bottom_qlogin{display:none !important;}
             </style>`);
+            break;
+        case 'steamcommunity.com': {
+            setInterval(()=>{
+                try {
+                    document.getElementById('market_sell_dialog_accept_ssa').checked = true;
+                } catch (err) {}
+                try {
+                    document.getElementById('market_buyorder_dialog_accept_ssa').checked = true;
+                } catch (err) {}
+            }, 2000);
+            break;
+        }
+        case 'www.pixiv.net':
+            // 需要与脚本配合使用 https://greasyfork.org/zh-CN/scripts/34153-pixiv-plus
+            $("head").append(`<style>
+            select#select-ahao-favorites {
+                font-size: 14px;
+                line-height: 22px;
+                flex: 1 1 auto;
+                height: auto;
+                margin: 0px -9px;
+                padding: 9px 8px;
+                border: none;
+                border-radius: 4px;
+                color: rgba(0, 0, 0, 0.64);
+                background-color: rgba(0, 0, 0, 0.04);
+                transition: background-color 0.2s ease 0s, color 0.2s ease 0s;
+            }</style>`);
             break;
         default:
             break;
