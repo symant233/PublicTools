@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233
-// @version      0.0.16
+// @version      0.0.17
 // @description  美化<误>各网页界面
 // @author       symant233
 // @require      https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
@@ -24,6 +24,8 @@
 // @match        https://xui.ptlogin2.qq.com/cgi-bin/xlogin*
 // @match        https://steamcommunity.com/*
 // @match        https://www.pixiv.net/*
+// @match        https://live.bilibili.com/*
+// @match        https://frontendwingman.com/*
 // @exclude      *://*.chaoxing.com/*
 // @license      GPL-3.0
 // @homepageURL  https://github.com/symant233/PublicTools
@@ -56,7 +58,7 @@
         border: solid transparent;
         border-width: 0 0 0 4px;
     }</style>`);
-    console.log('Tampermonkey script @Beautify loaded.');
+    console.log('◀========= 🌟Beautify loaded =========▶');
     function vue_doc(){
         //缩小导航栏
         $('body').css("padding-top", "43px");
@@ -85,7 +87,7 @@
         }
     }
     function zxzj() {
-        //缩小间距 省的用滚轮
+        //缩小间距 省得用滚轮
         $('.stui-header').css("margin", "0px");
         $('.stui-page__item').css("margin", "0px");
         $('.stui-screen').css("padding", "0px");
@@ -270,6 +272,25 @@
                 background-color: rgba(0, 0, 0, 0.04);
                 transition: background-color 0.2s ease 0s, color 0.2s ease 0s;
             }</style>`);
+            break;
+        case 'live.bilibili.com':
+            $("head").append(`<style>
+            .side-bar-popup-cntr{bottom:5% !important;height:84% !important;}
+            .section-content-cntr{height:556px !important;}
+            .title-length-limit.smaller-title {
+                max-width: 336px !important;
+            }</style>`);
+            break;
+        case 'frontendwingman.com':
+            try {
+                Object.defineProperty(document.querySelector('.theme-container').__vue__,'locked',{
+                    get:()=>true,
+                    set:function(val){this._data.locked=true}
+                });
+                document.querySelector('.theme-container').__vue__.locked = true;
+            } catch (e) {
+                console.warn('Beautify: 自动解锁失效.');
+            }
             break;
         default:
             break;
