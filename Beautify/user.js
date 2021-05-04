@@ -5,18 +5,18 @@
 // @description  美化<误>各网页界面
 // @author       symant233
 // @require      https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
-// @match        *://cn.vuejs.org/v2/*
-// @match        *://www.runoob.com/*
-// @match        *://www.zxzj.me/*
-// @match        *://www.gorpg.club/*
-// @match        *://*.csdn.net/*
-// @match        *://es6.ruanyifeng.com/*
-// @match        *://wenku.baidu.com/*
-// @match        *://didi.github.io/cube-ui/*
+// @match        https://cn.vuejs.org/v2/*
+// @match        https://www.runoob.com/*
+// @match        https://www.zxzj.me/*
+// @match        https://www.gorpg.club/*
+// @match        https://*.csdn.net/*
+// @match        https://es6.ruanyifeng.com/*
+// @match        https://wenku.baidu.com/*
+// @match        https://didi.github.io/cube-ui/*
 // @include      /^https:\/\/www\.bilibili\.com\/(video|bangumi)\/.*/
-// @match        *://cn.bing.com/search?q=*
-// @match        *://duckduckgo.com/?q=*
-// @match        *://baike.baidu.com/*
+// @match        https://cn.bing.com/search?q=*
+// @match        https://duckduckgo.com/?q=*
+// @match        https://baike.baidu.com/*
 // @match        https://yz.chsi.com.cn/sytj/tj/*
 // @match        https://www.30secondsofcode.org/*
 // @match        https://developer.mozilla.org/*
@@ -59,59 +59,47 @@
         border-width: 0 0 0 4px;
     }</style>`);
     console.log('◀========= 🌟Beautify loaded =========▶');
-    function vue_doc(){
-        //缩小导航栏
-        $('body').css("padding-top", "43px");
-        $('#header').css({"padding": "0px", "height": "43px", "box-shadow": "0px 0px 5px 0px rgba(0,0,0,0.2)"});
-        $('#logo').css("padding-left", "10px");
-        $('#nav').css("top", "1px");
-        $('.sidebar').css("top", "43px");
-        $('.sidebar-inner').css("padding-top", "13px");
-    }
-    function runoob() {
-        //隐藏头部logo 移动搜索框位置到navbar
-        $('#index-nav').append(`<form action="//www.runoob.com/" target="_blank" style="display: inline;float: right;">
-            <input class="placeholder" id="s" name="s" placeholder="搜索……" autocomplete="off"></form>`);
-        $('.pc-nav').append(`<form action="//www.runoob.com/" target="_blank" style="display: inline;">
-            <input class="placeholder" id="s" name="s" placeholder="搜索……" autocomplete="off"></form>`);
-        $('.logo-search').remove();
-        $('.col.nav').css("padding-top", "5px");
-        $('#sidebar-right-re').parent().remove(); //右侧广告
-        $('.feedback-btn').remove(); //反馈按钮
-        $('.qrcode').remove; //右侧悬浮二维码
-        $('.navigation').css("background", "grey");
-        if (document.location.href.split('/')[3] == "try") {
-            $('nav').remove();
-            $("body").css("padding-top", "60px");
-            $('footer').remove();
-        }
-    }
-    function zxzj() {
-        //缩小间距 省得用滚轮
-        $('.stui-header').css("margin", "0px");
-        $('.stui-page__item').css("margin", "0px");
-        $('.stui-screen').css("padding", "0px");
-        //$('.stui-vodlist li').css("padding", "0px 10px");
-        $('.stui-pannel').css("margin-bottom", "0px");
-        //$('.head.clearfix').css("padding", "5px");
-    }
-    function gorpg() {
-        //if (document.URL == "https://www.gorpg.club/k_misign-sign") {$('#JD_sign').click();}
-        $('.bus_ads').remove();
-        $('.bus_daohan').css("margin", "0px");
-    }
     switch (document.domain){
         case 'cn.vuejs.org':
-            vue_doc();
+            //缩小导航栏
+            $('body').css("padding-top", "43px");
+            $('#header').css({"padding": "0px", "height": "43px", "box-shadow": "0px 0px 5px 0px rgba(0,0,0,0.2)"});
+            $('#logo').css("padding-left", "10px");
+            $('#nav').css("top", "1px");
+            $('.sidebar').css("top", "43px");
+            $('.sidebar-inner').css("padding-top", "13px");
             break;
         case 'www.runoob.com':
-            runoob();
+            //隐藏头部logo 移动搜索框位置到navbar
+            $('#index-nav').append(`<form action="//www.runoob.com/" target="_blank" style="display: inline;float: right;">
+                <input class="placeholder" id="s" name="s" placeholder="搜索……" autocomplete="off"></form>`);
+            $('.pc-nav').append(`<form action="//www.runoob.com/" target="_blank" style="display: inline;">
+                <input class="placeholder" id="s" name="s" placeholder="搜索……" autocomplete="off"></form>`);
+            $('.logo-search').remove();
+            $('.col.nav').css("padding-top", "5px");
+            $('#sidebar-right-re').parent().remove(); //右侧广告
+            $('.feedback-btn').remove(); //反馈按钮
+            $('.qrcode').remove; //右侧悬浮二维码
+            $('.navigation').css("background", "grey");
+            if (document.location.href.split('/')[3] == "try") {
+                $('nav').remove();
+                $("body").css("padding-top", "60px");
+                $('footer').remove();
+            }
             break;
         case 'www.zxzj.me':
-            zxzj();
+            //缩小间距 省得用滚轮
+            $('.stui-header').css("margin", "0px");
+            $('.stui-page__item').css("margin", "0px");
+            $('.stui-screen').css("padding", "0px");
+            //$('.stui-vodlist li').css("padding", "0px 10px");
+            $('.stui-pannel').css("margin-bottom", "0px");
+            //$('.head.clearfix').css("padding", "5px");
             break;
         case 'www.gorpg.club':
-            gorpg();
+            //if (document.URL == "https://www.gorpg.club/k_misign-sign") {$('#JD_sign').click();}
+            $('.bus_ads').remove();
+            $('.bus_daohan').css("margin", "0px");
             break;
         case 'csdn.net': {
             console.log('Beautify@ try to click');
