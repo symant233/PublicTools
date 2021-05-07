@@ -1,9 +1,10 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233
-// @version      0.0.17
+// @version      0.0.18
 // @description  美化<误>各网页界面
 // @author       symant233
+// @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
 // @require      https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
 // @match        https://cn.vuejs.org/v2/*
 // @match        https://www.runoob.com/*
@@ -26,13 +27,15 @@
 // @match        https://www.pixiv.net/*
 // @match        https://live.bilibili.com/*
 // @match        https://frontendwingman.com/*
+// @match        https://cloud.tencent.com/developer/*
+// @match        https://www.npmjs.com/*
 // @exclude      *://*.chaoxing.com/*
 // @license      GPL-3.0
 // @homepageURL  https://github.com/symant233/PublicTools
 // @supportURL   https://github.com/symant233/PublicTools/issues
 // ==/UserScript==
 
-(function() {
+;(function() {
     'use strict';
     if (!$) { var $ = window.jQuery; }
     $('body').append(`<style>
@@ -53,12 +56,23 @@
         background: rgba(0,0,0,.4);
         background-clip: padding-box;
     }
+    ::-webkit-scrollbar-thumb:active{
+        background: rgba(0,0,0,.5);
+        background-clip: padding-box;
+    }
     ::-webkit-scrollbar-track {
         background-clip: padding-box;
         border: solid transparent;
         border-width: 0 0 0 4px;
     }</style>`);
-    console.log('◀========= 🌟Beautify loaded =========▶');
+    (function(left, right, color) {
+        const arg = [
+            `%c ${left} %c ${right} `,
+            'padding:1px;border-radius:3px 0 0 3px;color:#fff;background:#606060;',
+            `padding:1px;border-radius:0 3px 3px 0;color:#fff;background:${color}`
+        ];
+        console.log(...arg);
+    })('Loaded', 'Beautify', '#e99010');
     switch (document.domain){
         case 'cn.vuejs.org':
             //缩小导航栏
@@ -212,10 +226,14 @@
             .breadcrumb-locale-container{margin:0px;}
             .logo{height:59px;}
             #license{margin:0px;}
+            .localized-content-note.notecard.neutral{display:none;}
+            #beautify-turn:after {content:"|";display:inline-block;margin:0 6px;}
             </style>`);
             let link = document.location.href;
             link = link.replace('/en-US/', '/zh-CN/');
-            $(".language-icon").click(()=>{document.location.href = link; })
+            $(".language-toggle").prepend('<li><a id="beautify-turn">📌CN</a></li>');
+            $("#beautify-turn").click(()=>{document.location.href = link; });
+            $('.language-icon').remove();
             break;
         }
         case 'juejin.cn':
@@ -271,6 +289,7 @@
             break;
         case 'frontendwingman.com':
             try {
+                // credit: github.com/invobzvr
                 Object.defineProperty(document.querySelector('.theme-container').__vue__,'locked',{
                     get:()=>true,
                     set:function(val){this._data.locked=true}
@@ -279,6 +298,18 @@
             } catch (e) {
                 console.warn('Beautify: 自动解锁失效.');
             }
+            break;
+        case 'cloud.tencent.com':
+            $("head").append(`<style>
+            .doc-main-hd {
+                margin-bottom: 24px;
+                padding-bottom: 28px;
+                border-bottom: 1px solid #e5e5e5;
+            }</style>`);
+            break;
+        case 'www.npmjs.com':
+            $("header > div:nth-child(2)").css("display", "none");
+            $(".center-ns").css("padding-bottom", "unset");
             break;
         default:
             break;
