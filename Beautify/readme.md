@@ -2,19 +2,19 @@
 
 通用功能：以下匹配列网站都会更改滚动条为透明优雅风格。
 
-匹配列表与功能（v0.0.17版）
+匹配列表与功能（v0.0.19版）
 
 | 目标 | 匹配地址 | 功能 |
 | --- | --- | --- |
 | Vue文档 | https://cn.vuejs.org/v2/* | 缩小导航栏 |
-| 菜鸟教程 | https://www.runoob.com/* | 隐藏头部logo；移动搜索框到导航栏；移除右侧广告、二维码、反馈；移除尝试界面的nav和footer|
+| 菜鸟教程 | https://www.runoob.com/* | 隐藏头部logo；移动搜索框到导航栏；简化头部 |
 | 在线之家 | https://www.zxzj.me/* | 缩小间距省得用滚轮 |
 | GORPG | https://www.gorpg.club/* | 修正左侧排版 |
-| CSDN | https://\*.csdn.net/* | 自动点击展开全文 |
+| CSDN | https://blog.csdn.net/* | 自动点击展开全文 |
 | ES6 | https://es6.ruanyifeng.com/* | 界面排版 |
 | 百度文库 | https://wenku.baidu.com/* | 自动展开全文 |
 | cube文档 | https://didi.github.io/cube-ui/* | 排版 |
-| B站视频 | /^https:\/\/www\.bilibili\.com\/(video&#x7c;bangumi)\/.*/ | 自动宽屏模式；按P进入画中画 |
+| B站视频 | https://www.bilibili.com/* | 自动宽屏模式；按P进入画中画, Ctrl+ArrowRight下一集 |
 | Bing搜索 | https://cn.bing.com/search?q=* | 缩小左侧间距（surface友好） |
 | Duck搜索 | https://duckduckgo.com/?q=* | 缩小左侧间距（surface友好） |
 | 百度百科 | https://baike.baidu.com/* | 移除阴间字体；直接删除播放器；调整头部样式 |
@@ -27,6 +27,8 @@
 | pixiv | https://www.pixiv.net/* | （需配合另一脚本使用，见代码） |
 | B站直播 | https://live.bilibili.com/* | 扩大右侧关注列表（3个你逗我玩？） |
 | Devtool | https://frontendwingman.com/* | 自动解锁 |
+| NPM | https://www.npmjs.com/* | 去除顶部标语 |
+| 百度翻译 | https://fanyi.baidu.com/* | 紧凑排版 |
 
 （更新readme可能不及时，一切以源码为准）
 

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233
-// @version      0.0.18
+// @version      0.0.20
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -9,12 +9,11 @@
 // @match        https://cn.vuejs.org/v2/*
 // @match        https://www.runoob.com/*
 // @match        https://www.zxzj.me/*
-// @match        https://www.gorpg.club/*
-// @match        https://*.csdn.net/*
+// @match        https://blog.csdn.net/*
 // @match        https://es6.ruanyifeng.com/*
 // @match        https://wenku.baidu.com/*
 // @match        https://didi.github.io/cube-ui/*
-// @include      /^https:\/\/www\.bilibili\.com\/(video|bangumi)\/.*/
+// @match        https://www.bilibili.com/*
 // @match        https://cn.bing.com/search?q=*
 // @match        https://duckduckgo.com/?q=*
 // @match        https://baike.baidu.com/*
@@ -29,7 +28,8 @@
 // @match        https://frontendwingman.com/*
 // @match        https://cloud.tencent.com/developer/*
 // @match        https://www.npmjs.com/*
-// @exclude      *://*.chaoxing.com/*
+// @match        https://www.zhihu.com/*
+// @match        https://fanyi.baidu.com/*
 // @license      GPL-3.0
 // @homepageURL  https://github.com/symant233/PublicTools
 // @supportURL   https://github.com/symant233/PublicTools/issues
@@ -38,29 +38,26 @@
 ;(function() {
     'use strict';
     if (!$) { var $ = window.jQuery; }
-    $('body').append(`<style>
+    $('head').append(`<style>
+    html{overflow:overlay;}
     ::-webkit-scrollbar {
         height: 16px;
         width: 11px;
         background-color: initial;
-    }
-    ::-webkit-scrollbar-button {height: 0;}
+    }::-webkit-scrollbar-button {height: 0;}
     ::-webkit-scrollbar-thumb {
         background-color: rgba(0,0,0,.2);
         background-clip: padding-box;
         border: solid transparent;
         border-width: 1px 1px 1px 1px;
         box-shadow: inset 1px 1px 0 rgb(0 0 0 / 10%), inset 0 -1px 0 rgb(0 0 0 / 7%);
-    }
-    ::-webkit-scrollbar-thumb:hover{
+    }::-webkit-scrollbar-thumb:hover{
         background: rgba(0,0,0,.4);
         background-clip: padding-box;
-    }
-    ::-webkit-scrollbar-thumb:active{
+    }::-webkit-scrollbar-thumb:active{
         background: rgba(0,0,0,.5);
         background-clip: padding-box;
-    }
-    ::-webkit-scrollbar-track {
+    }::-webkit-scrollbar-track {
         background-clip: padding-box;
         border: solid transparent;
         border-width: 0 0 0 4px;
@@ -109,11 +106,6 @@
             //$('.stui-vodlist li').css("padding", "0px 10px");
             $('.stui-pannel').css("margin-bottom", "0px");
             //$('.head.clearfix').css("padding", "5px");
-            break;
-        case 'www.gorpg.club':
-            //if (document.URL == "https://www.gorpg.club/k_misign-sign") {$('#JD_sign').click();}
-            $('.bus_ads').remove();
-            $('.bus_daohan').css("margin", "0px");
             break;
         case 'csdn.net': {
             console.log('Beautify@ try to click');
@@ -174,6 +166,8 @@
             document.addEventListener('keyup', function (e) {
                 if (e.key === 'p') {
                     $('.bilibili-player-iconfont-pip-on').click();
+                } else if (e.key === 'ArrowRight' & e.altKey === true) {
+                    $('.bilibili-player-video-btn-next').click();
                 }
             }, false);
             break;
@@ -231,8 +225,7 @@
             </style>`);
             let link = document.location.href;
             link = link.replace('/en-US/', '/zh-CN/');
-            $(".language-toggle").prepend('<li><a id="beautify-turn">📌CN</a></li>');
-            $("#beautify-turn").click(()=>{document.location.href = link; });
+            $(".language-toggle").prepend(`<li><a id="beautify-turn" href="${link}">📌CN</a></li>`);
             $('.language-icon').remove();
             break;
         }
@@ -279,14 +272,15 @@
                 transition: background-color 0.2s ease 0s, color 0.2s ease 0s;
             }</style>`);
             break;
-        case 'live.bilibili.com':
-            $("head").append(`<style>
+        case 'live.bilibili.com': {
+            const cssText = `<style>
             .side-bar-popup-cntr{bottom:5% !important;height:84% !important;}
             .section-content-cntr{height:556px !important;}
-            .title-length-limit.smaller-title {
-                max-width: 336px !important;
-            }</style>`);
+            .title-length-limit{max-width:unset !important;}
+            </style>`;
+            $("head").append(cssText);
             break;
+        }
         case 'frontendwingman.com':
             try {
                 // credit: github.com/invobzvr
@@ -310,6 +304,18 @@
         case 'www.npmjs.com':
             $("header > div:nth-child(2)").css("display", "none");
             $(".center-ns").css("padding-bottom", "unset");
+            break;
+        case 'fanyi.baidu.com':
+            $("head").append(`<style>
+            .download-app{display:none;}
+            .header{padding:3px 0 7px 0;}
+            .doc-whole-container{height:100%;}
+            .doc-feedback-group{display:none;}
+            .doc-trans-view-wrap{
+                width:unset;
+                height: 88%;
+                margin-top: -38px;
+            }</style>`);
             break;
         default:
             break;
