@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233
-// @version      0.0.20
+// @version      0.0.21
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -30,6 +30,7 @@
 // @match        https://www.npmjs.com/*
 // @match        https://www.zhihu.com/*
 // @match        https://fanyi.baidu.com/*
+// @match        https://jiexi.8old.cn/*
 // @license      GPL-3.0
 // @homepageURL  https://github.com/symant233/PublicTools
 // @supportURL   https://github.com/symant233/PublicTools/issues
@@ -270,6 +271,8 @@
                 color: rgba(0, 0, 0, 0.64);
                 background-color: rgba(0, 0, 0, 0.04);
                 transition: background-color 0.2s ease 0s, color 0.2s ease 0s;
+            }#select-ahao-favorites+div{
+                gap: 0px;
             }</style>`);
             break;
         case 'live.bilibili.com': {
@@ -317,6 +320,17 @@
                 margin-top: -38px;
             }</style>`);
             break;
+        case 'jiexi.8old.cn': {
+            // https://jx.m3u8.tv/jiexi/?url=
+            document.addEventListener('keyup', function (e) {
+                if (e.key === 'f') {
+                    $('.dplayer-full-icon').click();
+                }else if ([1,2,3,4].includes(parseInt(e.key))) {
+                    $('.dplayer-setting-speed-item').slice(1)[parseInt(e.key)].click();
+                }
+            }, false);
+            break;
+        }
         default:
             break;
     }
