@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233
-// @version      0.0.21
+// @version      0.0.22
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -31,6 +31,7 @@
 // @match        https://www.zhihu.com/*
 // @match        https://fanyi.baidu.com/*
 // @match        https://jiexi.8old.cn/*
+// @match        https://read.qidian.com/*
 // @license      GPL-3.0
 // @homepageURL  https://github.com/symant233/PublicTools
 // @supportURL   https://github.com/symant233/PublicTools/issues
@@ -218,9 +219,8 @@
         case 'developer.mozilla.org': {
             $("head").append(`<style>
             .page-header{padding:12px 24px;}
-            .breadcrumb-locale-container{margin:0px;}
+            .breadcrumb-locale-container,#license{margin:0px;}
             .logo{height:59px;}
-            #license{margin:0px;}
             .localized-content-note.notecard.neutral{display:none;}
             #beautify-turn:after {content:"|";display:inline-block;margin:0 6px;}
             </style>`);
@@ -241,8 +241,7 @@
             // 自动启用账号密码登录 去他大爷的扫码登录
             $("head").append(`<style>
             .web_qr_login {display:block !important;}
-            .qlogin{display:none !important;}
-            #bottom_qlogin{display:none !important;}
+            .qlogin,#bottom_qlogin{display:none !important;}
             </style>`);
             break;
         case 'steamcommunity.com': {
@@ -308,12 +307,19 @@
             $("header > div:nth-child(2)").css("display", "none");
             $(".center-ns").css("padding-bottom", "unset");
             break;
+        case 'www.zhihu.com':
+            if (window.location.href === "https://www.zhihu.com/hot") {
+                document.querySelectorAll('.HotItem').forEach((e) => {
+                    if (!e.outerHTML.includes('HotItem-excerpt')) {
+                        e.remove();
+                    }
+                });
+            }break;
         case 'fanyi.baidu.com':
             $("head").append(`<style>
-            .download-app{display:none;}
+            .download-app,.doc-feedback-group{display:none;}
             .header{padding:3px 0 7px 0;}
             .doc-whole-container{height:100%;}
-            .doc-feedback-group{display:none;}
             .doc-trans-view-wrap{
                 width:unset;
                 height: 88%;
@@ -331,6 +337,12 @@
             }, false);
             break;
         }
+        case 'qidian.com':
+            $("head").append(`<style>
+            body{overflow-x:hidden !important;}
+            .admire-wrap,.guide-btn-wrap,#j_navGameBtn,#navReward,#j_phoneRead{display:none;}
+            </style>`);
+            break;
         default:
             break;
     }
