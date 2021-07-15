@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233
-// @version      0.0.22
+// @version      0.0.25
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -32,6 +32,10 @@
 // @match        https://fanyi.baidu.com/*
 // @match        https://jiexi.8old.cn/*
 // @match        https://read.qidian.com/*
+// @match        https://*.taobao.com/*
+// @match        https://*.tmall.com/*
+// @match        https://caddyserver.com/docs/*
+// @grant        GM_addStyle
 // @license      GPL-3.0
 // @homepageURL  https://github.com/symant233/PublicTools
 // @supportURL   https://github.com/symant233/PublicTools/issues
@@ -40,30 +44,28 @@
 ;(function() {
     'use strict';
     if (!$) { var $ = window.jQuery; }
-    $('head').append(`<style>
-    html{overflow:overlay;}
+    GM_addStyle(`html{overflow:overlay;}
     ::-webkit-scrollbar {
-        height: 16px;
-        width: 11px;
+        height: 12px; width: 12px;
         background-color: initial;
     }::-webkit-scrollbar-button {height: 0;}
     ::-webkit-scrollbar-thumb {
-        background-color: rgba(0,0,0,.2);
+        background-color: rgb(126 126 126 / 40%);
         background-clip: padding-box;
         border: solid transparent;
         border-width: 1px 1px 1px 1px;
         box-shadow: inset 1px 1px 0 rgb(0 0 0 / 10%), inset 0 -1px 0 rgb(0 0 0 / 7%);
     }::-webkit-scrollbar-thumb:hover{
-        background: rgba(0,0,0,.4);
+        background: rgb(126 126 126 / 60%);
         background-clip: padding-box;
     }::-webkit-scrollbar-thumb:active{
-        background: rgba(0,0,0,.5);
+        background: rgb(126 126 126 / 85%);
         background-clip: padding-box;
     }::-webkit-scrollbar-track {
         background-clip: padding-box;
         border: solid transparent;
         border-width: 0 0 0 4px;
-    }</style>`);
+    }`);
     (function(left, right, color) {
         const arg = [
             `%c ${left} %c ${right} `,
@@ -188,10 +190,9 @@
             //$('.sl-player-el-close').click();
             $('#sl-player-el-video').remove(); // 删除播放器
             $('.sl-player-el-container').remove(); // 删除播放器容器
-            $("head").append(`<style>.lemmaWgt-searchHeader{height:55px;}
+            GM_addStyle(`.lemmaWgt-searchHeader{height:55px;}
             .wgt-searchbar-new.wgt-searchbar .logo-container{padding: 6px 0;}
-            .wgt-searchbar-new.wgt-searchbar .search{padding: 7px 0;}
-            </style>`);
+            .wgt-searchbar-new.wgt-searchbar .search{padding: 7px 0;}`);
             break;
         case 'yz.chsi.com.cn': {
             // 去除不符合不能调剂的信息
@@ -214,16 +215,15 @@
             break;
         }
         case 'www.30secondsofcode.org':
-            $("head").append('<style>.nav-bar{height:auto;}</style>');
+            GM_addStyle('.nav-bar{height:auto;}');
             break;
         case 'developer.mozilla.org': {
-            $("head").append(`<style>
+            GM_addStyle(`
             .page-header{padding:12px 24px;}
             .breadcrumb-locale-container,#license{margin:0px;}
             .logo{height:59px;}
             .localized-content-note.notecard.neutral{display:none;}
-            #beautify-turn:after {content:"|";display:inline-block;margin:0 6px;}
-            </style>`);
+            #beautify-turn:after {content:"|";display:inline-block;margin:0 6px;}`);
             let link = document.location.href;
             link = link.replace('/en-US/', '/zh-CN/');
             $(".language-toggle").prepend(`<li><a id="beautify-turn" href="${link}">📌CN</a></li>`);
@@ -231,18 +231,11 @@
             break;
         }
         case 'juejin.cn':
-            $("head").append(`<style>
-            .header.editor-header{height:4rem;}
-            .main .bytemd{height:calc(100vh - 4rem);}
-            </style>`);
+            GM_addStyle('.header.editor-header{height:4rem;}.main .bytemd{height:calc(100vh - 4rem);}');
             break;
         case 'xui.ptlogin2.qq.com':
-            // 服了 graph.qq.com 套了个 iframe 我说怎么死活没有用...
             // 自动启用账号密码登录 去他大爷的扫码登录
-            $("head").append(`<style>
-            .web_qr_login {display:block !important;}
-            .qlogin,#bottom_qlogin{display:none !important;}
-            </style>`);
+            GM_addStyle('.web_qr_login{display:block !important;}.qlogin,#bottom_qlogin{display:none !important;}');
             break;
         case 'steamcommunity.com': {
             setInterval(()=>{
@@ -257,7 +250,7 @@
         }
         case 'www.pixiv.net':
             // 需要与脚本配合使用 https://greasyfork.org/zh-CN/scripts/34153-pixiv-plus
-            $("head").append(`<style>
+            GM_addStyle(`
             select#select-ahao-favorites {
                 font-size: 14px;
                 line-height: 22px;
@@ -270,17 +263,13 @@
                 color: rgba(0, 0, 0, 0.64);
                 background-color: rgba(0, 0, 0, 0.04);
                 transition: background-color 0.2s ease 0s, color 0.2s ease 0s;
-            }#select-ahao-favorites+div{
-                gap: 0px;
-            }</style>`);
+            }#select-ahao-favorites+div{gap: 0px;}`);
             break;
         case 'live.bilibili.com': {
-            const cssText = `<style>
+            GM_addStyle(`
             .side-bar-popup-cntr{bottom:5% !important;height:84% !important;}
             .section-content-cntr{height:556px !important;}
-            .title-length-limit{max-width:unset !important;}
-            </style>`;
-            $("head").append(cssText);
+            .title-length-limit{max-width:unset !important;}`);
             break;
         }
         case 'frontendwingman.com':
@@ -296,12 +285,7 @@
             }
             break;
         case 'cloud.tencent.com':
-            $("head").append(`<style>
-            .doc-main-hd {
-                margin-bottom: 24px;
-                padding-bottom: 28px;
-                border-bottom: 1px solid #e5e5e5;
-            }</style>`);
+            GM_addStyle('.doc-main-hd {margin-bottom: 24px;padding-bottom: 28px;border-bottom: 1px solid #e5e5e5;}');
             break;
         case 'www.npmjs.com':
             $("header > div:nth-child(2)").css("display", "none");
@@ -310,13 +294,12 @@
         case 'www.zhihu.com':
             if (window.location.href === "https://www.zhihu.com/hot") {
                 document.querySelectorAll('.HotItem').forEach((e) => {
-                    if (!e.outerHTML.includes('HotItem-excerpt')) {
-                        e.remove();
-                    }
+                    if (!e.outerHTML.includes('HotItem-excerpt')) {e.remove();}
+                    if (!e.outerHTML.includes('HotItem-img')) {e.remove();}
                 });
             }break;
         case 'fanyi.baidu.com':
-            $("head").append(`<style>
+            GM_addStyle(`
             .download-app,.doc-feedback-group{display:none;}
             .header{padding:3px 0 7px 0;}
             .doc-whole-container{height:100%;}
@@ -324,7 +307,7 @@
                 width:unset;
                 height: 88%;
                 margin-top: -38px;
-            }</style>`);
+            }`);
             break;
         case 'jiexi.8old.cn': {
             // https://jx.m3u8.tv/jiexi/?url=
@@ -338,12 +321,31 @@
             break;
         }
         case 'qidian.com':
-            $("head").append(`<style>
-            body{overflow-x:hidden !important;}
-            .admire-wrap,.guide-btn-wrap,#j_navGameBtn,#navReward,#j_phoneRead{display:none;}
-            </style>`);
+            GM_addStyle(`body{overflow-x:hidden !important;}
+            .admire-wrap,.guide-btn-wrap,#j_navGameBtn,#navReward,#j_phoneRead{display:none;}`);
+            break;
+        case 'caddyserver.com':
+            GM_addStyle(`pre > code.cmd {font-size: 1rem;}
+            main > .sidebar:last-child {flex-shrink: 2;}
+            main > nav.sidebar {font-size: 1.2rem; width: 20%;}
+            article > :not(h1), dd, article p, article ol, article ul, article pre, article table {margin-bottom: 0.5rem;}
+            pre {padding-bottom: 0.5rem !important;padding-top: 0.5rem !important;}
+            pre.chroma {font-size: 1rem;}
+            #paper1, #paper2 {display: none;}
+            .paper3 {top: unset;left: unset;}
+            hr {margin-top: 2.5rem; margin-bottom: 2.5rem !important;}`);
             break;
         default:
             break;
     }
+    const aliList = [
+        /^https:.+tmall.com\//,
+        /^https:.+taobao.com\//,
+    ];
+    aliList.forEach((i) => {
+        if (i.test(document.location.href)) {
+            // 移除阴间字体 arial
+            GM_addStyle('span,input,li,div,a{font-family:none;}');
+        }
+    });
 })();

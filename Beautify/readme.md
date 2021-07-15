@@ -2,7 +2,7 @@
 
 通用功能：以下匹配列网站都会更改滚动条为透明优雅风格。
 
-匹配列表与功能（v0.0.22版）
+匹配列表与功能（v0.0.25版）
 
 | 目标 | 匹配地址 | 功能 |
 | --- | --- | --- |
@@ -19,7 +19,7 @@
 | 百度百科 | https://baike.baidu.com/* | 移除阴间字体；直接删除播放器；调整头部样式 |
 | 研招调剂 | https://yz.chsi.com.cn/sytj/tj/* | 去除不符合不能调剂的信息；Ctrl+Enter查询 |
 | 30SOC | https://www.30secondsofcode.org/* | 缩小导航栏（大的无语） |
-| MDN | https://developer.mozilla.org/* | 缩小导航栏；点击`Change Language`自动切换中文 |
+| MDN | https://developer.mozilla.org/* | 缩小导航栏；一键切换中文 |
 | 掘金草稿 | https://juejin.cn/editor/drafts/* | 缩小顶部 |
 | QQ登录 | https://xui.ptlogin2.qq.com/cgi-bin/xlogin* | 去他大爷的扫码登录，爷就要用密码登 |
 | steam市场 | https://steamcommunity.com/* | 自动勾选同意条约 |
@@ -29,8 +29,11 @@
 | NPM | https://www.npmjs.com/* | 去除顶部标语 |
 | 知乎 | https://www.zhihu.com/* | 移除热榜无描述项 |
 | 百度翻译 | https://fanyi.baidu.com/* | 紧凑排版 |
-| M3U8.TV | https://jiexi.8old.cn/* | 添加快捷键(全屏f,倍数1~4) |
+| M3U8.TV | https://jiexi.8old.cn/* | 添加快捷键(全屏f,倍速1~4) |
 | 起点阅读 | https://read.qidian.com/* | 排版；去除广告 |
+| 淘宝 | https://\*.taobao.com/* | 移除阴间字体 |
+| 天猫 | https://\*.tmall.com/* | 移除阴间字体 |
+| caddy | https://caddyserver.com/docs/* | 优化样式(字体,间隔等) |
 
 （README更新可能不及时，一切以源码为准）
 
