@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233
-// @version      0.0.25
+// @version      0.0.26
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -35,6 +35,7 @@
 // @match        https://*.taobao.com/*
 // @match        https://*.tmall.com/*
 // @match        https://caddyserver.com/docs/*
+// @match        https://leetcode-cn.com/*
 // @grant        GM_addStyle
 // @license      GPL-3.0
 // @homepageURL  https://github.com/symant233/PublicTools
@@ -44,22 +45,22 @@
 ;(function() {
     'use strict';
     if (!$) { var $ = window.jQuery; }
-    GM_addStyle(`html{overflow:overlay;}
+    GM_addStyle(`body{overflow:overlay;}
     ::-webkit-scrollbar {
         height: 12px; width: 12px;
         background-color: initial;
     }::-webkit-scrollbar-button {height: 0;}
     ::-webkit-scrollbar-thumb {
-        background-color: rgb(126 126 126 / 40%);
+        background-color: rgb(127 127 127 / 40%);
         background-clip: padding-box;
         border: solid transparent;
         border-width: 1px 1px 1px 1px;
         box-shadow: inset 1px 1px 0 rgb(0 0 0 / 10%), inset 0 -1px 0 rgb(0 0 0 / 7%);
     }::-webkit-scrollbar-thumb:hover{
-        background: rgb(126 126 126 / 60%);
+        background: rgb(127 127 127 / 60%);
         background-clip: padding-box;
     }::-webkit-scrollbar-thumb:active{
-        background: rgb(126 126 126 / 85%);
+        background: rgb(127 127 127 / 85%);
         background-clip: padding-box;
     }::-webkit-scrollbar-track {
         background-clip: padding-box;
@@ -174,6 +175,15 @@
                     $('.bilibili-player-video-btn-next').click();
                 }
             }, false);
+            // 美化评论框
+            GM_addStyle(`.comment-emoji.comment-emoji-lite{
+                position: absolute !important;
+                bottom: 15px;
+                left: 3px;
+                padding: 5px !important;
+                box-shadow: unset !important;
+                background: white;
+            }.comment-send-lite{background: unset !important;}`);
             break;
         }
         case 'cn.bing.com': {
@@ -185,12 +195,10 @@
             break;
         }
         case 'baike.baidu.com':
-            $('.content-wrapper .content').css('font', 'unset'); // 移除阴间字体
-            //$('#sl-player-el-video').trigger('pause'); //暂停自动播放
-            //$('.sl-player-el-close').click();
             $('#sl-player-el-video').remove(); // 删除播放器
             $('.sl-player-el-container').remove(); // 删除播放器容器
             GM_addStyle(`.lemmaWgt-searchHeader{height:55px;}
+            .content-wrapper .content {font: unset;}
             .wgt-searchbar-new.wgt-searchbar .logo-container{padding: 6px 0;}
             .wgt-searchbar-new.wgt-searchbar .search{padding: 7px 0;}`);
             break;
@@ -223,6 +231,7 @@
             .breadcrumb-locale-container,#license{margin:0px;}
             .logo{height:59px;}
             .localized-content-note.notecard.neutral{display:none;}
+            .header-search{margin-bottom: 4px;}
             #beautify-turn:after {content:"|";display:inline-block;margin:0 6px;}`);
             let link = document.location.href;
             link = link.replace('/en-US/', '/zh-CN/');
@@ -288,8 +297,9 @@
             GM_addStyle('.doc-main-hd {margin-bottom: 24px;padding-bottom: 28px;border-bottom: 1px solid #e5e5e5;}');
             break;
         case 'www.npmjs.com':
-            $("header > div:nth-child(2)").css("display", "none");
-            $(".center-ns").css("padding-bottom", "unset");
+            GM_addStyle(`.center-ns {padding-bottom: unset;}
+            pre.editor.editor-colors {overflow: overlay;}
+            header > div:nth-child(2) {display: none;}`);
             break;
         case 'www.zhihu.com':
             if (window.location.href === "https://www.zhihu.com/hot") {
@@ -303,11 +313,7 @@
             .download-app,.doc-feedback-group{display:none;}
             .header{padding:3px 0 7px 0;}
             .doc-whole-container{height:100%;}
-            .doc-trans-view-wrap{
-                width:unset;
-                height: 88%;
-                margin-top: -38px;
-            }`);
+            .doc-trans-view-wrap{width: unset;height: 88%;margin-top: -38px;}`);
             break;
         case 'jiexi.8old.cn': {
             // https://jx.m3u8.tv/jiexi/?url=
@@ -325,7 +331,7 @@
             .admire-wrap,.guide-btn-wrap,#j_navGameBtn,#navReward,#j_phoneRead{display:none;}`);
             break;
         case 'caddyserver.com':
-            GM_addStyle(`pre > code.cmd {font-size: 1rem;}
+            GM_addStyle(`pre > code.cmd {font-size: 1rem; overflow: overlay;}
             main > .sidebar:last-child {flex-shrink: 2;}
             main > nav.sidebar {font-size: 1.2rem; width: 20%;}
             article > :not(h1), dd, article p, article ol, article ul, article pre, article table {margin-bottom: 0.5rem;}
@@ -334,6 +340,19 @@
             #paper1, #paper2 {display: none;}
             .paper3 {top: unset;left: unset;}
             hr {margin-top: 2.5rem; margin-bottom: 2.5rem !important;}`);
+            break;
+        case 'leetcode-cn.com':
+            GM_addStyle(`a[class*="BaseButtonComponent-AppButton"]{display:none;}
+            a[class*="BaseButtonComponent-PromoteButton"]{display:none;}
+            ul[class*='NavbarList'] > li:nth-child(7){display:none;}
+            ul[class*="NavbarList"] > li[class*="NavbarListItem"]:nth-child(2)::after{display:none !important}
+            ul[class*="NavbarList"] > li[class*="NavbarListItem"]:nth-child(6)::after{display:none !important}
+            div[class*="NewTag"]{display:none;}
+            div[class*=Submission] + div > div{display:none;}
+            div[class*='SideBarItemWrapper']:nth-child(1){display:none;}
+            div[class*='SideBarItemWrapper']:nth-child(2){display:none;}
+            div[class*='SideBarItemWrapper']:nth-child(5){display:none;}
+            [class*=TimeRemainContainer]{display:none;}`);
             break;
         default:
             break;
