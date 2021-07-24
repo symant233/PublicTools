@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233
-// @version      0.0.26
+// @version      0.0.27
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -45,7 +45,7 @@
 ;(function() {
     'use strict';
     if (!$) { var $ = window.jQuery; }
-    GM_addStyle(`body{overflow:overlay;}
+    GM_addStyle(`body{overflow-y: overlay;}
     ::-webkit-scrollbar {
         height: 12px; width: 12px;
         background-color: initial;
@@ -200,7 +200,8 @@
             GM_addStyle(`.lemmaWgt-searchHeader{height:55px;}
             .content-wrapper .content {font: unset;}
             .wgt-searchbar-new.wgt-searchbar .logo-container{padding: 6px 0;}
-            .wgt-searchbar-new.wgt-searchbar .search{padding: 7px 0;}`);
+            .wgt-searchbar-new.wgt-searchbar .search{padding: 8px 0;}
+            .wgt-navbar-hover {margin-top: 5px;}`);
             break;
         case 'yz.chsi.com.cn': {
             // 去除不符合不能调剂的信息
@@ -232,11 +233,17 @@
             .logo{height:59px;}
             .localized-content-note.notecard.neutral{display:none;}
             .header-search{margin-bottom: 4px;}
-            #beautify-turn:after {content:"|";display:inline-block;margin:0 6px;}`);
+            a#beautify-turn:after {content:"|";display:inline-block;margin:0 6px;}
+            a#beautify-turn {width: 62px;float: right;}`);
             let link = document.location.href;
             link = link.replace('/en-US/', '/zh-CN/');
-            $(".language-toggle").prepend(`<li><a id="beautify-turn" href="${link}">📌CN</a></li>`);
-            $('.language-icon').remove();
+            if (document.querySelector('.language-toggle')) {
+                $(".language-toggle").prepend(`<li><a id="beautify-turn" href="${link}">📌CN</a></li>`);
+                $('.language-icon').remove();
+            } else {
+                console.log('no language-toogle')
+                $('.breadcrumbs-container').after(`<div style="flex-basis: 25%;"><a id="beautify-turn" href="${link}">📌CN</a></div>`);
+            }
             break;
         }
         case 'juejin.cn':
@@ -351,8 +358,32 @@
             div[class*=Submission] + div > div{display:none;}
             div[class*='SideBarItemWrapper']:nth-child(1){display:none;}
             div[class*='SideBarItemWrapper']:nth-child(2){display:none;}
-            div[class*='SideBarItemWrapper']:nth-child(5){display:none;}
             [class*=TimeRemainContainer]{display:none;}`);
+            function enableDiff () {
+                const btn = document.querySelector('label[class*="Label-StyledSwitch"]');
+                if (btn && !btn.getAttribute('beautify-data')) {
+                    btn.setAttribute('beautify-data', true);
+                    btn.click();
+                }
+            }
+            setTimeout(() => {
+                $('div[class*=second-section-container] > div:last-child button').click();
+                new Promise(resolve => {
+                    const container = document.querySelector('div[class*="CodeAreaContainer"]');
+                    if (container) {
+                        new MutationObserver((mutationList) => {
+                            mutationList.forEach((mutation) => { 
+                                if (mutation.oldValue) enableDiff();
+                            });
+                        }).observe(container, {
+                            attributes: true,
+                            attributeOldValue: true,
+                            subtree: true,
+                        });
+                    }
+                    resolve();
+                });
+            }, 2600);
             break;
         default:
             break;

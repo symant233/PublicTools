@@ -2,7 +2,7 @@
 
 通用功能：以下匹配列网站都会更改滚动条为透明优雅风格。
 
-匹配列表与功能（v0.0.25版）
+匹配列表与功能（v0.0.27版）
 
 | 目标 | 匹配地址 | 功能 |
 | --- | --- | --- |
@@ -34,12 +34,13 @@
 | 淘宝 | https://\*.taobao.com/* | 移除阴间字体 |
 | 天猫 | https://\*.tmall.com/* | 移除阴间字体 |
 | caddy | https://caddyserver.com/docs/* | 优化样式(字体,间隔等) |
+| 力扣 | https://leetcode-cn.com/* | 移除广告, 自动全屏, 自动启用输出差别 |
 
 （README更新可能不及时，一切以源码为准）
 
 `Beautify` is a user script.
 
-Which could be used by `Tampermonkey` or any other browser extensions. 
+Which could be used by `Violentmonkey` or any other browser extensions. 
 
 Source code is in this [repository](https://github.com/symant233/PublicTools), you can view a copy on [greasyfork](https://greasyfork.org/zh-CN/scripts/390421-beautify).
 
