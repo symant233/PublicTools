@@ -2,7 +2,7 @@
 
 通用功能：以下匹配列网站都会更改滚动条为透明优雅风格。
 
-匹配列表与功能（v0.0.27版）
+匹配列表与功能（v0.0.28版）
 
 | 目标 | 匹配地址 | 功能 |
 | --- | --- | --- |
@@ -34,9 +34,13 @@
 | 淘宝 | https://\*.taobao.com/* | 移除阴间字体 |
 | 天猫 | https://\*.tmall.com/* | 移除阴间字体 |
 | caddy | https://caddyserver.com/docs/* | 优化样式(字体,间隔等) |
-| 力扣 | https://leetcode-cn.com/* | 移除广告, 自动全屏, 自动启用输出差别 |
+| 力扣 | https://leetcode-cn.com/* | 移除广告, 自动全屏, 自动启用输出差别, `getMarkdown()`获取题解源码 |
 
 （README更新可能不及时，一切以源码为准）
+
+> 此脚本与 $uBlock$ 静态规则一起使用效果更佳; 我的[规则列表](https://gist.github.com/symant233/d0a50bfd4bb4e45726c8d9472cf154a7).
+
+---
 
 `Beautify` is a user script.
 

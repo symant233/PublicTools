@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233
-// @version      0.0.27
+// @version      0.0.28
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -349,16 +349,14 @@
             hr {margin-top: 2.5rem; margin-bottom: 2.5rem !important;}`);
             break;
         case 'leetcode-cn.com':
-            GM_addStyle(`a[class*="BaseButtonComponent-AppButton"]{display:none;}
-            a[class*="BaseButtonComponent-PromoteButton"]{display:none;}
-            ul[class*='NavbarList'] > li:nth-child(7){display:none;}
+            GM_addStyle(`
             ul[class*="NavbarList"] > li[class*="NavbarListItem"]:nth-child(2)::after{display:none !important}
             ul[class*="NavbarList"] > li[class*="NavbarListItem"]:nth-child(6)::after{display:none !important}
-            div[class*="NewTag"]{display:none;}
-            div[class*=Submission] + div > div{display:none;}
-            div[class*='SideBarItemWrapper']:nth-child(1){display:none;}
-            div[class*='SideBarItemWrapper']:nth-child(2){display:none;}
-            [class*=TimeRemainContainer]{display:none;}`);
+            [class*=TimeRemainContainer]{display:none;}
+            section[class*=MainContainer] > div[class*=Container]:nth-child(1){display: none;}
+            section[class*=MainContainer]{margin-top: 12px;}
+            span[class*=BasicTag-StyledTag]{margin-right: 8px;}`);
+            // 自动开启运行结果差别
             function enableDiff () {
                 const btn = document.querySelector('label[class*="Label-StyledSwitch"]');
                 if (btn && !btn.getAttribute('beautify-data')) {
@@ -384,6 +382,15 @@
                     resolve();
                 });
             }, 2600);
+            // 控制台获取题解 Markdown 源码
+            function getMarkdown() {
+                const node = document.querySelector('div[class*="ContentContainer"]');
+                const key = Object.keys(node).find(key=>{
+                    return key.startsWith("__reactEventHandlers$");
+                });
+                console.log(node[key].children[0].props.children);
+            }
+            globalThis.unsafeWindow.getMarkdown = getMarkdown;
             break;
         default:
             break;
