@@ -284,7 +284,8 @@
         case 'live.bilibili.com': {
             GM_addStyle(`
             .side-bar-popup-cntr{bottom:5% !important;height:84% !important;}
-            .section-content-cntr{height:556px !important;}
+            .follow-cntr{height:100%;}
+            .section-content-cntr{height: calc(100% - 64px) !important;}
             .title-length-limit{max-width:unset !important;}`);
             break;
         }
