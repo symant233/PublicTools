@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
-// @namespace    https://github.com/symant233
-// @version      0.0.28
+// @namespace    https://github.com/symant233/PublicTools
+// @version      0.0.30
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -33,12 +33,16 @@
 // @match        https://jiexi.8old.cn/*
 // @match        https://read.qidian.com/*
 // @match        https://*.taobao.com/*
+// @match        https://s.taobao.com/search?q=*
 // @match        https://*.tmall.com/*
 // @match        https://caddyserver.com/docs/*
 // @match        https://leetcode-cn.com/*
+// @match        https://github.com/*
+// @match        https://mooc1.chaoxing.com/work/*
+// @match        https://mooc1.chaoxing.com/mooc2/work/*
 // @grant        GM_addStyle
 // @license      GPL-3.0
-// @homepageURL  https://github.com/symant233/PublicTools
+// @homepageURL  https://greasyfork.org/zh-CN/scripts/390421-beautify
 // @supportURL   https://github.com/symant233/PublicTools/issues
 // ==/UserScript==
 
@@ -187,7 +191,7 @@
             break;
         }
         case 'cn.bing.com': {
-            $("head").append('<style>#b_content{padding-left: 85px;}</style>');
+            //$("head").append('<style>#b_content{padding-left: 85px;}</style>');
             break;
         }
         case 'duckduckgo.com': {
@@ -391,6 +395,18 @@
                 console.log(node[key].children[0].props.children);
             }
             globalThis.unsafeWindow.getMarkdown = getMarkdown;
+            break;
+        case 'github.com':
+            GM_addStyle(`.dashboard-sidebar.overflow-auto::-webkit-scrollbar {display: none;}`);
+            break;
+        case 's.taobao.com':
+            GM_addStyle(`.grid-total .grid-right {display: none !important;}
+            .grid-total .grid-left {width: unset !important;}
+            li#J_FeedbackExperience {display: none;}`);
+            break;
+        case 'mooc1.chaoxing.com':
+        case 'chaoxing.com':
+            GM_addStyle(`#edui1_iframeholder{height:530px !important;}`);
             break;
         default:
             break;
