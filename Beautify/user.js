@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.30
+// @version      0.0.31
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -40,6 +40,7 @@
 // @match        https://github.com/*
 // @match        https://mooc1.chaoxing.com/work/*
 // @match        https://mooc1.chaoxing.com/mooc2/work/*
+// @match        https://*sci-hub.*/*
 // @grant        GM_addStyle
 // @license      GPL-3.0
 // @homepageURL  https://greasyfork.org/zh-CN/scripts/390421-beautify
@@ -422,4 +423,7 @@
             GM_addStyle('span,input,li,div,a{font-family:none;}');
         }
     });
+    if (/.*sci-hub.+/.test(document.domain)) {
+        GM_addStyle('#rollback img {width: 50px;height: 50px;}');
+    };
 })();

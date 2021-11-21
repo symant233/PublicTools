@@ -2,7 +2,7 @@
 
 通用功能：以下匹配列网站都会更改滚动条为透明优雅风格。
 
-匹配列表与功能（v0.0.28版）
+匹配列表与功能（v0.0.31版）
 
 | 目标 | 匹配地址 | 功能 |
 | --- | --- | --- |
@@ -31,10 +31,13 @@
 | 百度翻译 | https://fanyi.baidu.com/* | 紧凑排版 |
 | M3U8.TV | https://jiexi.8old.cn/* | 添加快捷键(全屏f,倍速1~4) |
 | 起点阅读 | https://read.qidian.com/* | 排版；去除广告 |
-| 淘宝 | https://\*.taobao.com/* | 移除阴间字体 |
+| 淘宝 | https://\*.taobao.com/* | 移除阴间字体，去除侧边广告栏占位 |
 | 天猫 | https://\*.tmall.com/* | 移除阴间字体 |
 | caddy | https://caddyserver.com/docs/* | 优化样式(字体,间隔等) |
 | 力扣 | https://leetcode-cn.com/* | 移除广告, 自动全屏, 自动启用输出差别, `getMarkdown()`获取题解源码 |
+| github | https://github.com/* | 隐藏左侧项目和组织栏滚动条 |
+| 超星 | https://mooc1.chaoxing.com/work/* | 扩大答题输入框 |
+| sci-hub | https://\*sci-hub.\*/* | 缩小左侧logo |
 
 （README更新可能不及时，一切以源码为准）
 
