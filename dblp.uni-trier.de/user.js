@@ -2,15 +2,15 @@
 // @name        dblp.uni-trier.de CCF等级标注
 // @namespace   https://github.com/symant233/PublicTools
 // @icon        https://dblp.uni-trier.de/img/favicon.ico
-// @match       https://dblp.uni-trier.de/search?q=*
+// @match       https://dblp.uni-trier.de/*
 // @grant       GM_addStyle
 // @run-at      document-end
-// @version     1.0
+// @version     1.0.1
 // @author      symant233
 // @description 学术会议CCF等级标注（没做期刊的）
 // @homepageURL https://github.com/symant233/PublicTools
 // @supportURL  https://github.com/symant233/PublicTools/issues
-// @license      GPL-3.0
+// @license     GPL-3.0
 // ==/UserScript==
 ;(function() {
     'use strict';
@@ -379,8 +379,8 @@
             let s = reg.exec(n.id);
             if (s) {
                 if (CCFA.indexOf(s[0]) !== -1) n.style.background = COLORS[0];
-                if (CCFB.indexOf(s[0]) !== -1) n.style.background = COLORS[1];
-                if (CCFC.indexOf(s[0]) !== -1) n.style.background = COLORS[2];
+                else if (CCFB.indexOf(s[0]) !== -1) n.style.background = COLORS[1];
+                else if (CCFC.indexOf(s[0]) !== -1) n.style.background = COLORS[2];
             }
         })
     }
