@@ -5,7 +5,7 @@
 // @match       https://dblp.uni-trier.de/*
 // @grant       GM_addStyle
 // @run-at      document-end
-// @version     1.0.1
+// @version     1.0.3
 // @author      symant233
 // @description 学术会议CCF等级标注（没做期刊的）
 // @homepageURL https://github.com/symant233/PublicTools
@@ -15,7 +15,7 @@
 ;(function() {
     'use strict';
     console.log('CCF等级标注已载入...');
-    const COLORS = ['seashell', 'cornsilk', 'honeydew']; // ABC
+    const COLORS = ['mistyrose', 'oldlace', 'honeydew']; // ABC
     const CCFA = [
         "conf/ppopp/",
         "conf/fast/",
@@ -376,11 +376,14 @@
     function tagging() {
         const nodes = document.querySelectorAll('.publ-list li[id^=conf]');
         nodes.forEach((n) => {
-            let s = reg.exec(n.id);
-            if (s) {
-                if (CCFA.indexOf(s[0]) !== -1) n.style.background = COLORS[0];
-                else if (CCFB.indexOf(s[0]) !== -1) n.style.background = COLORS[1];
-                else if (CCFC.indexOf(s[0]) !== -1) n.style.background = COLORS[2];
+            if (!n.style.background) { // 若已有背景颜色则不修改
+                let s = reg.exec(n.id);
+                if (s) {
+                    if (CCFA.indexOf(s[0]) !== -1) n.style.background = COLORS[0];
+                    else if (CCFB.indexOf(s[0]) !== -1) n.style.background = COLORS[1];
+                    else if (CCFC.indexOf(s[0]) !== -1) n.style.background = COLORS[2];
+                    else n.style.background = "rgb(255 255 255 / 0%)";
+                }
             }
         })
     }
