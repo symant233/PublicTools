@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.31
+// @version      0.0.32
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -41,6 +41,7 @@
 // @match        https://mooc1.chaoxing.com/work/*
 // @match        https://mooc1.chaoxing.com/mooc2/work/*
 // @match        https://*sci-hub.*/*
+// @match        https://scholar.google.com/scholar?q=*
 // @grant        GM_addStyle
 // @license      GPL-3.0
 // @homepageURL  https://greasyfork.org/zh-CN/scripts/390421-beautify
@@ -203,10 +204,10 @@
             $('#sl-player-el-video').remove(); // 删除播放器
             $('.sl-player-el-container').remove(); // 删除播放器容器
             GM_addStyle(`.lemmaWgt-searchHeader{height:55px;}
-            .content-wrapper .content {font: unset;}
-            .wgt-searchbar-new.wgt-searchbar .logo-container{padding: 6px 0;}
-            .wgt-searchbar-new.wgt-searchbar .search{padding: 8px 0;}
-            .wgt-navbar-hover {margin-top: 5px;}`);
+                .content-wrapper .content {font: unset;}
+                .wgt-searchbar-new.wgt-searchbar .logo-container{padding: 6px 0;}
+                .wgt-searchbar-new.wgt-searchbar .search{padding: 8px 0;}
+                .wgt-navbar-hover {margin-top: 5px;}`);
             break;
         case 'yz.chsi.com.cn': {
             // 去除不符合不能调剂的信息
@@ -233,13 +234,13 @@
             break;
         case 'developer.mozilla.org': {
             GM_addStyle(`
-            .page-header{padding:12px 24px;}
-            .breadcrumb-locale-container,#license{margin:0px;}
-            .logo{height:59px;}
-            .localized-content-note.notecard.neutral{display:none;}
-            .header-search{margin-bottom: 4px;}
-            a#beautify-turn:after {content:"|";display:inline-block;margin:0 6px;}
-            a#beautify-turn {width: 62px;float: right;}`);
+                .page-header{padding:12px 24px;}
+                .breadcrumb-locale-container,#license{margin:0px;}
+                .logo{height:59px;}
+                .localized-content-note.notecard.neutral{display:none;}
+                .header-search{margin-bottom: 4px;}
+                a#beautify-turn:after {content:"|";display:inline-block;margin:0 6px;}
+                a#beautify-turn {width: 62px;float: right;}`);
             let link = document.location.href;
             link = link.replace('/en-US/', '/zh-CN/');
             if (document.querySelector('.language-toggle')) {
@@ -272,26 +273,26 @@
         case 'www.pixiv.net':
             // 需要与脚本配合使用 https://greasyfork.org/zh-CN/scripts/34153-pixiv-plus
             GM_addStyle(`
-            select#select-ahao-favorites {
-                font-size: 14px;
-                line-height: 22px;
-                flex: 1 1 auto;
-                height: auto;
-                margin: 0px -9px;
-                padding: 9px 8px;
-                border: none;
-                border-radius: 4px;
-                color: rgba(0, 0, 0, 0.64);
-                background-color: rgba(0, 0, 0, 0.04);
-                transition: background-color 0.2s ease 0s, color 0.2s ease 0s;
-            }#select-ahao-favorites+div{gap: 0px;}`);
+                select#select-ahao-favorites {
+                    font-size: 14px;
+                    line-height: 22px;
+                    flex: 1 1 auto;
+                    height: auto;
+                    margin: 0px -9px;
+                    padding: 9px 8px;
+                    border: none;
+                    border-radius: 4px;
+                    color: rgba(0, 0, 0, 0.64);
+                    background-color: rgba(0, 0, 0, 0.04);
+                    transition: background-color 0.2s ease 0s, color 0.2s ease 0s;
+                }#select-ahao-favorites+div{gap: 0px;}`);
             break;
         case 'live.bilibili.com': {
             GM_addStyle(`
-            .side-bar-popup-cntr{bottom:5% !important;height:84% !important;}
-            .follow-cntr{height:100%;}
-            .section-content-cntr{height: calc(100% - 64px) !important;}
-            .title-length-limit{max-width:unset !important;}`);
+                .side-bar-popup-cntr{bottom:5% !important;height:84% !important;}
+                .follow-cntr{height:100%;}
+                .section-content-cntr{height: calc(100% - 64px) !important;}
+                .title-length-limit{max-width:unset !important;}`);
             break;
         }
         case 'frontendwingman.com':
@@ -311,8 +312,8 @@
             break;
         case 'www.npmjs.com':
             GM_addStyle(`.center-ns {padding-bottom: unset;}
-            pre.editor.editor-colors {overflow: overlay;}
-            header > div:nth-child(2) {display: none;}`);
+                pre.editor.editor-colors {overflow: overlay;}
+                header > div:nth-child(2) {display: none;}`);
             break;
         case 'www.zhihu.com':
             if (window.location.href === "https://www.zhihu.com/hot") {
@@ -323,10 +324,10 @@
             }break;
         case 'fanyi.baidu.com':
             GM_addStyle(`
-            .download-app,.doc-feedback-group{display:none;}
-            .header{padding:3px 0 7px 0;}
-            .doc-whole-container{height:100%;}
-            .doc-trans-view-wrap{width: unset;height: 88%;margin-top: -38px;}`);
+                .download-app,.doc-feedback-group{display:none;}
+                .header{padding:3px 0 7px 0;}
+                .doc-whole-container{height:100%;}
+                .doc-trans-view-wrap{width: unset;height: 88%;margin-top: -38px;}`);
             break;
         case 'jiexi.8old.cn': {
             // https://jx.m3u8.tv/jiexi/?url=
@@ -341,27 +342,27 @@
         }
         case 'qidian.com':
             GM_addStyle(`body{overflow-x:hidden !important;}
-            .admire-wrap,.guide-btn-wrap,#j_navGameBtn,#navReward,#j_phoneRead{display:none;}`);
+                .admire-wrap,.guide-btn-wrap,#j_navGameBtn,#navReward,#j_phoneRead{display:none;}`);
             break;
         case 'caddyserver.com':
             GM_addStyle(`pre > code.cmd {font-size: 1rem; overflow: overlay;}
-            main > .sidebar:last-child {flex-shrink: 2;}
-            main > nav.sidebar {font-size: 1.2rem; width: 20%;}
-            article > :not(h1), dd, article p, article ol, article ul, article pre, article table {margin-bottom: 0.5rem;}
-            pre {padding-bottom: 0.5rem !important;padding-top: 0.5rem !important;}
-            pre.chroma {font-size: 1rem;}
-            #paper1, #paper2 {display: none;}
-            .paper3 {top: unset;left: unset;}
-            hr {margin-top: 2.5rem; margin-bottom: 2.5rem !important;}`);
+                main > .sidebar:last-child {flex-shrink: 2;}
+                main > nav.sidebar {font-size: 1.2rem; width: 20%;}
+                article > :not(h1), dd, article p, article ol, article ul, article pre, article table {margin-bottom: 0.5rem;}
+                pre {padding-bottom: 0.5rem !important;padding-top: 0.5rem !important;}
+                pre.chroma {font-size: 1rem;}
+                #paper1, #paper2 {display: none;}
+                .paper3 {top: unset;left: unset;}
+                hr {margin-top: 2.5rem; margin-bottom: 2.5rem !important;}`);
             break;
         case 'leetcode-cn.com':
             GM_addStyle(`
-            ul[class*="NavbarList"] > li[class*="NavbarListItem"]:nth-child(2)::after{display:none !important}
-            ul[class*="NavbarList"] > li[class*="NavbarListItem"]:nth-child(6)::after{display:none !important}
-            [class*=TimeRemainContainer]{display:none;}
-            section[class*=MainContainer] > div[class*=Container]:nth-child(1){display: none;}
-            section[class*=MainContainer]{margin-top: 12px;}
-            span[class*=BasicTag-StyledTag]{margin-right: 8px;}`);
+                ul[class*="NavbarList"] > li[class*="NavbarListItem"]:nth-child(2)::after{display:none !important}
+                ul[class*="NavbarList"] > li[class*="NavbarListItem"]:nth-child(6)::after{display:none !important}
+                [class*=TimeRemainContainer]{display:none;}
+                section[class*=MainContainer] > div[class*=Container]:nth-child(1){display: none;}
+                section[class*=MainContainer]{margin-top: 12px;}
+                span[class*=BasicTag-StyledTag]{margin-right: 8px;}`);
             // 自动开启运行结果差别
             function enableDiff () {
                 const btn = document.querySelector('label[class*="Label-StyledSwitch"]');
@@ -403,12 +404,17 @@
             break;
         case 's.taobao.com':
             GM_addStyle(`.grid-total .grid-right {display: none !important;}
-            .grid-total .grid-left {width: unset !important;}
-            li#J_FeedbackExperience {display: none;}`);
+                .grid-total .grid-left {width: unset !important;}
+                li#J_FeedbackExperience {display: none;}`);
             break;
         case 'mooc1.chaoxing.com':
         case 'chaoxing.com':
             GM_addStyle(`#edui1_iframeholder{height:530px !important;}`);
+            break;
+        case 'scholar.google.com':
+            GM_addStyle(`.donate{display:none !important;}
+                #arovswmd_panel{display:none;}
+                #gs_hdr{margin:unset !important;}`);
             break;
         default:
             break;

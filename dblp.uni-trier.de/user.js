@@ -3,9 +3,10 @@
 // @namespace   https://github.com/symant233/PublicTools
 // @icon        https://dblp.uni-trier.de/img/favicon.ico
 // @match       https://dblp.uni-trier.de/*
+// @match       https://dblp.org/*
 // @grant       GM_addStyle
 // @run-at      document-end
-// @version     1.0.3
+// @version     1.0.4
 // @author      symant233
 // @description 学术会议CCF等级标注（没做期刊的）
 // @homepageURL https://github.com/symant233/PublicTools
@@ -373,6 +374,7 @@
         "conf/isbra/"
     ];
     const reg = /conf\/.*\//i;
+    // 遍历标记函数
     function tagging() {
         const nodes = document.querySelectorAll('.publ-list li[id^=conf]');
         nodes.forEach((n) => {
@@ -404,4 +406,8 @@
         background: rgba(0,0,0,0);
         border: 2px rgba(0,0,0, 0) solid;
     }`);
+    // head 中添加 <base target="_blank"> 默认新标签页打开链接
+    const b = document.createElement('base');
+    b.setAttribute('target', '_blank');
+    document.querySelector('head').appendChild(b);
 })();
