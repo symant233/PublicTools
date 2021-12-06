@@ -1,14 +1,14 @@
 // ==UserScript==
-// @name        dblp.uni-trier.de CCF等级标注
+// @name        dblp CCF等级标注
 // @namespace   https://github.com/symant233/PublicTools
 // @icon        https://dblp.uni-trier.de/img/favicon.ico
 // @match       https://dblp.uni-trier.de/*
 // @match       https://dblp.org/*
 // @grant       GM_addStyle
 // @run-at      document-end
-// @version     1.0.4
+// @version     2.0.1
 // @author      symant233
-// @description 学术会议CCF等级标注（没做期刊的）
+// @description 学术会议、学术期刊 CCF等级标注
 // @homepageURL https://github.com/symant233/PublicTools
 // @supportURL  https://github.com/symant233/PublicTools/issues
 // @license     GPL-3.0
@@ -17,6 +17,7 @@
     'use strict';
     console.log('CCF等级标注已载入...');
     const COLORS = ['mistyrose', 'oldlace', 'honeydew']; // ABC
+    // 学术会议开始
     const CCFA = [
         "conf/ppopp/",
         "conf/fast/",
@@ -211,7 +212,8 @@
         "conf/cogsci/",
         "conf/bibm/",
         "conf/emsoft/",
-        "conf/recomb/"
+        "conf/recomb/",
+        "conf/par/"
     ];
     const CCFC = [
         "conf/systor/",
@@ -373,17 +375,272 @@
         "conf/cosit/",
         "conf/isbra/"
     ];
-    const reg = /conf\/.*\//i;
+    // 学术期刊开始
+    const JCCFA = [
+        "journals/tocs/",
+        "journals/tos/",
+        "journals/tcad/",
+        "journals/tc/",
+        "journals/tpds/",
+        "journals/jsac/",
+        "journals/tmc/",
+        "journals/ton/",
+        "journals/tdsc/",
+        "journals/tifs/",
+        "journals/joc/",
+        "journals/toplas/",
+        "journals/tosem/",
+        "journals/tse/",
+        "journals/tods/",
+        "journals/tois/",
+        "journals/tkde/",
+        "journals/vldb/",
+        "journals/tit/",
+        "journals/iandc/",
+        "journals/siamcomp/",
+        "journals/tog/",
+        "journals/tip/",
+        "journals/tvcg/",
+        "journals/ai/",
+        "journals/pami/",
+        "journals/ijcv/",
+        "journals/jmlr/",
+        "journals/jacm/",
+        "journals/pieee/"
+    ];
+    const JCCFB = [
+        "journals/taco/",
+        "journals/taas/",
+        "journals/todaes/",
+        "journals/tecs/",
+        "journals/trets/",
+        "journals/tvlsi/",
+        "journals/jpdc/",
+        "journals/jsa/",
+        "journals/toit/",
+        "journals/tomccap/",
+        "journals/tosn/",
+        "journals/cn/",
+        "journals/tcom/",
+        "journals/twc/",
+        "journals/tissec/",
+        "journals/compsec/",
+        "journals/dcc/",
+        "journals/jcs/",
+        "journals/ase/",
+        "journals/ese/",
+        "journals/tsc/",
+        "journals/iet-sen/",
+        "journals/infsof/",
+        "journals/jfp/",
+        "journals/smr/",
+        "journals/jss/",
+        "journals/re/",
+        "journals/scp/",
+        "journals/sosym/",
+        "journals/stvr/",
+        "journals/spe/",
+        "journals/tkdd/",
+        "journals/tweb/",
+        "journals/aei/",
+        "journals/dke/",
+        "journals/datamine/",
+        "journals/ejis/",
+        "journals/geoinformatica/",
+        "journals/ipm/",
+        "journals/isci/",
+        "journals/is/",
+        "journals/jasis/",
+        "journals/ws/",
+        "journals/kais/",
+        "journals/talg/",
+        "journals/tocl/",
+        "journals/toms/",
+        "journals/algorithmica/",
+        "journals/cc/",
+        "journals/fac/",
+        "journals/fmsd/",
+        "journals/informs/",
+        "journals/jcss/",
+        "journals/jgo/",
+        "journals/jsc/",
+        "journals/mscs/",
+        "journals/tcs/",
+        "journals/tomccap/",
+        "journals/cagd/",
+        "journals/cgf/",
+        "journals/cad/",
+        "journals/cvgip/",
+        "journals/tcsv/",
+        "journals/tmm/",
+        "journals/siamis/",
+        "journals/speech/",
+        "journals/tap/",
+        "journals/tslp/",
+        "journals/aamas/",
+        "journals/coling/",
+        "journals/cviu/",
+        "journals/dke/",
+        "journals/ec/",
+        "journals/taffco/",
+        "journals/taslp/",
+        "journals/tcyb/",
+        "journals/tec/",
+        "journals/tfs/",
+        "journals/tnn/",
+        "journals/ijar/",
+        "journals/jair/",
+        "journals/jar/",
+        "journals/ml/",
+        "journals/neco/",
+        "journals/nn/",
+        "journals/bioinformatics/",
+        "journals/bib/",
+        "journals/tase/",
+        "journals/tgrs/",
+        "journals/tits/",
+        "journals/tmi/",
+        "journals/trob/",
+        "journals/tcbb/",
+        "journals/jcst/",
+        "journals/jamia/",
+        "journals/ploscb/",
+        "journals/chinaf/",
+        "journals/cj/",
+        "journals/wwwj/"
+    ];
+    const JCCFC = [
+        "journals/jetc/",
+        "journals/concurrency/",
+        "journals/dc/",
+        "journals/fgcs/",
+        "journals/tcc/",
+        "journals/integration/",
+        "journals/grid/",
+        "journals/mam/",
+        "journals/rts/",
+        "journals/tjs/",
+        "journals/adhoc/",
+        "journals/comcom/",
+        "journals/tnsm/",
+        "journals/iet-com/",
+        "journals/jnca/",
+        "journals/monet/",
+        "journals/networks/",
+        "journals/ppna/",
+        "journals/wicomm/",
+        "journals/winet/",
+        "journals/ejisec/",
+        "journals/iet-ifs/",
+        "journals/imcs/",
+        "journals/ijics/",
+        "journals/ijisp/",
+        "journals/istr/",
+        "journals/scn/",
+        "journals/cl/",
+        "journals/ijseke/",
+        "journals/sttt/",
+        "journals/jlp/",
+        "journals/jwe/",
+        "journals/soca/",
+        "journals/sqj/",
+        "journals/tplp/",
+        "journals/dpd/",
+        "journals/iam/",
+        "journals/ipl/",
+        "journals/ir/",
+        "journals/ijcis/",
+        "journals/gis/",
+        "journals/ijis/",
+        "journals/ijkm/",
+        "journals/ijswis/",
+        "journals/jcis/",
+        "journals/jdm/",
+        "journals/jiis/",
+        "journals/jsis/",
+        "journals/acta/",
+        "journals/apal/",
+        "journals/dam/",
+        "journals/fuin/",
+        "journals/lisp/",
+        "journals/ipl/",
+        "journals/jc/",
+        "journals/logcom/",
+        "journals/jsyml/",
+        "journals/lmcs/",
+        "journals/siamdm/",
+        "journals/mst/",
+        "journals/comgeo/",
+        "journals/cg/",
+        "journals/dcg/",
+        "journals/spl/",
+        "journals/iet-ipr/",
+        "journals/jvcir/",
+        "journals/mms/",
+        "journals/mta/",
+        "journals/sigpro/",
+        "journals/spic/",
+        "journals/vc/",
+        "journals/talip/",
+        "journals/apin/",
+        "journals/artmed/",
+        "journals/alife/",
+        "journals/ci/",
+        "journals/csl/",
+        "journals/connection/",
+        "journals/dss/",
+        "journals/eaai/",
+        "journals/es/",
+        "journals/eswa/",
+        "journals/fss/",
+        "journals/tciaig/",
+        "journals/ivc/",
+        "journals/ida/",
+        "journals/ijcia/",
+        "journals/ijis/",
+        "journals/ijns/",
+        "journals/ijprai/",
+        "journals/ijufks/",
+        "journals/ijdar/",
+        "journals/jetai/",
+        "journals/kbs/",
+        "journals/mt/",
+        "journals/mva/",
+        "journals/nc/",
+        "journals/nle/",
+        "journals/nca/",
+        "journals/npl/",
+        "journals/ijon/",
+        "journals/paa/",
+        "journals/prl/",
+        "journals/soco/",
+        "journals/wias/",
+        "journals/bmcbi/",
+        "journals/cas/",
+        "journals/fcsc/",
+        "journals/lgrs/",
+        "journals/titb/",
+        "journals/tbd/",
+        "journals/jbi/",
+        "journals/mia/"
+    ];
+    const reg = /(conf|journals)\/.*\//i;
     // 遍历标记函数
     function tagging() {
-        const nodes = document.querySelectorAll('.publ-list li[id^=conf]');
+        const nodes = document.querySelectorAll('.publ-list > li[class*="entry"]');
         nodes.forEach((n) => {
             if (!n.style.background) { // 若已有背景颜色则不修改
                 let s = reg.exec(n.id);
-                if (s) {
+                if (s && s[0].startsWith('conf')) {
                     if (CCFA.indexOf(s[0]) !== -1) n.style.background = COLORS[0];
                     else if (CCFB.indexOf(s[0]) !== -1) n.style.background = COLORS[1];
                     else if (CCFC.indexOf(s[0]) !== -1) n.style.background = COLORS[2];
+                    else n.style.background = "rgb(255 255 255 / 0%)";
+                } else if (s) { // starts with journals
+                    console.log('viewing', s)
+                    if (JCCFA.indexOf(s[0]) !== -1) n.style.background = COLORS[0];
+                    else if (JCCFB.indexOf(s[0]) !== -1) n.style.background = COLORS[1];
+                    else if (JCCFC.indexOf(s[0]) !== -1) n.style.background = COLORS[2];
                     else n.style.background = "rgb(255 255 255 / 0%)";
                 }
             }

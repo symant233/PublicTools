@@ -1,9 +1,6 @@
-注意，仅添加了会议的，没有加期刊。请用右侧过滤：
+学术会议、学术期刊 CCF等级标注。
 
-```
-refine by type
-Conference and Workshop Papers ✓
-```
+> 2.0.1更新，添加了学术期刊显示。
 
 ![效果图](https://cdn.jsdelivr.net/gh/symant233/PublicTools/dblp.uni-trier.de/view.png)
 
