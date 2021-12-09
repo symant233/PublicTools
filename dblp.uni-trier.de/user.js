@@ -6,7 +6,7 @@
 // @match       https://dblp.org/*
 // @grant       GM_addStyle
 // @run-at      document-end
-// @version     2.0.1
+// @version     2.0.2
 // @author      symant233
 // @description 学术会议、学术期刊 CCF等级标注
 // @homepageURL https://github.com/symant233/PublicTools
@@ -19,6 +19,13 @@
     const COLORS = ['mistyrose', 'oldlace', 'honeydew']; // ABC
     // 学术会议开始
     const CCFA = [
+        "conf/cscw/",
+        "conf/chi/",
+        "conf/sigmod/",
+        "conf/kdd/",
+        "conf/icde/",
+        "conf/sigir/",
+        "conf/vldb/",
         "conf/ppopp/",
         "conf/fast/",
         "conf/dac/",
@@ -82,6 +89,18 @@
         "conf/rtss/"
     ];
     const CCFB = [
+        "conf/cikm/",
+        "conf/wsdm/",
+        "conf/pods/",
+        "conf/dasfaa/",
+        "conf/ecml/",
+        "conf/pkdd/",
+        "conf/semweb/",
+        "conf/icdm/",
+        "conf/icdt/",
+        "conf/edbt/",
+        "conf/cidr/",
+        "conf/sdm/",
         "conf/cloud/",
         "conf/spaa/",
         "conf/podc/",
@@ -216,6 +235,13 @@
         "conf/par/"
     ];
     const CCFC = [
+        "conf/ACMdis/",
+        "conf/assets/",
+        "conf/conll/",
+        "conf/cf/",
+        "conf/nocs/",
+        "conf/asap/",
+        "conf/aspdac/",
         "conf/systor/",
         "conf/europar/",
         "conf/ets/",
@@ -270,6 +296,7 @@
         "conf/fc/",
         "conf/trustcom/",
         "conf/sec/",
+        "conf/securecomm/",
         "conf/isw/",
         "conf/icdf2c/",
         "conf/icics/",
@@ -510,6 +537,7 @@
         "journals/wwwj/"
     ];
     const JCCFC = [
+        "journals/iet-its/",
         "journals/jetc/",
         "journals/concurrency/",
         "journals/dc/",
