@@ -6,7 +6,7 @@
 // @match       https://dblp.org/*
 // @grant       GM_addStyle
 // @run-at      document-end
-// @version     2.0.2
+// @version     2.0.3
 // @author      symant233
 // @description 学术会议、学术期刊 CCF等级标注
 // @homepageURL https://github.com/symant233/PublicTools
@@ -682,6 +682,7 @@
         console.log('mutations length:', mutationsList.length);
         tagging();
     };
+    tagging();
     // 创建一个观察器实例并传入回调函数
     const observer = new MutationObserver(callback);
     // 以上述配置开始观察目标节点
