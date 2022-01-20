@@ -6,7 +6,7 @@
 // @match       https://dblp.org/*
 // @grant       GM_addStyle
 // @run-at      document-end
-// @version     2.0.3
+// @version     2.0.4
 // @author      symant233
 // @description 学术会议、学术期刊 CCF等级标注
 // @homepageURL https://github.com/symant233/PublicTools
@@ -675,7 +675,7 @@
         })
     }
     // 选择需要观察变动的节点
-    const targetNode = document.querySelector('.publ-list');
+    const targetNode = document.querySelector('#main');
     const config = { attributes: true, childList: true, subtree: true };
     // 当观察到变动时执行的回调函数
     const callback = function(mutationsList, observer) {
