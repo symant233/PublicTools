@@ -6,7 +6,7 @@
 // @match       https://dblp.org/*
 // @grant       GM_addStyle
 // @run-at      document-end
-// @version     2.0.4
+// @version     2.0.5
 // @author      symant233
 // @description 学术会议、学术期刊 CCF等级标注
 // @homepageURL https://github.com/symant233/PublicTools
@@ -671,6 +671,9 @@
                     else if (JCCFC.indexOf(s[0]) !== -1) n.style.background = COLORS[2];
                     else n.style.background = "rgb(255 255 255 / 0%)";
                 }
+                // 根据DOI一键跳转到sci-hub
+                let doi = n.childNodes[2].childNodes[0].childNodes[0].childNodes[0].childNodes[0].href
+                n.childNodes[2].childNodes[0].childNodes[0].childNodes[0].childNodes[0].href = 'https://sci-hub.ru/' + doi
             }
         })
     }
@@ -688,10 +691,15 @@
     // 以上述配置开始观察目标节点
     observer.observe(targetNode, config);
     // 把图标背景换成透明的
-    GM_addStyle(`.drop-down>.head {    
-        background: rgba(0,0,0,0);
-        border: 2px rgba(0,0,0, 0) solid;
-    }`);
+    GM_addStyle(`
+        .drop-down>.head {    
+            background: rgba(0,0,0,0);
+            border: 2px rgba(0,0,0, 0) solid;
+        }
+        li.unpaywall.display-none{
+            display: block !important;
+        }
+    `);
     // head 中添加 <base target="_blank"> 默认新标签页打开链接
     const b = document.createElement('base');
     b.setAttribute('target', '_blank');
