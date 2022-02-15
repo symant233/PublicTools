@@ -6,7 +6,7 @@
 // @match       https://dblp.org/*
 // @grant       GM_addStyle
 // @run-at      document-end
-// @version     2.0.8
+// @version     2.0.9
 // @author      symant233
 // @description 学术会议、学术期刊 CCF等级标注
 // @homepageURL https://github.com/symant233/PublicTools
@@ -673,7 +673,7 @@
                 // 根据DOI一键跳转到sci-hub
                 try{
                     let doi = n.getElementsByTagName('a')[0]
-                    doi.href = 'https://sci-hub.ru/' + doi.href
+                    doi.href = 'https://sci-hub.ru/' + doi.href.replace(/^.+doi\.org\//i,'')
                 }catch(e){}
             }
         })
