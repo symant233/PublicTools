@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.32
+// @version      0.0.33
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -42,6 +42,7 @@
 // @match        https://mooc1.chaoxing.com/mooc2/work/*
 // @match        https://*sci-hub.*/*
 // @match        https://scholar.google.com/scholar?q=*
+// @match        https://www.dlsite.com/*
 // @grant        GM_addStyle
 // @license      GPL-3.0
 // @homepageURL  https://greasyfork.org/zh-CN/scripts/390421-beautify
@@ -416,6 +417,9 @@
                 #arovswmd_panel{display:none;}
                 #gs_hdr{margin:unset !important;}`);
             break;
+        case 'www.dlsite.com':
+            GM_addStyle('h1#work_name{user-select: all !important;}');
+            break;
         default:
             break;
     }
@@ -430,6 +434,6 @@
         }
     });
     if (/.*sci-hub.+/.test(document.domain)) {
-        GM_addStyle('#rollback img {width: 50px;height: 50px;}');
+        GM_addStyle('#rollback img{width:50px !important;height:50px;margin-left:12px;}');
     };
 })();
