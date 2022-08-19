@@ -4,7 +4,7 @@
 // @icon        https://nhentai.net/favicon.ico
 // @grant       unsafeWindow
 // @grant       GM_addStyle
-// @version     2.0
+// @version     2.1
 // @author      symant233
 // @run-at      document-end
 // @description proxy image content with cloudflare worker
@@ -12,8 +12,8 @@
 (function () {
   "use strict";
   const WORKER = ""; // replace with your raw cf-worker address
-  const STARTID = "https://raw"; // change if your worker id is different !!!
   // example: 'https://raw.yourName.workers.dev/?' according to your raw.js deployment
+  const STARTID = "https://raw"; // change if your worker id is different !!!
   function proxy(url) {
     return WORKER + url;
   }
@@ -35,40 +35,18 @@
   }
   function replaceReader() {
     const el = document.querySelector("#image-container img");
-    if (el.src.startsWith(STARTID)) return;
+    if (!el || el.src.startsWith(STARTID)) return;
     el.src = proxy(el.src);
   }
-  // function watch() {
-  //   if (!window.reader) return;
-  //   window.reader.media_url = WORKER + "https://i.nhentai.net/";
-  //   new Promise((resolve) => {
-  //     const container = window.reader.$image_container;
-  //     if (container) {
-  //       new MutationObserver((mutationList) => {
-  //         mutationList.forEach((mutation) => {
-  //           if (mutation.oldValue) replaceReader();
-  //           console.log("trigger mutation observer");
-  //         });
-  //       }).observe(container, {
-  //         attributes: true,
-  //         attributeOldValue: true,
-  //         subtree: true,
-  //       });
-  //     }
-  //     resolve();
-  //   });
-  // }
   setTimeout(() => {
     replace();
-    // watch();
     replaceReader();
     Object.defineProperty(unsafeWindow._n_app, "get_cdn_url", {
       configurable: true,
       value: function (t) {
-        if (t.startsWith(STARTID)) return t;
+        if (t.startsWith(STARTID)) return t; // proxied
         var e = this.options.media_server;
-        return (
-          WORKER +
+        return proxy(
           t.replace(/\/\/([it])\d*\./, function (t, n) {
             return "//".concat(n).concat(e, ".");
           })
@@ -81,8 +59,8 @@
       {
         configurable: true,
         value: function (t) {
-          if (t.src.startsWith(STARTID)) return;
-          t.src = WORKER + t.dataset.src;
+          if (t.src.startsWith(STARTID)) return; // proxied
+          t.src = proxy(t.dataset.src);
         },
       }
     );
