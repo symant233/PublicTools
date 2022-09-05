@@ -2,7 +2,7 @@
 
 通用功能：以下匹配列网站都会更改滚动条为透明优雅风格。
 
-匹配列表与功能（v0.0.31版）
+匹配列表与功能（v0.0.35版）
 
 | 目标 | 匹配地址 | 功能 |
 | --- | --- | --- |
@@ -38,6 +38,10 @@
 | github | https://github.com/* | 隐藏左侧项目和组织栏滚动条 |
 | 超星 | https://mooc1.chaoxing.com/work/* | 扩大答题输入框 |
 | sci-hub | https://\*sci-hub.\*/* | 缩小左侧logo |
+| 谷歌学术 | https://scholar.google.com/scholar?q=* | 移除安装sci-hub插件的html注入 |
+| dlsite | https://www.dlsite.com/* | 使具体商品页面可选择商品名 |
+| preact文档 | https://preactjs.com/* | 移除顶部和右上角元素 |
+| React文档 | https://reactjs.org/* | 一键跳转到对应的中文页面 |
 
 （README更新可能不及时，一切以源码为准）
 
