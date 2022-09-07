@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.35
+// @version      0.0.36
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -45,6 +45,8 @@
 // @match        https://www.dlsite.com/*
 // @match        https://preactjs.com/*
 // @match        https://reactjs.org/*
+// @match        https://zh-hans.reactjs.org/*
+// @match        https://basarat.gitbook.io/*
 // @grant        GM_addStyle
 // @license      GPL-3.0
 // @homepageURL  https://greasyfork.org/zh-CN/scripts/390421-beautify
@@ -241,18 +243,7 @@
                 .breadcrumb-locale-container,#license{margin:0px;}
                 .logo{height:59px;}
                 .localized-content-note.notecard.neutral{display:none;}
-                .header-search{margin-bottom: 4px;}
-                a#beautify-turn:after {content:"|";display:inline-block;margin:0 6px;}
-                a#beautify-turn {width: 62px;float: right;}`);
-            let link = document.location.href;
-            link = link.replace('/en-US/', '/zh-CN/');
-            if (document.querySelector('.language-toggle')) {
-                $(".language-toggle").prepend(`<li><a id="beautify-turn" href="${link}">📌CN</a></li>`);
-                $('.language-icon').remove();
-            } else {
-                console.log('no language-toogle')
-                $('.breadcrumbs-container').after(`<div style="flex-basis: 25%;"><a id="beautify-turn" href="${link}">📌CN</a></div>`);
-            }
+                .header-search{margin-bottom: 4px;}`);
             break;
         }
         case 'juejin.cn':
@@ -436,6 +427,20 @@
                 location.href = url;
             } // 跳转到中文对应页面
             document.querySelector('a[href="/languages"]').addEventListener("click", zh);
+            // no break here, sequentially execute the followed one.
+        case 'zh-hans.reactjs.org':
+            GM_addStyle(`article > header > h1, article + div > div > div > div {margin-top: 5rem !important;}`);
+            break;
+        case 'basarat.gitbook.io':
+            setTimeout(() => {
+                const el = document.querySelector('head > link[rel="icon"]');
+                el.href = 'https://app.gitbook.com/public/images/icon-512.png';
+            }, 2000);
+            GM_addStyle(`
+                div[data-reactroot] > div > div {height: 3.9rem;}
+                div[data-reactroot] > div > div div[data-rnw-media-class^="_hidden"] {display:none;}
+                div[data-reactroot] > div > div + div > div > div > div + div {display: none;}
+                div[data-reactroot] > div > div + div > div > div > div > div > div {padding-bottom: 16px !important;}`);
             break;
         default:
             break;
