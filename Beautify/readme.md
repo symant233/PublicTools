@@ -2,11 +2,11 @@
 
 通用功能：以下匹配列网站都会更改滚动条为透明优雅风格。
 
-匹配列表与功能（v0.0.35版）
+匹配列表与功能（v0.0.38版）
 
 | 目标 | 匹配地址 | 功能 |
 | --- | --- | --- |
-| Vue文档 | https://cn.vuejs.org/* | （已移除）缩小导航栏 |
+| Vue文档 | https://\*.vuejs.org/* | 一键跳转中文文档 |
 | 菜鸟教程 | https://www.runoob.com/* | 隐藏头部logo；移动搜索框到导航栏；简化头部 |
 | 在线之家 | https://www.zxzj.me/* | 缩小间距省得用滚轮 |
 | CSDN | https://blog.csdn.net/* | 自动点击展开全文 |
@@ -42,6 +42,7 @@
 | dlsite | https://www.dlsite.com/* | 使具体商品页面可选择商品名 |
 | preact文档 | https://preactjs.com/* | 移除顶部和右上角元素 |
 | React文档 | https://reactjs.org/* | 一键跳转到对应的中文页面 |
+| 深入理解TS | https://basarat.gitbook.io/* | 缩小导航，移除广告，还原icon |
 
 （README更新可能不及时，一切以源码为准）
 
