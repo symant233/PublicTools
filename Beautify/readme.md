@@ -6,7 +6,7 @@
 
 | 目标 | 匹配地址 | 功能 |
 | --- | --- | --- |
-| Vue文档 | https://cn.vuejs.org/v2/* | 缩小导航栏 |
+| Vue文档 | https://cn.vuejs.org/* | （已移除）缩小导航栏 |
 | 菜鸟教程 | https://www.runoob.com/* | 隐藏头部logo；移动搜索框到导航栏；简化头部 |
 | 在线之家 | https://www.zxzj.me/* | 缩小间距省得用滚轮 |
 | CSDN | https://blog.csdn.net/* | 自动点击展开全文 |

@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.36
+// @version      0.0.37
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
 // @require      https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
-// @match        https://cn.vuejs.org/v2/*
+// @match        https://cn.vuejs.org/*
 // @match        https://www.runoob.com/*
 // @match        https://www.zxzj.me/*
 // @match        https://blog.csdn.net/*
@@ -87,15 +87,6 @@
         console.log(...arg);
     })('Loaded', 'Beautify', '#e99010');
     switch (document.domain){
-        case 'cn.vuejs.org':
-            //缩小导航栏
-            $('body').css("padding-top", "43px");
-            $('#header').css({"padding": "0px", "height": "43px", "box-shadow": "0px 0px 5px 0px rgba(0,0,0,0.2)"});
-            $('#logo').css("padding-left", "10px");
-            $('#nav').css("top", "1px");
-            $('.sidebar').css("top", "43px");
-            $('.sidebar-inner').css("padding-top", "13px");
-            break;
         case 'www.runoob.com':
             //隐藏头部logo 移动搜索框位置到navbar
             $('#index-nav').append(`<form action="//www.runoob.com/" target="_blank" style="display: inline;float: right;">
