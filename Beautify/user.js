@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.38
+// @version      0.0.39
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -102,6 +102,7 @@
                 <input class="placeholder" id="s" name="s" placeholder="搜索……" autocomplete="off"></form>`);
             $('.pc-nav').append(`<form action="//www.runoob.com/" target="_blank" style="display: inline;">
                 <input class="placeholder" id="s" name="s" placeholder="搜索……" autocomplete="off"></form>`);
+            GM_addStyle(`#s{outline: 0; height: 2.3rem; margin-top: -1px; margin-right: 2rem; border: 0; border-radius: 4px;}`);
             $('.logo-search').remove();
             $('.col.nav').css("padding-top", "5px");
             $('#sidebar-right-re').parent().remove(); //右侧广告
