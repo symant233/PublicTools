@@ -4,9 +4,10 @@
 // @icon        https://dblp.uni-trier.de/img/favicon.ico
 // @match       https://dblp.uni-trier.de/*
 // @match       https://dblp.org/*
+// @match       https://dblp.dagstuhl.de/*
 // @grant       GM_addStyle
 // @run-at      document-end
-// @version     2.0.9
+// @version     2.1.0
 // @author      symant233
 // @description 学术会议、学术期刊 CCF等级标注
 // @homepageURL https://github.com/symant233/PublicTools
@@ -663,12 +664,18 @@
                     if (CCFA.indexOf(s[0]) !== -1) n.style.background = COLORS[0];
                     else if (CCFB.indexOf(s[0]) !== -1) n.style.background = COLORS[1];
                     else if (CCFC.indexOf(s[0]) !== -1) n.style.background = COLORS[2];
-                    else n.style.background = "rgb(255 255 255 / 0%)";
+                    else {
+                        n.style.background = "rgb(255 255 255 / 0%)";
+                        // n.style.display = "none";
+                    }
                 } else if (s) { // starts with journals
                     if (JCCFA.indexOf(s[0]) !== -1) n.style.background = COLORS[0];
                     else if (JCCFB.indexOf(s[0]) !== -1) n.style.background = COLORS[1];
                     else if (JCCFC.indexOf(s[0]) !== -1) n.style.background = COLORS[2];
-                    else n.style.background = "rgb(255 255 255 / 0%)";
+                    else {
+                        n.style.background = "rgb(255 255 255 / 0%)";
+                        // n.style.display = "none";
+                    }
                 }
                 // 根据DOI一键跳转到sci-hub
                 try{
