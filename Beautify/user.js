@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.37
+// @version      0.0.39
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
 // @require      https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
-// @match        https://cn.vuejs.org/*
+// @match        https://*.vuejs.org/*
 // @match        https://www.runoob.com/*
 // @match        https://www.zxzj.me/*
 // @match        https://blog.csdn.net/*
@@ -87,12 +87,22 @@
         console.log(...arg);
     })('Loaded', 'Beautify', '#e99010');
     switch (document.domain){
+        case 'vuejs.org':
+            function zhVue() {
+                let url = location.href.replace('://vue', '://cn.vue');
+                location.href = url;
+            }
+            const el = document.querySelector('a[href="/translations/"]');
+            el.addEventListener("click", zhVue);
+            el.href = '#';
+            break;
         case 'www.runoob.com':
             //隐藏头部logo 移动搜索框位置到navbar
             $('#index-nav').append(`<form action="//www.runoob.com/" target="_blank" style="display: inline;float: right;">
                 <input class="placeholder" id="s" name="s" placeholder="搜索……" autocomplete="off"></form>`);
             $('.pc-nav').append(`<form action="//www.runoob.com/" target="_blank" style="display: inline;">
                 <input class="placeholder" id="s" name="s" placeholder="搜索……" autocomplete="off"></form>`);
+            GM_addStyle(`#s{outline: 0; height: 2.3rem; margin-top: -1px; margin-right: 2rem; border: 0; border-radius: 4px;}`);
             $('.logo-search').remove();
             $('.col.nav').css("padding-top", "5px");
             $('#sidebar-right-re').parent().remove(); //右侧广告
@@ -413,11 +423,11 @@
             `);
             break;
         case 'reactjs.org':
-            function zh() {
+            function zhReact() {
                 let url = location.href.replace('://react', '://zh-hans.react');
                 location.href = url;
             } // 跳转到中文对应页面
-            document.querySelector('a[href="/languages"]').addEventListener("click", zh);
+            document.querySelector('a[href="/languages"]').addEventListener("click", zhReact);
             // no break here, sequentially execute the followed one.
         case 'zh-hans.reactjs.org':
             GM_addStyle(`article > header > h1, article + div > div > div > div {margin-top: 5rem !important;}`);
