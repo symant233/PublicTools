@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.39
+// @version      0.0.42
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -252,7 +252,7 @@
             break;
         case 'xui.ptlogin2.qq.com':
             // 自动启用账号密码登录 去他大爷的扫码登录
-            GM_addStyle('.web_qr_login{display:block !important;}.qlogin,#bottom_qlogin{display:none !important;}');
+            // GM_addStyle('.web_qr_login{display:block !important;}.qlogin,#bottom_qlogin{display:none !important;}');
             break;
         case 'steamcommunity.com': {
             setInterval(()=>{
@@ -438,10 +438,9 @@
                 el.href = 'https://app.gitbook.com/public/images/icon-512.png';
             }, 2000);
             GM_addStyle(`
-                div[data-reactroot] > div > div {height: 3.9rem;}
-                div[data-reactroot] > div > div div[data-rnw-media-class^="_hidden"] {display:none;}
-                div[data-reactroot] > div > div + div > div > div > div + div {display: none;}
-                div[data-reactroot] > div > div + div > div > div > div > div > div {padding-bottom: 16px !important;}`);
+                div[data-reactroot] > div > header {height: 3.9rem;}
+                div[data-reactroot] > div > header div[data-rnw-media-class ="hidden__"] {display:none;}
+                div[data-reactroot] > div > div > div:first-child {top: 62px !important; height: calc(100vh - 62px) !important;}`);
             break;
         default:
             break;

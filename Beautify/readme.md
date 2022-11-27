@@ -2,7 +2,7 @@
 
 通用功能：以下匹配列网站都会更改滚动条为透明优雅风格。
 
-匹配列表与功能（v0.0.38版）
+匹配列表与功能（v0.0.42版）
 
 | 目标 | 匹配地址 | 功能 |
 | --- | --- | --- |
@@ -21,7 +21,7 @@
 | 30SOC | https://www.30secondsofcode.org/* | 缩小导航栏（大的无语） |
 | MDN | https://developer.mozilla.org/* | 缩小导航栏；一键切换中文 |
 | 掘金草稿 | https://juejin.cn/editor/drafts/* | 缩小顶部 |
-| QQ登录 | https://xui.ptlogin2.qq.com/cgi-bin/xlogin* | 去他大爷的扫码登录，爷就要用密码登 |
+| QQ登录 | https://xui.ptlogin2.qq.com/cgi-bin/xlogin* | 去他大爷的扫码登录（该功能已关闭） |
 | steam市场 | https://steamcommunity.com/* | 自动勾选同意条约 |
 | pixiv | https://www.pixiv.net/* | （需配合另一脚本使用，见代码） |
 | B站直播 | https://live.bilibili.com/* | 扩大右侧关注列表（3个你逗我玩？） |
