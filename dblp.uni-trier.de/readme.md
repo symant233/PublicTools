@@ -2,6 +2,7 @@
 
 dblp.org | dblp.uni-trier.de | dblp.dagstuhl.de
 
+> 2.1.1更新，添加了非CCF展示的按钮\
 > 2.0.1更新，添加了学术期刊显示。
 
 ![效果图](https://cdn.jsdelivr.net/gh/symant233/PublicTools/dblp.uni-trier.de/view.png)

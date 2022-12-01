@@ -7,7 +7,7 @@
 // @match       https://dblp.dagstuhl.de/*
 // @grant       GM_addStyle
 // @run-at      document-end
-// @version     2.1.0
+// @version     2.1.1
 // @author      symant233
 // @description 学术会议、学术期刊 CCF等级标注
 // @homepageURL https://github.com/symant233/PublicTools
@@ -18,6 +18,7 @@
     'use strict';
     console.log('CCF等级标注已载入...');
     const COLORS = ['mistyrose', 'oldlace', 'honeydew']; // ABC
+    let showOthers = true; // 是否显示非CCF的论文
     // 学术会议开始
     const CCFA = [
         "conf/cscw/",
@@ -658,7 +659,7 @@
     function tagging() {
         const nodes = document.querySelectorAll('.publ-list > li[class*="entry"]');
         nodes.forEach((n) => {
-            if (!n.style.background) { // 若已有背景颜色则不修改
+            if (!n.style.background || (!showOthers && n.style.display != "none")) { // 若已有背景颜色or不看其余论文且没被设为不显示，则不修改
                 let s = reg.exec(n.id);
                 if (s && s[0].startsWith('conf')) {
                     if (CCFA.indexOf(s[0]) !== -1) n.style.background = COLORS[0];
@@ -666,7 +667,7 @@
                     else if (CCFC.indexOf(s[0]) !== -1) n.style.background = COLORS[2];
                     else {
                         n.style.background = "rgb(255 255 255 / 0%)";
-                        // n.style.display = "none";
+                        if (!showOthers) {n.style.display = "none";}
                     }
                 } else if (s) { // starts with journals
                     if (JCCFA.indexOf(s[0]) !== -1) n.style.background = COLORS[0];
@@ -674,7 +675,7 @@
                     else if (JCCFC.indexOf(s[0]) !== -1) n.style.background = COLORS[2];
                     else {
                         n.style.background = "rgb(255 255 255 / 0%)";
-                        // n.style.display = "none";
+                        if (!showOthers) {n.style.display = "none";}
                     }
                 }
                 // 根据DOI一键跳转到sci-hub
@@ -712,4 +713,12 @@
     const b = document.createElement('base');
     b.setAttribute('target', '_blank');
     document.querySelector('head').appendChild(b);
+    // switch CCF display
+    document.toogleCCF = function() {showOthers = !showOthers; tagging()}
+    $(`<div class="refine-by">
+        <p><b>refined by CCF</b></p>
+        <ul class="options">
+            <li><button class="text" onclick="toogleCCF()">switch</button></li>
+        </ul></div>
+    `).appendTo("#completesearch-facets > div.hide-body");
 })();
