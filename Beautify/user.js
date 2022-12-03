@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.42
+// @version      0.0.43
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -187,17 +187,13 @@
                     $('.bilibili-player-video-btn-next').click();
                 }
             }, false);
-            // 美化评论框
-            GM_addStyle(`.comment-emoji.comment-emoji-lite{
-                position: absolute !important;
-                bottom: 15px;
-                left: 3px;
-                padding: 5px !important;
-                box-shadow: unset !important;
-                background: white;
-            }.comment-send-lite{background: unset !important;}`);
-            break;
         }
+        case 'bilibili.com':
+            GM_addStyle(`html.gray {
+                filter: grayscale(0) !important;
+                -webkit-filter: grayscale(0) !important;
+            }`);
+            break;
         case 'cn.bing.com': {
             //$("head").append('<style>#b_content{padding-left: 85px;}</style>');
             break;
