@@ -1,14 +1,14 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.43
+// @version      0.0.44
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
 // @require      https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
 // @match        https://*.vuejs.org/*
 // @match        https://www.runoob.com/*
-// @match        https://www.zxzj.me/*
+// @match        https://zxzj.vip/*
 // @match        https://blog.csdn.net/*
 // @match        https://es6.ruanyifeng.com/*
 // @match        https://wenku.baidu.com/*
@@ -100,7 +100,7 @@
             //隐藏头部logo 移动搜索框位置到navbar
             $('#index-nav').append(`<form action="//www.runoob.com/" target="_blank" style="display: inline;float: right;">
                 <input class="placeholder" id="s" name="s" placeholder="搜索……" autocomplete="off"></form>`);
-            $('.pc-nav').append(`<form action="//www.runoob.com/" target="_blank" style="display: inline;">
+            $('.pc-nav').append(`<form action="//www.runoob.com/" target="_blank" style="display: inline;position: absolute;right:0;">
                 <input class="placeholder" id="s" name="s" placeholder="搜索……" autocomplete="off"></form>`);
             GM_addStyle(`#s{outline: 0; height: 2.3rem; margin-top: -1px; margin-right: 2rem; border: 0; border-radius: 4px;}`);
             $('.logo-search').remove();
@@ -115,14 +115,12 @@
                 $('footer').remove();
             }
             break;
-        case 'www.zxzj.me':
+        case 'zxzj.vip':
             //缩小间距 省得用滚轮
             $('.stui-header').css("margin", "0px");
             $('.stui-page__item').css("margin", "0px");
             $('.stui-screen').css("padding", "0px");
-            //$('.stui-vodlist li').css("padding", "0px 10px");
             $('.stui-pannel').css("margin-bottom", "0px");
-            //$('.head.clearfix').css("padding", "5px");
             break;
         case 'csdn.net': {
             console.log('Beautify@ try to click');
@@ -236,6 +234,7 @@
             break;
         case 'developer.mozilla.org': {
             GM_addStyle(`
+                .mdn-cta-container{display:none;}
                 .page-header{padding:12px 24px;}
                 .breadcrumb-locale-container,#license{margin:0px;}
                 .logo{height:59px;}
@@ -408,7 +407,7 @@
                 #gs_hdr{margin:unset !important;}`);
             break;
         case 'www.dlsite.com':
-            GM_addStyle('h1#work_name{user-select: all !important;}');
+            GM_addStyle('h1#work_name{user-select: all !important;} body{overflow-y: initial !important;}');
             break;
         case 'preactjs.com':
             GM_addStyle(`
