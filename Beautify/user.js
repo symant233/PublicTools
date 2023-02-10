@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.44
+// @version      0.0.45
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -47,6 +47,7 @@
 // @match        https://reactjs.org/*
 // @match        https://zh-hans.reactjs.org/*
 // @match        https://basarat.gitbook.io/*
+// @match        https://www.photopea.com/
 // @grant        GM_addStyle
 // @license      GPL-3.0
 // @homepageURL  https://greasyfork.org/zh-CN/scripts/390421-beautify
@@ -436,6 +437,16 @@
                 div[data-reactroot] > div > header {height: 3.9rem;}
                 div[data-reactroot] > div > header div[data-rnw-media-class ="hidden__"] {display:none;}
                 div[data-reactroot] > div > div > div:first-child {top: 62px !important; height: calc(100vh - 62px) !important;}`);
+            break;
+        case 'www.photopea.com':
+            GM_addStyle(`
+                div.app > div:nth-child(1) {flex:1;}
+                div.app > div:nth-child(2) {display:none;}
+                div.flexrow.app > div:nth-child(1) div.cmanager + div {width:100% !important;}
+                div.panelblock.mainblock {flex:1;}
+                div.panelblock.mainblock .panelhead {max-width:unset !important;}
+                div.panelblock.mainblock .body {width:100% !important;}
+            `);
             break;
         default:
             break;
