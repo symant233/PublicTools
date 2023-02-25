@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.45
+// @version      0.0.46
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -446,6 +446,8 @@
                 div.panelblock.mainblock {flex:1;}
                 div.panelblock.mainblock .panelhead {max-width:unset !important;}
                 div.panelblock.mainblock .body {width:100% !important;}
+                div.panelblock.mainblock .pbody {display:flex;}
+                div.panelblock.mainblock .pbody canvas {flex: 1;height: unset !important;}
             `);
             break;
         default:
