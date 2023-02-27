@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.46
+// @version      0.0.47
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -48,6 +48,7 @@
 // @match        https://zh-hans.reactjs.org/*
 // @match        https://basarat.gitbook.io/*
 // @match        https://www.photopea.com/
+// @match        https://phind.com/*
 // @grant        GM_addStyle
 // @license      GPL-3.0
 // @homepageURL  https://greasyfork.org/zh-CN/scripts/390421-beautify
@@ -449,6 +450,17 @@
                 div.panelblock.mainblock .pbody {display:flex;}
                 div.panelblock.mainblock .pbody canvas {flex: 1;height: unset !important;}
             `);
+            break;
+        case 'phind.com':
+            GM_addStyle(`
+                #__next > div:nth-child(4) > div:nth-child(3) > div > div:nth-child(2) > div.alert.mt-5.rounded.p-3.ps-6 {display:none !important;}
+                #__next > div:nth-child(4) > div:nth-child(3) > div > div:nth-child(2) > div.p-3.ps-6.pb-6.px-5.pt-5.rounded.mt-5 {display:none !important;}
+            `);
+            let engines = localStorage.getItem('userSearchRules') || null;
+            if (!engines) {
+                localStorage.setItem('userSearchRules', '{"developer.mozilla.org":3,"github.com":2,"stackoverflow.com":2,"www.reddit.com":-1,\
+                "www.quora.com":-2,"www.pinterest.com":-3,"wikipedia.com":1,"numpy.org":1,"vuejs.org":1,"reactjs.org":1,"csdn.net":-2}');
+            }
             break;
         default:
             break;

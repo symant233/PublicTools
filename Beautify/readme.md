@@ -2,7 +2,7 @@
 
 通用功能：以下匹配列网站都会更改滚动条为透明风格。
 
-匹配列表与功能（v0.0.45版）
+匹配列表与功能（v0.0.47版）
 
 | 目标 | 匹配地址 | 功能 |
 | --- | --- | --- |
@@ -44,6 +44,7 @@
 | React文档 | https://reactjs.org/* | 一键跳转到对应的中文页面 |
 | 深入理解TS | https://basarat.gitbook.io/* | 缩小导航，移除广告，还原icon |
 | Photopea | https://www.photopea.com/ | 隐藏右侧广告占位 |
+| Phind | https://phind.com/* | 隐藏底部反馈，添加部分优先搜索网站(可在`/filters`改) |
 
 （README更新可能不及时，一切以源码为准）
 
