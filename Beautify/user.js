@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.47
+// @version      0.0.50
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -14,6 +14,7 @@
 // @match        https://wenku.baidu.com/*
 // @match        https://didi.github.io/cube-ui/*
 // @match        https://www.bilibili.com/*
+// @match        https://space.bilibili.com/*
 // @match        https://cn.bing.com/search?q=*
 // @match        https://duckduckgo.com/?q=*
 // @match        https://baike.baidu.com/*
@@ -48,7 +49,7 @@
 // @match        https://zh-hans.reactjs.org/*
 // @match        https://basarat.gitbook.io/*
 // @match        https://www.photopea.com/
-// @match        https://phind.com/*
+// @match        https://www.phind.com/*
 // @grant        GM_addStyle
 // @license      GPL-3.0
 // @homepageURL  https://greasyfork.org/zh-CN/scripts/390421-beautify
@@ -193,6 +194,19 @@
                 filter: grayscale(0) !important;
                 -webkit-filter: grayscale(0) !important;
             }`);
+            // start of the `spm_id_from` filter
+            let listener = function (e) {
+                let i = e.target;
+                for (; i && i.tagName !== "A"; )
+                    i = i.parentNode;
+                if ((i == null ? void 0 : i.tagName) !== "A")
+                    return;
+                let o = i.getAttribute("href");
+                if (!o || !/\/\//.test(o) || !/spm_id_from=/.test(o) || /^blob:/.test(o))
+                    return;
+                i.setAttribute("href", o.split('?spm_id_from')[0]); // fuck bilibili spm_id
+            }
+            document.body.addEventListener("contextmenu", listener, false);
             break;
         case 'cn.bing.com': {
             //$("head").append('<style>#b_content{padding-left: 85px;}</style>');
@@ -451,10 +465,9 @@
                 div.panelblock.mainblock .pbody canvas {flex: 1;height: unset !important;}
             `);
             break;
-        case 'phind.com':
+        case 'www.phind.com':
             GM_addStyle(`
-                #__next > div:nth-child(4) > div:nth-child(3) > div > div:nth-child(2) > div.alert.mt-5.rounded.p-3.ps-6 {display:none !important;}
-                #__next > div:nth-child(4) > div:nth-child(3) > div > div:nth-child(2) > div.p-3.ps-6.pb-6.px-5.pt-5.rounded.mt-5 {display:none !important;}
+                body {overflow-y: initial !important;}
             `);
             let engines = localStorage.getItem('userSearchRules') || null;
             if (!engines) {

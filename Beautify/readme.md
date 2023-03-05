@@ -2,7 +2,7 @@
 
 通用功能：以下匹配列网站都会更改滚动条为透明风格。
 
-匹配列表与功能（v0.0.47版）
+匹配列表与功能（v0.0.50版）
 
 | 目标 | 匹配地址 | 功能 |
 | --- | --- | --- |
@@ -14,6 +14,7 @@
 | 百度文库 | https://wenku.baidu.com/* | 自动展开全文 |
 | cube文档 | https://didi.github.io/cube-ui/* | 排版 |
 | B站视频 | https://www.bilibili.com/* | 自动宽屏模式；按P进入画中画, Ctrl+ArrowRight下一集 |
+| Bilibili | https://space.bilibili.com/* | 全站和空间页去除右键复制`?spm_id_from`参数 |
 | Bing搜索 | https://cn.bing.com/search?q=* | 缩小左侧间距（surface友好） |
 | Duck搜索 | https://duckduckgo.com/?q=* | 缩小左侧间距（surface友好） |
 | 百度百科 | https://baike.baidu.com/* | 移除阴间字体；直接删除播放器；调整头部样式 |
@@ -44,7 +45,7 @@
 | React文档 | https://reactjs.org/* | 一键跳转到对应的中文页面 |
 | 深入理解TS | https://basarat.gitbook.io/* | 缩小导航，移除广告，还原icon |
 | Photopea | https://www.photopea.com/ | 隐藏右侧广告占位 |
-| Phind | https://phind.com/* | 隐藏底部反馈，添加部分优先搜索网站(可在`/filters`改) |
+| Phind | https://phind.com/* | 添加部分优先搜索网站(可在`/filters`改) |
 
 （README更新可能不及时，一切以源码为准）
 
