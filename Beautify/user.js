@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.50
+// @version      0.0.51
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -50,6 +50,7 @@
 // @match        https://basarat.gitbook.io/*
 // @match        https://www.photopea.com/
 // @match        https://www.phind.com/*
+// @match        https://hd.nowcoder.com/link.html?target=*
 // @grant        GM_addStyle
 // @license      GPL-3.0
 // @homepageURL  https://greasyfork.org/zh-CN/scripts/390421-beautify
@@ -89,6 +90,7 @@
         ];
         console.log(...arg);
     })('Loaded', 'Beautify', '#e99010');
+    // console.log(`Domain: ${document.domain}\nHostname: ${location.hostname}`);
     switch (document.domain){
         case 'vuejs.org':
             function zhVue() {
@@ -449,9 +451,10 @@
                 el.href = 'https://app.gitbook.com/public/images/icon-512.png';
             }, 2000);
             GM_addStyle(`
-                div[data-reactroot] > div > header {height: 3.9rem;}
-                div[data-reactroot] > div > header div[data-rnw-media-class ="hidden__"] {display:none;}
-                div[data-reactroot] > div > div > div:first-child {top: 62px !important; height: calc(100vh - 62px) !important;}`);
+                div.gitbook-root > div > div > header {height: 3.9rem;}
+                div.gitbook-root > div > div > header a[href^="https://youtube.com"] {display:none;}
+                div.gitbook-root > div > div > header a[href^="https://www.udemy.com"] {display:none;}
+                div.gitbook-root > div > div > div > div:first-child {top: 62px !important; height: calc(100vh - 62px) !important;}`);
             break;
         case 'www.photopea.com':
             GM_addStyle(`
@@ -475,6 +478,10 @@
                 "www.quora.com":-2,"www.pinterest.com":-3,"wikipedia.com":1,"numpy.org":1,"vuejs.org":1,"reactjs.org":1,"csdn.net":-2}');
             }
             break;
+        case 'hd.nowcoder.com':
+            const link = location.href.split('?target=')[1];
+            location.href = link;
+            break;
         default:
             break;
     }
@@ -488,7 +495,7 @@
             GM_addStyle('span,input,li,div,a{font-family:none;}');
         }
     });
-    if (/.*sci-hub.+/.test(document.domain)) {
+    if (/.*sci-hub.+/.test(location.hostname)) {
         GM_addStyle('#rollback img{width:50px !important;height:50px;margin-left:12px;}');
     };
 })();
