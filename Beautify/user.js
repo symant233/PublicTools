@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.51
+// @version      0.0.52
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -52,6 +52,7 @@
 // @match        https://www.phind.com/*
 // @match        https://hd.nowcoder.com/link.html?target=*
 // @grant        GM_addStyle
+// @grant        unsafeWindow
 // @license      GPL-3.0
 // @homepageURL  https://greasyfork.org/zh-CN/scripts/390421-beautify
 // @supportURL   https://github.com/symant233/PublicTools/issues
@@ -155,29 +156,26 @@
                 document.getElementsByClassName('home-view')[0].style.paddingTop = "38px";
             }, 500 );
             break;
+        case 'bilibili.com':
         case 'www.bilibili.com': {
             // 宽屏模式 来自 https://github.com/bilibili-helper/bilibili-helper-o/blob/637d0741b0d81154c7bc330f8fce19b926f5a71b/src/js/modules/videoWiden/UI/index.js
             function setWide () {
-                const btn = document.querySelector('.bilibili-player-video-btn-widescreen:not(.closed)');
-                if (btn && !btn.getAttribute('bilibili-helper-data')) {
-                    btn.setAttribute('bilibili-helper-data', true);
+                const btn = document.querySelector('.bpx-player-ctrl-wide:not(.bpx-state-entered)');
+                if (btn) {
                     btn.click();
+                    if (unsafeWindow.ob) unsafeWindow.ob.disconnect(); // 触发后停止监听
                 }
             }
             new Promise(resolve => {
-                setWide();
-                const player = document.querySelector('#bofqi, #bilibiliPlayer');
+                const player = document.querySelector('#bilibili-player');
                 if (player) {
-                    new MutationObserver((mutationList) => {
-                        mutationList.forEach((mutation) => {
-                            if (mutation.oldValue) {
-                                setWide();
-                            }
-                        });
-                    }).observe(player, {
-                        attributes: true,
-                        attributeOldValue: true,
+                    unsafeWindow.ob = new MutationObserver((mutationList) => {
+                        setWide();
+                    });
+                    unsafeWindow.ob.observe(player, {
+                        attributes: false,
                         subtree: true,
+                        childList: true,
                     });
                 }
                 resolve();
@@ -185,13 +183,11 @@
             // PiP 画中画模式快捷键`p`
             document.addEventListener('keyup', function (e) {
                 if (e.key === 'p') {
-                    $('.bilibili-player-iconfont-pip-on').click();
+                    $('.bpx-player-ctrl-pip').click();
                 } else if (e.key === 'ArrowRight' & e.altKey === true) {
                     $('.bilibili-player-video-btn-next').click();
                 }
             }, false);
-        }
-        case 'bilibili.com':
             GM_addStyle(`html.gray {
                 filter: grayscale(0) !important;
                 -webkit-filter: grayscale(0) !important;
@@ -210,6 +206,7 @@
             }
             document.body.addEventListener("contextmenu", listener, false);
             break;
+        }
         case 'cn.bing.com': {
             //$("head").append('<style>#b_content{padding-left: 85px;}</style>');
             break;
