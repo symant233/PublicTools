@@ -7,7 +7,7 @@
 // @match       https://dblp.dagstuhl.de/*
 // @grant       GM_addStyle
 // @run-at      document-end
-// @version     2.1.4
+// @version     2.1.5
 // @author      symant233
 // @description 学术会议、学术期刊 CCF等级标注
 // @homepageURL https://github.com/symant233/PublicTools
@@ -19,7 +19,7 @@
     console.log('CCF等级标注已载入...');
     const COLORS = ['mistyrose', 'oldlace', 'honeydew']; // ABC
     if (localStorage.getItem('showOthers') === null) localStorage.setItem('showOthers', 'true');
-    let showOthers = localStorage.getItem('showOthers') === 'true' ? true : false; // 是否显示非CCF的论文
+    let showOthers = localStorage.getItem('showOthers') === 'false' ? false : true; // 是否显示非CCF的论文 默认显示
     // 学术会议开始
     const CCFA = [
         "conf/cscw/",

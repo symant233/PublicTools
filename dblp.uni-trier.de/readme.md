@@ -1,8 +1,11 @@
-学术会议、学术期刊 CCF等级标注。
+学术会议、学术期刊：CCF等级标注。
 
-dblp.org | dblp.uni-trier.de | dblp.dagstuhl.de
+每篇文章最左侧的`文档图标`一键跳转`sci-hub`。
 
-> 2.1.1更新，添加了非CCF展示的按钮\
+`dblp.org` | `dblp.uni-trier.de` | `dblp.dagstuhl.de`
+
+> 2.1.5更新，默认展示所有文章\
+> 2.1.1更新，添加了切换仅展示CCF分级文章的按钮\
 > 2.0.1更新，添加了学术期刊显示。
 
 ![效果图](https://cdn.jsdelivr.net/gh/symant233/PublicTools/dblp.uni-trier.de/view.png)
