@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.52
+// @version      0.0.55
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -37,7 +37,7 @@
 // @match        https://s.taobao.com/search?q=*
 // @match        https://*.tmall.com/*
 // @match        https://caddyserver.com/docs/*
-// @match        https://leetcode-cn.com/*
+// @match        https://leetcode.cn/*
 // @match        https://github.com/*
 // @match        https://mooc1.chaoxing.com/work/*
 // @match        https://mooc1.chaoxing.com/mooc2/work/*
@@ -51,6 +51,7 @@
 // @match        https://www.photopea.com/
 // @match        https://www.phind.com/*
 // @match        https://hd.nowcoder.com/link.html?target=*
+// @match        https://chat.aidutu.cn/*
 // @grant        GM_addStyle
 // @grant        unsafeWindow
 // @license      GPL-3.0
@@ -61,28 +62,31 @@
 ;(function() {
     'use strict';
     if (!$) { var $ = window.jQuery; }
-    GM_addStyle(`body{overflow-y: overlay;}
-    ::-webkit-scrollbar {
-        height: 12px; width: 12px;
-        background-color: initial;
-    }::-webkit-scrollbar-button {height: 0;}
-    ::-webkit-scrollbar-thumb {
-        background-color: rgb(127 127 127 / 40%);
-        background-clip: padding-box;
-        border: solid transparent;
-        border-width: 1px 1px 1px 1px;
-        box-shadow: inset 1px 1px 0 rgb(0 0 0 / 10%), inset 0 -1px 0 rgb(0 0 0 / 7%);
-    }::-webkit-scrollbar-thumb:hover{
-        background: rgb(127 127 127 / 60%);
-        background-clip: padding-box;
-    }::-webkit-scrollbar-thumb:active{
-        background: rgb(127 127 127 / 85%);
-        background-clip: padding-box;
-    }::-webkit-scrollbar-track {
-        background-clip: padding-box;
-        border: solid transparent;
-        border-width: 0 0 0 4px;
-    }`);
+    let customScrollBar = true; // global config; set `false` to disable in every site.
+    function changeScrollBar() {
+        GM_addStyle(`body{overflow-y: overlay;}
+        ::-webkit-scrollbar {
+            height: 12px; width: 12px;
+            background-color: initial;
+        }::-webkit-scrollbar-button {height: 0;}
+        ::-webkit-scrollbar-thumb {
+            background-color: rgb(127 127 127 / 40%);
+            background-clip: padding-box;
+            border: solid transparent;
+            border-width: 1px 1px 1px 1px;
+            box-shadow: inset 1px 1px 0 rgb(0 0 0 / 10%), inset 0 -1px 0 rgb(0 0 0 / 7%);
+        }::-webkit-scrollbar-thumb:hover{
+            background: rgb(127 127 127 / 60%);
+            background-clip: padding-box;
+        }::-webkit-scrollbar-thumb:active{
+            background: rgb(127 127 127 / 85%);
+            background-clip: padding-box;
+        }::-webkit-scrollbar-track {
+            background-clip: padding-box;
+            border: solid transparent;
+            border-width: 0 0 0 4px;
+        }`);
+    }
     (function(left, right, color) {
         const arg = [
             `%c ${left} %c ${right} `,
@@ -216,8 +220,7 @@
             break;
         }
         case 'baike.baidu.com':
-            $('#sl-player-el-video').remove(); // 删除播放器
-            $('.sl-player-el-container').remove(); // 删除播放器容器
+            $('.video-list-container').remove(); // 删除播放器容器
             GM_addStyle(`.lemmaWgt-searchHeader{height:55px;}
                 .content-wrapper .content {font: unset;}
                 .wgt-searchbar-new.wgt-searchbar .logo-container{padding: 6px 0;}
@@ -360,7 +363,7 @@
                 .paper3 {top: unset;left: unset;}
                 hr {margin-top: 2.5rem; margin-bottom: 2.5rem !important;}`);
             break;
-        case 'leetcode-cn.com':
+        case 'leetcode.cn':
             GM_addStyle(`
                 ul[class*="NavbarList"] > li[class*="NavbarListItem"]:nth-child(2)::after{display:none !important}
                 ul[class*="NavbarList"] > li[class*="NavbarListItem"]:nth-child(6)::after{display:none !important}
@@ -482,6 +485,16 @@
         default:
             break;
     }
+    switch (location.hostname) {
+        case 'chat.aidutu.cn':
+            customScrollBar = false;
+            document.body.addEventListener("keydown", (e) => {
+                if (event.keyCode === 13 || event.key === 'Enter') {
+                    localStorage.setItem('iam', '');
+                }
+            });
+            break;
+    }
     const aliList = [
         /^https:.+tmall.com\//,
         /^https:.+taobao.com\//,
@@ -495,4 +508,5 @@
     if (/.*sci-hub.+/.test(location.hostname)) {
         GM_addStyle('#rollback img{width:50px !important;height:50px;margin-left:12px;}');
     };
+    if (customScrollBar) { changeScrollBar(); }
 })();
