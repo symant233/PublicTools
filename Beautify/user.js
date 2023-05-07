@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.55
+// @version      0.0.56
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -445,17 +445,6 @@
         case 'zh-hans.reactjs.org':
             GM_addStyle(`article > header > h1, article + div > div > div > div {margin-top: 5rem !important;}`);
             break;
-        case 'basarat.gitbook.io':
-            setTimeout(() => {
-                const el = document.querySelector('head > link[rel="icon"]');
-                el.href = 'https://app.gitbook.com/public/images/icon-512.png';
-            }, 2000);
-            GM_addStyle(`
-                div.gitbook-root > div > div > header {height: 3.9rem;}
-                div.gitbook-root > div > div > header a[href^="https://youtube.com"] {display:none;}
-                div.gitbook-root > div > div > header a[href^="https://www.udemy.com"] {display:none;}
-                div.gitbook-root > div > div > div > div:first-child {top: 62px !important; height: calc(100vh - 62px) !important;}`);
-            break;
         case 'www.photopea.com':
             GM_addStyle(`
                 div.app > div:nth-child(1) {flex:1;}
@@ -465,7 +454,7 @@
                 div.panelblock.mainblock .panelhead {max-width:unset !important;}
                 div.panelblock.mainblock .body {width:100% !important;}
                 div.panelblock.mainblock .pbody {display:flex;}
-                div.panelblock.mainblock .pbody canvas {flex: 1;height: unset !important;}
+/*                 div.panelblock.mainblock .pbody canvas {flex: 1;height: unset !important;} */
             `);
             break;
         case 'www.phind.com':
@@ -493,6 +482,15 @@
                     localStorage.setItem('iam', '');
                 }
             });
+            break;
+        case 'basarat.gitbook.io':
+            GM_addStyle(`
+                html {overflow: visible !important;}
+                div.gitbook-root > div > div > header {height: 3.9rem;}
+                div.gitbook-root > div header a[href^="https://youtube.com"] {display:none;}
+                div.gitbook-root > div header a[href^="https://www.udemy.com"] {display:none;}
+                div.gitbook-root > div > div > div > div:first-child {top: 62px !important; height: calc(100vh - 64px) !important;}
+            `)
             break;
     }
     const aliList = [
