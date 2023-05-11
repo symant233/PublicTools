@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.56
+// @version      0.0.57
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -52,6 +52,7 @@
 // @match        https://www.phind.com/*
 // @match        https://hd.nowcoder.com/link.html?target=*
 // @match        https://chat.aidutu.cn/*
+// @match        *://www.cesium.xin/*
 // @grant        GM_addStyle
 // @grant        unsafeWindow
 // @license      GPL-3.0
@@ -491,6 +492,12 @@
                 div.gitbook-root > div header a[href^="https://www.udemy.com"] {display:none;}
                 div.gitbook-root > div > div > div > div:first-child {top: 62px !important; height: calc(100vh - 64px) !important;}
             `)
+            break;
+        case 'www.cesium.xin':
+            GM_addStyle(`
+                code[class*="language-"] { white-space: inherit; }
+                footer { padding: 6px; }
+            `);
             break;
     }
     const aliList = [
