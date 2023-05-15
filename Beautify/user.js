@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.57
+// @version      0.0.58
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -45,8 +45,7 @@
 // @match        https://scholar.google.com/scholar?q=*
 // @match        https://www.dlsite.com/*
 // @match        https://preactjs.com/*
-// @match        https://reactjs.org/*
-// @match        https://zh-hans.reactjs.org/*
+// @match        https://*.reactjs.org/*
 // @match        https://basarat.gitbook.io/*
 // @match        https://www.photopea.com/
 // @match        https://www.phind.com/*
@@ -436,15 +435,12 @@
                 #app > main > div[class^=repl] { top: 3.5rem; }
             `);
             break;
-        case 'reactjs.org':
+        case 'legacy.reactjs.org':
             function zhReact() {
-                let url = location.href.replace('://react', '://zh-hans.react');
+                let url = location.href.replace('://legacy.react', '://zh-hans.legacy.react');
                 location.href = url;
             } // 跳转到中文对应页面
             document.querySelector('a[href="/languages"]').addEventListener("click", zhReact);
-            // no break here, sequentially execute the followed one.
-        case 'zh-hans.reactjs.org':
-            GM_addStyle(`article > header > h1, article + div > div > div > div {margin-top: 5rem !important;}`);
             break;
         case 'www.photopea.com':
             GM_addStyle(`
