@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.58
+// @version      0.0.59
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -52,6 +52,7 @@
 // @match        https://hd.nowcoder.com/link.html?target=*
 // @match        https://chat.aidutu.cn/*
 // @match        *://www.cesium.xin/*
+// @match        https://message.bilibili.com/*
 // @grant        GM_addStyle
 // @grant        unsafeWindow
 // @license      GPL-3.0
@@ -493,6 +494,25 @@
             GM_addStyle(`
                 code[class*="language-"] { white-space: inherit; }
                 footer { padding: 6px; }
+            `);
+            break;
+        case 'message.bilibili.com':
+            const callback = function(mutationList, observer) {
+                if (document.querySelector('div.right .dialog:not(.hide)')) {
+                    const el = document.querySelector('div.right .dialog:not(.hide)')
+                    const mid = el.__vue__.userInfo.mid;
+                    if (mid) {
+                        el.querySelector('.title span').onclick = function() {
+                            window.open(`https://space.bilibili.com/${mid}/video`);
+                        }
+                    }
+                }
+            }
+            const observer = new MutationObserver(callback);
+            observer.observe(document.body, { childList: true, subtree: true });
+            GM_addStyle(`
+                div.right .dialog .title span { padding: 8px; cursor: pointer; }
+                div.right .dialog .title span:hover { text-decoration: underline; }
             `);
             break;
     }
