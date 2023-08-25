@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.59
+// @version      0.0.61
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -258,7 +258,8 @@
                 .breadcrumb-locale-container,#license{margin:0px;}
                 .logo{height:59px;}
                 .localized-content-note.notecard.neutral{display:none;}
-                .header-search{margin-bottom: 4px;}`);
+                .header-search{margin-bottom: 4px;}
+                .top-banner.fallback{display:none;}`);
             break;
         }
         case 'juejin.cn':
