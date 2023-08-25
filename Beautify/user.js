@@ -187,7 +187,7 @@
             });
             // PiP 画中画模式快捷键`p`
             document.addEventListener('keyup', function (e) {
-                if (e.key === 'p') {
+                if (e.key === 'p' && e.altKey) {
                     $('.bpx-player-ctrl-pip').click();
                 } else if (e.key === 'ArrowRight' & e.altKey === true) {
                     $('.bilibili-player-video-btn-next').click();
