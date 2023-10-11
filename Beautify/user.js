@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.61
+// @version      0.0.62
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -444,18 +444,40 @@
             } // 跳转到中文对应页面
             document.querySelector('a[href="/languages"]').addEventListener("click", zhReact);
             break;
-        case 'www.photopea.com':
-            GM_addStyle(`
-                div.app > div:nth-child(1) {flex:1;}
-                div.app > div:nth-child(2) {display:none;}
-                div.flexrow.app > div:nth-child(1) div.cmanager + div {width:100% !important;}
-                div.panelblock.mainblock {flex:1;}
-                div.panelblock.mainblock .panelhead {max-width:unset !important;}
-                div.panelblock.mainblock .body {width:100% !important;}
-                div.panelblock.mainblock .pbody {display:flex;}
-/*                 div.panelblock.mainblock .pbody canvas {flex: 1;height: unset !important;} */
-            `);
+        case 'www.photopea.com': {
+            // code from https://chrome.google.com/webstore/detail/remove-ads-from-photopea/gjkjjhgjcalgefcimahpbacihndicccn
+            const style = document.createElement('style');
+            style.textContent = '.app > div:not(:first-child) { visibility: hidden; }';
+            document.head.appendChild(style);
+            function addCustomEvent() {
+              const ADS_WIDTH = window.screen.width < 1180 ? 180 : 320;
+              document.addEventListener('resizecanvas', () => {
+                // push the ads container outside of the viewport
+                window.innerWidth = document.documentElement.clientWidth + ADS_WIDTH;
+              });
+            }
+            // inject our custom event listener into the "main world"
+            document.documentElement.setAttribute('onreset', `(${addCustomEvent})()`);
+            document.documentElement.dispatchEvent(new CustomEvent('reset'));
+            document.documentElement.removeAttribute('onreset');
+            function resize(event = {}) {
+              if (!event.skip) {
+                document.dispatchEvent(new CustomEvent('resizecanvas'));
+
+                // trigger another resize event to update any listeners with the new window.innerWidth
+                const resizeEvent = new Event('resize');
+                resizeEvent.skip = true;
+                window.dispatchEvent(resizeEvent);
+              }
+            }
+            let debounce;
+            window.addEventListener('resize', event => {
+              clearTimeout(debounce);
+              debounce = setTimeout(() => resize(event), 100);
+            });
+            resize();
             break;
+        }
         case 'www.phind.com':
             GM_addStyle(`
                 body {overflow-y: initial !important;}
