@@ -1,16 +1,21 @@
+// SOCKS Protocol Version 5 RFC:
+// https://datatracker.ietf.org/doc/html/rfc1928
+
 const net = require("net");
 
 net
   .createServer((socket) => {
     socket.once("data", (data) => {
+      // console.log(data);
       socket.write(Buffer.from([5, 0]));
 
       socket.once("data", (data) => {
         data = [...data];
-        let ver = data.shift();
-        let cmd = data.shift(); //1: connect, 2: bind, 3: udp
-        let rsv = data.shift();
-        let atyp = data.shift(); //1: ipv4(4bytes followed), 3: domain, 4: ipv6(16 bytes followed)
+        let ver = data.shift(); // socks version (5)
+        let cmd = data.shift(); // 1: connect, 2: bind, 3: udp
+        let rsv = data.shift(); // reserved
+        let atyp = data.shift(); // 1: ipv4(4bytes followed), 3: domain, 4: ipv6(16 bytes followed)
+        // console.log(ver, cmd, rsv, atyp, data);
         let dstAddr,
           dstPort,
           serverStr = "";
