@@ -8,18 +8,28 @@ const { encrypt } = require("./cipher");
 const proxyServer = "http://localhost:8001";
 const proxyPassword = "anwo289#$&*yhalg";
 
-const client = http2.connect(proxyServer);
+let session;
+const sessionDaemon = () => {
+  session = http2.connect(proxyServer);
+  session.on("error", (error) => {
+    console.log("!ClientHttp2Session error:", error?.message || error.code);
+    sessionDaemon();
+  });
+};
+sessionDaemon();
 
 function connectProxyServer(target, port) {
-  const stream = client.request({
+  const timestamp = Date.now();
+  const stream = session.request({
     ":method": "CONNECT",
     ":authority": "localhost",
     authorization: encrypt(
-      JSON.stringify({ d: target, p: port, t: Date.now() }),
+      JSON.stringify({ d: target, p: port, t: timestamp }),
       proxyPassword
     ),
   });
   stream.on("close", () => {
+    console.log(`#session closed: ${target}:${port} (${timestamp})`);
     stream.destroy();
   });
   return stream;
