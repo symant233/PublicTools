@@ -2,16 +2,16 @@
 const net = require("node:net");
 
 const server = net.createServer((socket) => {
-  let name = "wan1";
+  let data = "";
   socket.setEncoding("utf8");
   socket.on("close", () => {
-    console.log(name);
+    console.log(data);
   });
   socket.on("data", (chunk) => {
     console.log("chunk", chunk);
-    name += chunk;
+    data += chunk;
   });
-  socket.on("end", () => socket.end(`hello ${name}`));
+  socket.on("end", () => socket.end(`data: ${data}`));
 });
 
 console.log("listening on localhost:8000");
