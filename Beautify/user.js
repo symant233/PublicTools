@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.62
+// @version      0.0.63
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -300,6 +300,7 @@
         case 'live.bilibili.com': {
             GM_addStyle(`
                 .side-bar-popup-cntr{bottom:5% !important;height:84% !important;}
+                .anchor-list, .anchor-list > div {height:unset !important;}
                 .follow-cntr{height:100%;}
                 .section-content-cntr{height: calc(100% - 64px) !important;}
                 .title-length-limit{max-width:unset !important;}`);
