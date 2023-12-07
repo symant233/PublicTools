@@ -10,5 +10,11 @@
   "license": "ISC",
   "dependencies": {
     "commander": "^11.1.0"
-  }
+  },
+  "keywords": [
+    "hash",
+    "md5",
+    "sha1",
+    "security"
+  ]
 }

@@ -1,6 +1,11 @@
 ## hash-changer
 
+![npm](https://img.shields.io/npm/v/hash-changer.svg?logo=npm)
+![npm](https://img.shields.io/npm/dt/hash-changer)
+
 This tool changes file hash by appending empty buffer after EOF.
+
+Links: [Github Repo](https://github.com/symant233/PublicTools/), [NPM](https://www.npmjs.com/package/hash-changer).
 
 ### Install
 
@@ -33,3 +38,7 @@ Appending null buffer: <Buffer 00 00>
 Last 20 bytes: <Buffer 13 3f 5f c8 ff 00 85 14 b4 50 1e ff 00 f7 7f 13 ff d9 00 00>
 Current  MD5: 659d748a0eaeeb9425e46e5dcd58e7f5
 ```
+
+### License
+
+ISC
