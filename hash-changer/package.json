@@ -1,6 +1,6 @@
 {
   "name": "hash-changer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "This tool changes file hash by appending empty buffer after EOF.",
   "main": "index.js",
   "bin": {
