@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.63
+// @version      0.0.65
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -223,6 +223,7 @@
         case 'baike.baidu.com':
             $('.video-list-container').remove(); // 删除播放器容器
             GM_addStyle(`.lemmaWgt-searchHeader{height:55px;}
+                div[class^="videoListWrap"], div[class^="knowledge-toolbar"] {display: none;}
                 .content-wrapper .content {font: unset;}
                 .wgt-searchbar-new.wgt-searchbar .logo-container{padding: 6px 0;}
                 .wgt-searchbar-new.wgt-searchbar .search{padding: 8px 0;}
@@ -300,7 +301,8 @@
         case 'live.bilibili.com': {
             GM_addStyle(`
                 .side-bar-popup-cntr{bottom:5% !important;height:84% !important;}
-                .anchor-list, .anchor-list > div {height:unset !important;}
+                .anchor-list {height: calc(100% - 55px) !important}
+                .anchor-list > div {height:unset !important;}
                 .follow-cntr{height:100%;}
                 .section-content-cntr{height: calc(100% - 64px) !important;}
                 .title-length-limit{max-width:unset !important;}`);
