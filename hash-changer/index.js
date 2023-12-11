@@ -17,7 +17,7 @@ const options = program.opts(); // parsed options from user Input
 const file = options.input; // input file path
 let fileBuffer; // file data buffer
 
-function calculateFileMD5(filePath) {
+function calculateFileMD5() {
   const hash = crypto.createHash("md5");
   hash.update(fileBuffer);
   return hash.digest("hex");

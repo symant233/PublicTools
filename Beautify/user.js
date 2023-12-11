@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.65
+// @version      0.0.66
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -50,7 +50,6 @@
 // @match        https://www.photopea.com/
 // @match        https://www.phind.com/*
 // @match        https://hd.nowcoder.com/link.html?target=*
-// @match        https://chat.aidutu.cn/*
 // @match        *://www.cesium.xin/*
 // @match        https://message.bilibili.com/*
 // @grant        GM_addStyle
@@ -302,7 +301,7 @@
             GM_addStyle(`
                 .side-bar-popup-cntr{bottom:5% !important;height:84% !important;}
                 .anchor-list {height: calc(100% - 55px) !important}
-                .anchor-list > div {height:unset !important;}
+                .anchor-list > div {height:unset !important; align-content: flex-start;}
                 .follow-cntr{height:100%;}
                 .section-content-cntr{height: calc(100% - 64px) !important;}
                 .title-length-limit{max-width:unset !important;}`);
@@ -499,14 +498,6 @@
             break;
     }
     switch (location.hostname) {
-        case 'chat.aidutu.cn':
-            customScrollBar = false;
-            document.body.addEventListener("keydown", (e) => {
-                if (event.keyCode === 13 || event.key === 'Enter') {
-                    localStorage.setItem('iam', '');
-                }
-            });
-            break;
         case 'basarat.gitbook.io':
             GM_addStyle(`
                 html {overflow: visible !important;}
