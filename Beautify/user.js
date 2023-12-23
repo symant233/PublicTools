@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.66
+// @version      0.0.67
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -226,7 +226,8 @@
                 .content-wrapper .content {font: unset;}
                 .wgt-searchbar-new.wgt-searchbar .logo-container{padding: 6px 0;}
                 .wgt-searchbar-new.wgt-searchbar .search{padding: 8px 0;}
-                .wgt-navbar-hover {margin-top: 5px;}`);
+                .wgt-navbar-hover {margin-top: 5px;}
+                #J-lemma-video-list, #J-bottom-tashuo {display: none;}`);
             break;
         case 'yz.chsi.com.cn': {
             // 去除不符合不能调剂的信息
