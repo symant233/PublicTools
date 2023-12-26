@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.67
+// @version      0.0.68
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -222,7 +222,7 @@
         case 'baike.baidu.com':
             $('.video-list-container').remove(); // 删除播放器容器
             GM_addStyle(`.lemmaWgt-searchHeader{height:55px;}
-                div[class^="videoListWrap"], div[class^="knowledge-toolbar"] {display: none;}
+                div[class^="videoListWrap"], div[class^="knowledge-toolbar"], .J-knowledge-editor-toolbar {display: none;}
                 .content-wrapper .content {font: unset;}
                 .wgt-searchbar-new.wgt-searchbar .logo-container{padding: 6px 0;}
                 .wgt-searchbar-new.wgt-searchbar .search{padding: 8px 0;}
