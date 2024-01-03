@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        dblp CCF等级标注
+// @name        dblp.org CCF等级标注
 // @namespace   https://github.com/symant233/PublicTools
 // @icon        https://dblp.uni-trier.de/img/favicon.ico
 // @match       https://dblp.uni-trier.de/*
@@ -7,7 +7,7 @@
 // @match       https://dblp.dagstuhl.de/*
 // @grant       GM_addStyle
 // @run-at      document-end
-// @version     2.1.5
+// @version     2.1.6
 // @author      symant233
 // @description 学术会议、学术期刊 CCF等级标注
 // @homepageURL https://github.com/symant233/PublicTools

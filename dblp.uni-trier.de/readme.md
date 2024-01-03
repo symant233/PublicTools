@@ -1,8 +1,8 @@
-学术会议、学术期刊：CCF等级标注。
+此脚本用于在 dblp 网站上对学术会议、学术期刊进行 CCF 等级标注。
 
-每篇文章最左侧的`文档图标`一键跳转`sci-hub`。
+额外功能：每篇文章最左侧的`文档图标`一键跳转`sci-hub`。
 
-`dblp.org` | `dblp.uni-trier.de` | `dblp.dagstuhl.de`
+适用网站：`dblp.org` | `dblp.uni-trier.de` | `dblp.dagstuhl.de`
 
 > 2.1.5更新，默认展示所有文章\
 > 2.1.1更新，添加了切换仅展示CCF分级文章的按钮\
