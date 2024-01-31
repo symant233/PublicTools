@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.68
+// @version      0.0.69
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -47,7 +47,7 @@
 // @match        https://preactjs.com/*
 // @match        https://*.reactjs.org/*
 // @match        https://basarat.gitbook.io/*
-// @match        https://www.photopea.com/
+// @match        https://www.photopea.com/*
 // @match        https://www.phind.com/*
 // @match        https://hd.nowcoder.com/link.html?target=*
 // @match        *://www.cesium.xin/*
@@ -57,6 +57,8 @@
 // @license      GPL-3.0
 // @homepageURL  https://greasyfork.org/zh-CN/scripts/390421-beautify
 // @supportURL   https://github.com/symant233/PublicTools/issues
+// @downloadURL  https://update.greasyfork.org/scripts/390421/Beautify.user.js
+// @updateURL    https://update.greasyfork.org/scripts/390421/Beautify.meta.js
 // ==/UserScript==
 
 ;(function() {
