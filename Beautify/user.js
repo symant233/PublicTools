@@ -1,14 +1,13 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.69
+// @version      0.0.70
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
 // @require      https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
 // @match        https://*.vuejs.org/*
 // @match        https://www.runoob.com/*
-// @match        https://zxzj.vip/*
 // @match        https://blog.csdn.net/*
 // @match        https://es6.ruanyifeng.com/*
 // @match        https://wenku.baidu.com/*
@@ -126,13 +125,6 @@
                 $("body").css("padding-top", "60px");
                 $('footer').remove();
             }
-            break;
-        case 'zxzj.vip':
-            //缩小间距 省得用滚轮
-            $('.stui-header').css("margin", "0px");
-            $('.stui-page__item').css("margin", "0px");
-            $('.stui-screen').css("padding", "0px");
-            $('.stui-pannel').css("margin-bottom", "0px");
             break;
         case 'csdn.net': {
             console.log('Beautify@ try to click');
@@ -507,7 +499,7 @@
                 div.gitbook-root > div > div > header {height: 3.9rem;}
                 div.gitbook-root > div header a[href^="https://youtube.com"] {display:none;}
                 div.gitbook-root > div header a[href^="https://www.udemy.com"] {display:none;}
-                div.gitbook-root > div > div > div > div:first-child {top: 62px !important; height: calc(100vh - 64px) !important;}
+                div.gitbook-root div[data-testid="page.desktopTableOfContents"] {top: 62px !important; height: calc(100vh - 64px) !important;}
             `)
             break;
         case 'www.cesium.xin':
