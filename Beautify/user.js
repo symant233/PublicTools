@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.70
+// @version      0.0.71
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -161,6 +161,11 @@
                 const btn = document.querySelector('.bpx-player-ctrl-wide:not(.bpx-state-entered)');
                 if (btn) {
                     btn.click();
+                    // 观察页面是否重新定位
+                    const initialScrollY = window.scrollY;
+                    setTimeout(() => {
+                        if (window.scrollY !== initialScrollY) { window.scrollBy(0, 30); }
+                    }, 200);
                     if (unsafeWindow.ob) unsafeWindow.ob.disconnect(); // 触发后停止监听
                 }
             }

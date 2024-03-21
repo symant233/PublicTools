@@ -3,6 +3,7 @@ const http2 = require("node:http2");
 const { decrypt } = require("./cipher");
 
 const proxyPassword = "anwo289#$&*yhalg";
+const port = parseInt(process.env.PORT) || 8001;
 
 const proxy = http2.createServer();
 proxy.on("stream", (stream, headers) => {
@@ -50,4 +51,4 @@ proxy.on("stream", (stream, headers) => {
   });
 });
 
-proxy.listen(8001);
+proxy.listen(port);
