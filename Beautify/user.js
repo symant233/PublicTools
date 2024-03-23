@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.71
+// @version      0.0.72
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -50,8 +50,11 @@
 // @match        https://www.phind.com/*
 // @match        https://hd.nowcoder.com/link.html?target=*
 // @match        *://www.cesium.xin/*
-// @match        https://message.bilibili.com/*
+// @match        https://message.bilibili.com/*\
+// @grant        GM_getValue
+// @grant        GM_setValue
 // @grant        GM_addStyle
+// @grant        GM_registerMenuCommand
 // @grant        unsafeWindow
 // @license      GPL-3.0
 // @homepageURL  https://greasyfork.org/zh-CN/scripts/390421-beautify
@@ -156,6 +159,8 @@
             break;
         case 'bilibili.com':
         case 'www.bilibili.com': {
+            const enableWideScreen = GM_getValue('enableWideScreen', true); // 是否启用宽屏模式
+            GM_registerMenuCommand('切换宽屏设置', () => GM_setValue('enableWideScreen', !enableWideScreen));
             // 宽屏模式 来自 https://github.com/bilibili-helper/bilibili-helper-o/blob/637d0741b0d81154c7bc330f8fce19b926f5a71b/src/js/modules/videoWiden/UI/index.js
             function setWide () {
                 const btn = document.querySelector('.bpx-player-ctrl-wide:not(.bpx-state-entered)');
@@ -165,13 +170,13 @@
                     const initialScrollY = window.scrollY;
                     setTimeout(() => {
                         if (window.scrollY !== initialScrollY) { window.scrollBy(0, 30); }
-                    }, 200);
+                    }, 500);
                     if (unsafeWindow.ob) unsafeWindow.ob.disconnect(); // 触发后停止监听
                 }
             }
             new Promise(resolve => {
                 const player = document.querySelector('#bilibili-player');
-                if (player) {
+                if (player && enableWideScreen) {
                     unsafeWindow.ob = new MutationObserver((mutationList) => {
                         setWide();
                     });
