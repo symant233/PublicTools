@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.72
+// @version      0.0.73
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -162,14 +162,18 @@
             const enableWideScreen = GM_getValue('enableWideScreen', true); // 是否启用宽屏模式
             GM_registerMenuCommand('切换宽屏设置', () => GM_setValue('enableWideScreen', !enableWideScreen));
             // 宽屏模式 来自 https://github.com/bilibili-helper/bilibili-helper-o/blob/637d0741b0d81154c7bc330f8fce19b926f5a71b/src/js/modules/videoWiden/UI/index.js
-            function setWide () {
+            function setWide() {
                 const btn = document.querySelector('.bpx-player-ctrl-wide:not(.bpx-state-entered)');
                 if (btn) {
                     btn.click();
-                    // 观察页面是否重新定位
-                    const initialScrollY = window.scrollY;
+                    // 调整滚动位置
                     setTimeout(() => {
-                        if (window.scrollY !== initialScrollY) { window.scrollBy(0, 30); }
+                        const player = document.querySelector('#bilibili-player');
+                        if (player) {
+                            const playerRect = player.getBoundingClientRect();
+                            const position = window.scrollY + playerRect.top - 75; // Navbar height
+                            window.scrollTo({ top: position });
+                        }
                     }, 500);
                     if (unsafeWindow.ob) unsafeWindow.ob.disconnect(); // 触发后停止监听
                 }
