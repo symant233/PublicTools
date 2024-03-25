@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.73
+// @version      0.0.74
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -50,7 +50,8 @@
 // @match        https://www.phind.com/*
 // @match        https://hd.nowcoder.com/link.html?target=*
 // @match        *://www.cesium.xin/*
-// @match        https://message.bilibili.com/*\
+// @match        https://message.bilibili.com/*
+// @match        *://pan.baidu.com/share/*
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @grant        GM_addStyle
@@ -540,6 +541,12 @@
                 div.right .dialog .title span { padding: 8px; cursor: pointer; }
                 div.right .dialog .title span:hover { text-decoration: underline; }
             `);
+            break;
+        case 'pan.baidu.com':
+            setInterval(() => {
+                const el = document.querySelector('input#accessCode');
+                if (el && el.value.length === 4) document.querySelector('#submitBtn').click();
+            }, 1000)
             break;
     }
     const aliList = [

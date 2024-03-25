@@ -2,7 +2,7 @@
 
 通用功能：以下匹配列网站都会更改滚动条为透明风格。
 
-匹配列表与功能（v0.0.59版）
+匹配列表与功能（v0.0.74版）
 
 | 目标 | 匹配地址 | 功能 |
 | --- | --- | --- |
@@ -48,6 +48,7 @@
 | Phind | https://phind.com/* | 添加部分优先搜索网站(可在`/filters`改) |
 | 牛客网 | https://hd.nowcoder.com/link.html?target=* | 取消链接跳转询问 |
 | B站私信 | https://message.bilibili.com/* | 点击私信顶部UP主名字跳转其视频页面 |
+| 百度网盘 | \*://pan.baidu.com/share/\* | 提取码自动提交 |
 
 （README更新可能不及时，一切以源码为准）
 
