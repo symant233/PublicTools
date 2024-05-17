@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.74
+// @version      0.0.75
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -52,6 +52,7 @@
 // @match        *://www.cesium.xin/*
 // @match        https://message.bilibili.com/*
 // @match        *://pan.baidu.com/share/*
+// @match        https://x.com/*
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @grant        GM_addStyle
@@ -399,7 +400,7 @@
                     const container = document.querySelector('div[class*="CodeAreaContainer"]');
                     if (container) {
                         new MutationObserver((mutationList) => {
-                            mutationList.forEach((mutation) => { 
+                            mutationList.forEach((mutation) => {
                                 if (mutation.oldValue) enableDiff();
                             });
                         }).observe(container, {
@@ -547,6 +548,15 @@
                 const el = document.querySelector('input#accessCode');
                 if (el && el.value.length === 4) document.querySelector('#submitBtn').click();
             }, 1000)
+            break;
+        case 'x.com':
+            $('head').append(`<link rel="shortcut icon" href="//abs.twimg.com/favicons/twitter.ico">"`);
+            Object.defineProperty(document, 'title', {
+                set(value) {},
+                get() { return 'Twitter' },
+            });
+            $('head').append(`<title>Twitter</title>`);
+            customScrollBar = false;
             break;
     }
     const aliList = [
