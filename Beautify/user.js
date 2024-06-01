@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.75
+// @version      0.0.76
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -53,6 +53,7 @@
 // @match        https://message.bilibili.com/*
 // @match        *://pan.baidu.com/share/*
 // @match        https://x.com/*
+// @match        https://*.xiaoeknow.com/*
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @grant        GM_addStyle
@@ -440,7 +441,7 @@
                 #gs_hdr{margin:unset !important;}`);
             break;
         case 'www.dlsite.com':
-            GM_addStyle('h1#work_name{user-select: all !important;} body{overflow-y: initial !important;}');
+            GM_addStyle('h1#work_name{user-select: text !important;} body{overflow-y: initial !important;}');
             break;
         case 'preactjs.com':
             GM_addStyle(`
@@ -572,5 +573,24 @@
     if (/.*sci-hub.+/.test(location.hostname)) {
         GM_addStyle('#rollback img{width:50px !important;height:50px;margin-left:12px;}');
     };
+    if (location.hostname.endsWith('.xiaoeknow.com')) {
+        document.addEventListener('keyup', function (e) {
+            const video = document.querySelector('video');
+            if (!video) return;
+            if (e.key === ' ' && video.paused) {
+                video.play();
+            } else if (e.key === ' ') {
+                video.pause();
+            }
+            if (e.key === 'f') {
+                document.querySelector('.fullBtn').click();
+            }
+            if (e.key === 'ArrowLeft') {
+                video.currentTime = video.currentTime - 5;
+            } else if (e.key === 'ArrowRight') {
+                video.currentTime = video.currentTime + 5;
+            }
+        }); // 快捷键控制视频
+    }
     if (customScrollBar) { changeScrollBar(); }
 })();

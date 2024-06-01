@@ -50,6 +50,7 @@
 | B站私信 | https://message.bilibili.com/* | 点击私信顶部UP主名字跳转其视频页面 |
 | 百度网盘 | \*://pan.baidu.com/share/\* | 提取码自动提交 |
 | 推特 | https://x.com/* | 更换旧版图标与标题 |
+| 云伴 | https://\*.xiaoeknow.com/* | 添加视频控制快捷键（暂停、全屏和进度控制） |
 
 （README更新可能不及时，一切以源码为准）
 
