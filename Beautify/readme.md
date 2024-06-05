@@ -2,7 +2,7 @@
 
 通用功能：以下匹配列网站都会更改滚动条为透明风格。
 
-匹配列表与功能（v0.0.77版）
+匹配列表与功能（v0.0.78版）
 
 | 目标 | 匹配地址 | 功能 |
 | --- | --- | --- |
@@ -13,7 +13,7 @@
 | ES6 | https://es6.ruanyifeng.com/* | 界面排版 |
 | 百度文库 | https://wenku.baidu.com/* | 自动展开全文 |
 | cube文档 | https://didi.github.io/cube-ui/* | 排版 |
-| B站视频 | https://www.bilibili.com/* | 自动宽屏模式；按P进入画中画, Ctrl+ArrowRight下一集 |
+| B站视频 | https://www.bilibili.com/* | 自动宽屏模式；按Alt+P进入画中画, Ctrl+ArrowRight下一集 |
 | Bilibili | https://space.bilibili.com/* | 全站和空间页去除右键复制`?spm_id_from`参数 |
 | Bing搜索 | https://cn.bing.com/search?q=* | 缩小左侧间距（surface友好） |
 | Duck搜索 | https://duckduckgo.com/?q=* | 缩小左侧间距（surface友好） |
