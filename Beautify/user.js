@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.76
+// @version      0.0.77
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -316,7 +316,10 @@
                 .anchor-list > div {height:unset !important; align-content: flex-start;}
                 .follow-cntr{height:100%;}
                 .section-content-cntr{height: calc(100% - 64px) !important;}
-                .title-length-limit{max-width:unset !important;}`);
+                .title-length-limit{max-width:unset !important;}
+                .player-full-win .side-bar-cntr {display: block !important; height: 60px !important; padding: 4px !important;}
+                .player-full-win .side-bar-cntr div[data-upgrade-intro="Laboratory"] {display: none;}
+                .player-full-win .side-bar-cntr div[data-upgrade-intro="Top"] {display: none;}`);
             break;
         }
         case 'frontendwingman.com':
