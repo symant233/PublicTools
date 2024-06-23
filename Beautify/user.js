@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.79
+// @version      0.0.81
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -44,7 +44,7 @@
 // @match        https://scholar.google.com/scholar?q=*
 // @match        https://www.dlsite.com/*
 // @match        https://preactjs.com/*
-// @match        https://*.reactjs.org/*
+// @match        https://*.react.dev/*
 // @match        https://basarat.gitbook.io/*
 // @match        https://www.photopea.com/*
 // @match        https://www.phind.com/*
@@ -317,6 +317,7 @@
                 .anchor-list {height: calc(100% - 55px) !important}
                 .anchor-list > div {height:unset !important; align-content: flex-start;}
                 .follow-cntr{height:100%;}
+                .shortcut-item .follow-cntr{height:unset;}
                 .section-content-cntr{height: calc(100% - 64px) !important;}
                 .title-length-limit{max-width:unset !important;}`);
             if (enableSideFollow) GM_addStyle(`
@@ -457,12 +458,12 @@
                 #app > main > div[class^=repl] { top: 3.5rem; }
             `);
             break;
-        case 'legacy.reactjs.org':
+        case 'react.dev':
             function zhReact() {
-                let url = location.href.replace('://legacy.react', '://zh-hans.legacy.react');
+                let url = location.href.replace('://react', '://zh-hans.react');
                 location.href = url;
             } // 跳转到中文对应页面
-            document.querySelector('a[href="/languages"]').addEventListener("click", zhReact);
+            document.querySelector('a[href="/community/translations"]').addEventListener("click", zhReact);
             break;
         case 'www.photopea.com': {
             // code from https://chrome.google.com/webstore/detail/remove-ads-from-photopea/gjkjjhgjcalgefcimahpbacihndicccn

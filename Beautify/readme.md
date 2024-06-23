@@ -2,7 +2,7 @@
 
 通用功能：以下匹配列网站都会更改滚动条为透明风格。
 
-匹配列表与功能（v0.0.78版）
+匹配列表与功能（v0.0.81版）
 
 | 目标 | 匹配地址 | 功能 |
 | --- | --- | --- |
@@ -42,7 +42,7 @@
 | 谷歌学术 | https://scholar.google.com/scholar?q=* | 移除安装sci-hub插件的html注入 |
 | dlsite | https://www.dlsite.com/* | 使具体商品页面可选择商品名 |
 | preact文档 | https://preactjs.com/* | 移除顶部和右上角元素 |
-| React文档 | https://reactjs.org/* | 一键跳转到对应的中文页面 |
+| React文档 | https://react.dev/* | 一键跳转到对应的中文页面 |
 | 深入理解TS | https://basarat.gitbook.io/* | 缩小导航，移除广告，还原icon |
 | Photopea | https://www.photopea.com/ | 隐藏右侧广告占位 |
 | Phind | https://phind.com/* | 添加部分优先搜索网站(可在`/filters`改) |
