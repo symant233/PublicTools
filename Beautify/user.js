@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.81
+// @version      0.0.82
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -54,6 +54,7 @@
 // @match        *://pan.baidu.com/share/*
 // @match        https://x.com/*
 // @match        https://*.xiaoeknow.com/*
+// @match        https://nextjs.org/*
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @grant        GM_addStyle
@@ -459,7 +460,8 @@
             `);
             break;
         case 'react.dev':
-            function zhReact() {
+            function zhReact(event) {
+                event.preventDefault();
                 let url = location.href.replace('://react', '://zh-hans.react');
                 location.href = url;
             } // 跳转到中文对应页面
@@ -565,6 +567,13 @@
             });
             $('head').append(`<title>Twitter</title>`);
             customScrollBar = false;
+            break;
+        case 'nextjs.org':
+            GM_addStyle(`
+                main > div.relative { padding-top: 1rem; }
+                main > div.relative > div.sticky { top: 5rem; }
+                main > div.relative > nav > .sticky { top: 6.5rem; }
+            `);
             break;
     }
     const aliList = [
