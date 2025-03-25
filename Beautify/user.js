@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.82
+// @version      0.0.85
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -37,7 +37,6 @@
 // @match        https://*.tmall.com/*
 // @match        https://caddyserver.com/docs/*
 // @match        https://leetcode.cn/*
-// @match        https://github.com/*
 // @match        https://mooc1.chaoxing.com/work/*
 // @match        https://mooc1.chaoxing.com/mooc2/work/*
 // @match        https://*sci-hub.*/*
@@ -430,9 +429,6 @@
                 console.log(node[key].children[0].props.children);
             }
             globalThis.unsafeWindow.getMarkdown = getMarkdown;
-            break;
-        case 'github.com':
-            GM_addStyle(`.dashboard-sidebar.overflow-auto::-webkit-scrollbar {display: none;}`);
             break;
         case 's.taobao.com':
             GM_addStyle(`.grid-total .grid-right {display: none !important;}
