@@ -5,7 +5,7 @@
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
-// @require      https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
+// @require      https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js
 // @match        https://*.vuejs.org/*
 // @match        https://www.runoob.com/*
 // @match        https://blog.csdn.net/*
