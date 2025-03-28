@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.85
+// @version      0.0.86
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -62,38 +62,13 @@
 // @license      GPL-3.0
 // @homepageURL  https://greasyfork.org/zh-CN/scripts/390421-beautify
 // @supportURL   https://github.com/symant233/PublicTools/issues
-// @downloadURL  https://update.greasyfork.org/scripts/390421/Beautify.user.js
-// @updateURL    https://update.greasyfork.org/scripts/390421/Beautify.meta.js
+// @downloadURL https://update.greasyfork.org/scripts/390421/Beautify.user.js
+// @updateURL https://update.greasyfork.org/scripts/390421/Beautify.meta.js
 // ==/UserScript==
 
 ;(function() {
     'use strict';
     if (!$) { var $ = window.jQuery; }
-    let customScrollBar = true; // global config; set `false` to disable in every site.
-    function changeScrollBar() {
-        GM_addStyle(`body{overflow-y: overlay;}
-        ::-webkit-scrollbar {
-            height: 12px; width: 12px;
-            background-color: initial;
-        }::-webkit-scrollbar-button {height: 0;}
-        ::-webkit-scrollbar-thumb {
-            background-color: rgb(127 127 127 / 40%);
-            background-clip: padding-box;
-            border: solid transparent;
-            border-width: 1px 1px 1px 1px;
-            box-shadow: inset 1px 1px 0 rgb(0 0 0 / 10%), inset 0 -1px 0 rgb(0 0 0 / 7%);
-        }::-webkit-scrollbar-thumb:hover{
-            background: rgb(127 127 127 / 60%);
-            background-clip: padding-box;
-        }::-webkit-scrollbar-thumb:active{
-            background: rgb(127 127 127 / 85%);
-            background-clip: padding-box;
-        }::-webkit-scrollbar-track {
-            background-clip: padding-box;
-            border: solid transparent;
-            border-width: 0 0 0 4px;
-        }`);
-    }
     (function(left, right, color) {
         const arg = [
             `%c ${left} %c ${right} `,
@@ -557,12 +532,6 @@
             break;
         case 'x.com':
             $('head').append(`<link rel="shortcut icon" href="//abs.twimg.com/favicons/twitter.ico">"`);
-            Object.defineProperty(document, 'title', {
-                set(value) {},
-                get() { return 'Twitter' },
-            });
-            $('head').append(`<title>Twitter</title>`);
-            customScrollBar = false;
             break;
         case 'nextjs.org':
             GM_addStyle(`
@@ -604,5 +573,4 @@
             }
         }); // 快捷键控制视频
     }
-    if (customScrollBar) { changeScrollBar(); }
 })();
