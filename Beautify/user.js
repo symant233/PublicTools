@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.86
+// @version      0.0.87
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -178,10 +178,15 @@
                     $('.bilibili-player-video-btn-next').click();
                 }
             }, false);
-            GM_addStyle(`html.gray {
-                filter: grayscale(0) !important;
-                -webkit-filter: grayscale(0) !important;
-            }`);
+            GM_addStyle(`
+                html.gray {
+                    filter: grayscale(0) !important;
+                    -webkit-filter: grayscale(0) !important;
+                }
+                .bili-subtitle-x-subtitle-panel-text {
+                    font-family: unset !important;
+                }`
+            );
             // start of the `spm_id_from` filter
             let listener = function (e) {
                 let i = e.target;
