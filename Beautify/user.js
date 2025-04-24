@@ -1,11 +1,10 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.87
+// @version      0.1.87
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
-// @require      https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js
 // @match        https://*.vuejs.org/*
 // @match        https://www.runoob.com/*
 // @match        https://blog.csdn.net/*
@@ -68,7 +67,98 @@
 
 ;(function() {
     'use strict';
-    if (!$) { var $ = window.jQuery; }
+
+    const $ = {
+        // 选择器函数
+        $(selector) {
+            return document.querySelectorAll(selector);
+        },
+        // 获取第一个匹配元素
+        first(selector) {
+            return document.querySelector(selector);
+        },
+        // 通用遍历方法
+        each(selector, callback) {
+            const elements = this.$(selector);
+            for (let i = 0; i < elements.length; i++) {
+                callback(elements[i], i);
+            }
+        },
+        // 添加类
+        addClass(selector, className) {
+            this.each(selector, element => {
+                element.classList.add(className);
+            });
+        },
+        // 移除类
+        removeClass(selector, className) {
+            this.each(selector, element => {
+                element.classList.remove(className);
+            });
+        },
+        // 设置属性
+        attr(selector, attr, value) {
+            this.each(selector, element => {
+                element.setAttribute(attr, value);
+            });
+        },
+        // 获取属性
+        getAttr(selector, attr) {
+            const element = this.first(selector);
+            return element ? element.getAttribute(attr) : null;
+        },
+        // 添加事件监听
+        on(selector, event, handler) {
+            this.each(selector, element => {
+                element.addEventListener(event, handler);
+            });
+        },
+        // 移除元素
+        remove(selector) {
+            this.each(selector, element => {
+                element.remove();
+            });
+        },
+        // 添加HTML
+        append(selector, html) {
+            const element = this.first(selector);
+            if (element) {
+                element.insertAdjacentHTML('beforeend', html);
+            }
+        },
+        // 添加元素到指定元素
+        appendTo(selector, targetSelector) {
+            const element = document.createElement(selector);
+            const target = this.first(targetSelector);
+            if (target) {
+                target.appendChild(element);
+            }
+            return element;
+        },
+        // 点击事件
+        click(selector) {
+            const element = this.first(selector);
+            if (element) {
+                element.click();
+            }
+        },
+        // 获取子元素
+        children(selector) {
+            const element = this.first(selector);
+            return element ? element.children : [];
+        },
+        // 获取父元素
+        parent(selector) {
+            const element = this.first(selector);
+            return element ? element.parentElement : null;
+        },
+        // 创建元素
+        create(tagName) {
+            return document.createElement(tagName);
+        }
+    };
+    
+    // 打印载入日志
     (function(left, right, color) {
         const arg = [
             `%c ${left} %c ${right} `,
@@ -77,7 +167,7 @@
         ];
         console.log(...arg);
     })('Loaded', 'Beautify', '#e99010');
-    // console.log(`Domain: ${document.domain}\nHostname: ${location.hostname}`);
+    
     switch (document.domain){
         case 'vuejs.org':
             function zhVue() {
@@ -90,49 +180,54 @@
             break;
         case 'www.runoob.com':
             //隐藏头部logo 移动搜索框位置到navbar
-            $('#index-nav').append(`<form action="//www.runoob.com/" target="_blank" style="display: inline;float: right;">
+            $.append('#index-nav', `<form action="//www.runoob.com/" target="_blank" style="display: inline;float: right;">
                 <input class="placeholder" id="s" name="s" placeholder="搜索……" autocomplete="off"></form>`);
-            $('.pc-nav').append(`<form action="//www.runoob.com/" target="_blank" style="display: inline;position: absolute;right:0;">
+            $.append('.pc-nav', `<form action="//www.runoob.com/" target="_blank" style="display: inline;position: absolute;right:0;">
                 <input class="placeholder" id="s" name="s" placeholder="搜索……" autocomplete="off"></form>`);
             GM_addStyle(`#s{outline: 0; height: 2.3rem; margin-top: -1px; margin-right: 2rem; border: 0; border-radius: 4px;}`);
-            $('.logo-search').remove();
-            $('.col.nav').css("padding-top", "5px");
-            $('#sidebar-right-re').parent().remove(); //右侧广告
-            $('.feedback-btn').remove(); //反馈按钮
-            $('.qrcode').remove; //右侧悬浮二维码
-            $('.navigation').css("background", "grey");
+            $.remove('.logo-search');
+            GM_addStyle(`.col.nav{padding-top: 5px;}`);
+            $.parent('#sidebar-right-re')?.remove();
+            $.remove('.feedback-btn');
+            $.remove('.qrcode');
+            GM_addStyle(`.navigation{background: grey;}`);
             if (document.location.href.split('/')[3] == "try") {
-                $('nav').remove();
-                $("body").css("padding-top", "60px");
-                $('footer').remove();
+                $.remove('nav');
+                GM_addStyle(`body{padding-top: 60px;}`);
+                $.remove('footer');
             }
             break;
         case 'csdn.net': {
             console.log('Beautify@ try to click');
-            var r = $('.btn-readmore')[0].click();
-            console.log('Beautify@ clicked:' + r);
+            const btnReadmore = $.first('.btn-readmore');
+            if (btnReadmore) {
+                btnReadmore.click();
+                console.log('Beautify@ clicked: true');
+            }
             break;
         }
         case 'es6.ruanyifeng.com':
-            $('#content').css("width", "63%");
-            $('#content').css("padding-bottom", "0px");
-            $('#back_to_top').css("right", "35px");
-            $('#edit').css("right", "35px");
-            $('#theme').css("right", "35px");
-            $('#flip').css("right", "10px");
+            GM_addStyle(`
+                #content{width: 63%; padding-bottom: 0px;}
+                #back_to_top{right: 35px;}
+                #edit{right: 35px;}
+                #theme{right: 35px;}
+                #flip{right: 10px;}
+            `);
             break;
         case 'wenku.baidu.com':
             setTimeout(function() {
                 console.log('show more');
-                $('.btn-know').click();
-                $('.moreBtn').click();
+                $.click('.btn-know');
+                $.click('.moreBtn');
             }, 1500 );
             break;
         case 'didi.github.io':
             setTimeout(function() {
-                document.getElementsByClassName('navigator')[0].style.height = "54px";
-                document.getElementsByClassName('navigator')[0].style.lineHeight = "54px";
-                document.getElementsByClassName('home-view')[0].style.paddingTop = "38px";
+                GM_addStyle(`
+                    .navigator{height: 54px; line-height: 54px;}
+                    .home-view{padding-top: 38px;}
+                `);
             }, 500 );
             break;
         case 'bilibili.com':
@@ -175,7 +270,7 @@
                 if (e.key === 'p' && e.altKey) {
                     document.querySelector('video').requestPictureInPicture();
                 } else if (e.key === 'ArrowRight' & e.altKey === true) {
-                    $('.bilibili-player-video-btn-next').click();
+                    $.click('.bilibili-player-video-btn-next');
                 }
             }, false);
             GM_addStyle(`
@@ -185,8 +280,8 @@
                 }
                 .bili-subtitle-x-subtitle-panel-text {
                     font-family: unset !important;
-                }`
-            );
+                }
+            `);
             // start of the `spm_id_from` filter
             let listener = function (e) {
                 let i = e.target;
@@ -203,39 +298,58 @@
             break;
         }
         case 'cn.bing.com': {
-            //$("head").append('<style>#b_content{padding-left: 85px;}</style>');
+            //GM_addStyle('#b_content{padding-left: 85px;}');
             break;
         }
         case 'duckduckgo.com': {
-            $("head").append('<style>#links_wrapper{padding-left: 108px;}</style>');
+            GM_addStyle('#links_wrapper{padding-left: 108px;}');
             break;
         }
         case 'baike.baidu.com':
-            $('.video-list-container').remove(); // 删除播放器容器
-            GM_addStyle(`.lemmaWgt-searchHeader{height:55px;}
+            $.remove('.video-list-container'); // 删除播放器容器
+            GM_addStyle(`
+                .lemmaWgt-searchHeader{height:55px;}
                 div[class^="videoListWrap"], div[class^="knowledge-toolbar"], .J-knowledge-editor-toolbar {display: none;}
                 .content-wrapper .content {font: unset;}
                 .wgt-searchbar-new.wgt-searchbar .logo-container{padding: 6px 0;}
                 .wgt-searchbar-new.wgt-searchbar .search{padding: 8px 0;}
                 .wgt-navbar-hover {margin-top: 5px;}
-                #J-lemma-video-list, #J-bottom-tashuo {display: none;}`);
+                #J-lemma-video-list, #J-bottom-tashuo {display: none;}
+            `);
             break;
         case 'yz.chsi.com.cn': {
             // 去除不符合不能调剂的信息
             function filter() {
-                const tmp = $("#content-qecxList > table > tbody").children();
-                for ( let i in tmp ) {
-                    if ( tmp[i].lastElementChild.innerText.includes("不符合") || tmp[i].lastElementChild.firstElementChild.title.includes('不符合') ) {
-                        tmp[i].remove();
-                        console.log(tmp[i].textContent + 'removed');
+                const tbody = $.first("#content-qecxList > table > tbody");
+                if (!tbody) return;
+                
+                const children = tbody.children;
+                for (let i = 0; i < children.length; i++) {
+                    const lastChild = children[i].lastElementChild;
+                    if (lastChild && (
+                        lastChild.innerText.includes("不符合") || 
+                        (lastChild.firstElementChild && lastChild.firstElementChild.title.includes('不符合'))
+                    )) {
+                        children[i].remove();
+                        console.log(children[i].textContent + 'removed');
                     }
                 }
             }
-            $('<button id="btn-filter" style="width: 50px;">过滤</button>').appendTo('.ewm-fix');
-            $('#btn-filter').click(filter);
+            
+            const btnFilter = $.create('button');
+            btnFilter.id = 'btn-filter';
+            GM_addStyle('#btn-filter{width: 50px;}');
+            btnFilter.textContent = '过滤';
+            
+            const ewmFix = $.first('.ewm-fix');
+            if (ewmFix) {
+                ewmFix.appendChild(btnFilter);
+                btnFilter.addEventListener('click', filter);
+            }
+            
             document.addEventListener('keyup', function (e) {
                 if (e.key === 'Enter' && e.ctrlKey) {
-                    $('.tj-seach-btn').click();
+                    $.click('.tj-seach-btn');
                 }
             }, false);
             break;
@@ -251,7 +365,8 @@
                 .logo{height:59px;}
                 .localized-content-note.notecard.neutral{display:none;}
                 .header-search{margin-bottom: 4px;}
-                .top-banner.fallback{display:none;}`);
+                .top-banner.fallback{display:none;}
+            `);
             break;
         }
         case 'juejin.cn':
@@ -287,7 +402,9 @@
                     color: rgba(0, 0, 0, 0.64);
                     background-color: rgba(0, 0, 0, 0.04);
                     transition: background-color 0.2s ease 0s, color 0.2s ease 0s;
-                }#select-ahao-favorites+div{gap: 0px;}`);
+                }
+                #select-ahao-favorites+div{gap: 0px;}
+            `);
             break;
         case 'live.bilibili.com': {
             const enableSideFollow = GM_getValue('enableSideFollow', false); // 是否切换关注按钮全屏展示
@@ -299,11 +416,13 @@
                 .follow-cntr{height:100%;}
                 .shortcut-item .follow-cntr{height:unset;}
                 .section-content-cntr{height: calc(100% - 64px) !important;}
-                .title-length-limit{max-width:unset !important;}`);
+                .title-length-limit{max-width:unset !important;}
+            `);
             if (enableSideFollow) GM_addStyle(`
                 .player-full-win .side-bar-cntr {display: block !important; height: 60px !important; padding: 4px !important;}
                 .player-full-win .side-bar-cntr div[data-upgrade-intro="Laboratory"] {display: none;}
-                .player-full-win .side-bar-cntr div[data-upgrade-intro="Top"] {display: none;}`);
+                .player-full-win .side-bar-cntr div[data-upgrade-intro="Top"] {display: none;}
+            `);
             break;
         }
         case 'frontendwingman.com':
@@ -322,9 +441,11 @@
             GM_addStyle('.doc-main-hd {margin-bottom: 24px;padding-bottom: 28px;border-bottom: 1px solid #e5e5e5;}');
             break;
         case 'www.npmjs.com':
-            GM_addStyle(`.center-ns {padding-bottom: unset;}
+            GM_addStyle(`
+                .center-ns {padding-bottom: unset;}
                 pre.editor.editor-colors {overflow: overlay;}
-                header > div:nth-child(2) {display: none;}`);
+                header > div:nth-child(2) {display: none;}
+            `);
             break;
         case 'www.zhihu.com':
             if (window.location.href === "https://www.zhihu.com/hot") {
@@ -338,25 +459,32 @@
                 .download-app,.doc-feedback-group{display:none;}
                 .header{padding:3px 0 7px 0;}
                 .doc-whole-container{height:100%;}
-                .doc-trans-view-wrap{width: unset;height: 88%;margin-top: -38px;}`);
+                .doc-trans-view-wrap{width: unset;height: 88%;margin-top: -38px;}
+            `);
             break;
         case 'jiexi.8old.cn': {
             // https://jx.m3u8.tv/jiexi/?url=
             document.addEventListener('keyup', function (e) {
                 if (e.key === 'f') {
-                    $('.dplayer-full-icon').click();
-                }else if ([1,2,3,4].includes(parseInt(e.key))) {
-                    $('.dplayer-setting-speed-item').slice(1)[parseInt(e.key)].click();
+                    $.click('.dplayer-full-icon');
+                } else if ([1,2,3,4].includes(parseInt(e.key))) {
+                    const speedItems = $.$('.dplayer-setting-speed-item');
+                    if (speedItems.length > parseInt(e.key)) {
+                        speedItems[parseInt(e.key)].click();
+                    }
                 }
             }, false);
             break;
         }
         case 'qidian.com':
-            GM_addStyle(`body{overflow-x:hidden !important;}
-                .admire-wrap,.guide-btn-wrap,#j_navGameBtn,#navReward,#j_phoneRead{display:none;}`);
+            GM_addStyle(`
+                body{overflow-x:hidden !important;}
+                .admire-wrap,.guide-btn-wrap,#j_navGameBtn,#navReward,#j_phoneRead{display:none;}
+            `);
             break;
         case 'caddyserver.com':
-            GM_addStyle(`pre > code.cmd {font-size: 1rem; overflow: overlay;}
+            GM_addStyle(`
+                pre > code.cmd {font-size: 1rem; overflow: overlay;}
                 main > .sidebar:last-child {flex-shrink: 2;}
                 main > nav.sidebar {font-size: 1.2rem; width: 20%;}
                 article > :not(h1), dd, article p, article ol, article ul, article pre, article table {margin-bottom: 0.5rem;}
@@ -364,7 +492,8 @@
                 pre.chroma {font-size: 1rem;}
                 #paper1, #paper2 {display: none;}
                 .paper3 {top: unset;left: unset;}
-                hr {margin-top: 2.5rem; margin-bottom: 2.5rem !important;}`);
+                hr {margin-top: 2.5rem; margin-bottom: 2.5rem !important;}
+            `);
             break;
         case 'leetcode.cn':
             GM_addStyle(`
@@ -373,7 +502,8 @@
                 [class*=TimeRemainContainer]{display:none;}
                 section[class*=MainContainer] > div[class*=Container]:nth-child(1){display: none;}
                 section[class*=MainContainer]{margin-top: 12px;}
-                span[class*=BasicTag-StyledTag]{margin-right: 8px;}`);
+                span[class*=BasicTag-StyledTag]{margin-right: 8px;}
+            `);
             // 自动开启运行结果差别
             function enableDiff () {
                 const btn = document.querySelector('label[class*="Label-StyledSwitch"]');
@@ -383,7 +513,9 @@
                 }
             }
             setTimeout(() => {
-                $('div[class*=second-section-container] > div:last-child button').click();
+                const button = $.first('div[class*=second-section-container] > div:last-child button');
+                if (button) button.click();
+                
                 new Promise(resolve => {
                     const container = document.querySelector('div[class*="CodeAreaContainer"]');
                     if (container) {
@@ -411,18 +543,22 @@
             globalThis.unsafeWindow.getMarkdown = getMarkdown;
             break;
         case 's.taobao.com':
-            GM_addStyle(`.grid-total .grid-right {display: none !important;}
+            GM_addStyle(`
+                .grid-total .grid-right {display: none !important;}
                 .grid-total .grid-left {width: unset !important;}
-                li#J_FeedbackExperience {display: none;}`);
+                li#J_FeedbackExperience {display: none;}
+            `);
             break;
         case 'mooc1.chaoxing.com':
         case 'chaoxing.com':
             GM_addStyle(`#edui1_iframeholder{height:530px !important;}`);
             break;
         case 'scholar.google.com':
-            GM_addStyle(`.donate{display:none !important;}
+            GM_addStyle(`
+                .donate{display:none !important;}
                 #arovswmd_panel{display:none;}
-                #gs_hdr{margin:unset !important;}`);
+                #gs_hdr{margin:unset !important;}
+            `);
             break;
         case 'www.dlsite.com':
             GM_addStyle('h1#work_name{user-select: text !important;} body{overflow-y: initial !important;}');
@@ -445,9 +581,7 @@
             break;
         case 'www.photopea.com': {
             // code from https://chrome.google.com/webstore/detail/remove-ads-from-photopea/gjkjjhgjcalgefcimahpbacihndicccn
-            const style = document.createElement('style');
-            style.textContent = '.app > div:not(:first-child) { visibility: hidden; }';
-            document.head.appendChild(style);
+            GM_addStyle('.app > div:not(:first-child) { visibility: hidden; }');
             function addCustomEvent() {
               const ADS_WIDTH = window.screen.width < 1180 ? 180 : 320;
               document.addEventListener('resizecanvas', () => {
@@ -478,9 +612,7 @@
             break;
         }
         case 'www.phind.com':
-            GM_addStyle(`
-                body {overflow-y: initial !important;}
-            `);
+            GM_addStyle(`body {overflow-y: initial !important;}`);
             let engines = localStorage.getItem('userSearchRules') || null;
             if (!engines) {
                 localStorage.setItem('userSearchRules', '{"developer.mozilla.org":3,"github.com":2,"stackoverflow.com":2,"www.reddit.com":-1,\
@@ -536,7 +668,10 @@
             }, 1000)
             break;
         case 'x.com':
-            $('head').append(`<link rel="shortcut icon" href="//abs.twimg.com/favicons/twitter.ico">"`);
+            const linkElement = document.createElement('link');
+            linkElement.rel = 'shortcut icon';
+            linkElement.href = '//abs.twimg.com/favicons/twitter.ico';
+            document.head.appendChild(linkElement);
             break;
         case 'nextjs.org':
             GM_addStyle(`
