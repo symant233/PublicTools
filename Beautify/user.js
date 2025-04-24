@@ -168,7 +168,7 @@
         console.log(...arg);
     })('Loaded', 'Beautify', '#e99010');
     
-    switch (document.domain){
+    switch (location.hostname) {
         case 'vuejs.org':
             function zhVue() {
                 let url = location.href.replace('://vue', '://cn.vue');
@@ -623,10 +623,6 @@
             const link = location.href.split('?target=')[1];
             location.href = link;
             break;
-        default:
-            break;
-    }
-    switch (location.hostname) {
         case 'basarat.gitbook.io':
             GM_addStyle(`
                 html {overflow: visible !important;}
@@ -680,7 +676,10 @@
                 main > div.relative > nav > .sticky { top: 6.5rem; }
             `);
             break;
+        default:
+            break;
     }
+    
     const aliList = [
         /^https:.+tmall.com\//,
         /^https:.+taobao.com\//,
