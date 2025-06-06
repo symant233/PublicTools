@@ -1,0 +1,25 @@
+{
+  "name": "bing_wallpaper",
+  "version": "1.0.0",
+  "description": "apply bing wallpaper on your desktop",
+  "main": "main.py",
+  "dependencies": {
+    "request": "^2.88.2",
+    "wallpaper": "^4.4.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/symant233/PublicTools/bing_wallpaper"
+  },
+  "keywords": [
+    "bing",
+    "wallpaper",
+    "nodejs"
+  ],
+  "author": "symant233",
+  "license": "GPL-3.0"
+}
