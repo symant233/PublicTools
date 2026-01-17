@@ -1,0 +1,350 @@
+import { axios } from "@pipedream/platform";
+
+export default defineComponent({
+  name: "Get CS2 Covert Items",
+  description:
+    "Retrieve tradable CS2 Covert (red) quality items from a Steam user's public inventory",
+  type: "action",
+  props: {
+    steam_id: {
+      type: "string",
+      label: "Steam ID",
+      description:
+        "The Steam ID of the user whose inventory to retrieve (64-bit Steam ID - should be 17 digits starting with 765)",
+    },
+    exclude_collectibles: {
+      type: "boolean",
+      label: "Exclude Collectibles",
+      description:
+        "Exclude medals, badges, and coins (only show weapons, knives, gloves)",
+      optional: true,
+      default: true,
+    },
+    debug_mode: {
+      type: "boolean",
+      label: "Debug Mode",
+      description:
+        "Enable debug mode to see raw item data and help diagnose filtering issues.",
+      optional: true,
+      default: false,
+    },
+  },
+  methods: {
+    validateSteamId(steamId) {
+      const steamIdRegex = /^765\d{14}$/;
+      return steamIdRegex.test(steamId);
+    },
+
+    getPrivacyInstructions() {
+      return `
+需要配置 Steam 隐私设置：
+
+1. 个人资料隐私：设为公开
+2. 游戏详情隐私：设为公开（重要！）
+3. 库存隐私：设为公开
+
+操作步骤：
+1. 访问 steamcommunity.com → 查看个人资料 → 编辑个人资料 → 隐私设置
+2. 将以上三项都设为"公开"
+3. 点击"保存"并等待 2-3 分钟生效
+`;
+    },
+
+    async checkProfileAccessibility(steamId) {
+      try {
+        const profileResponse = await axios(this.$, {
+          url: `https://steamcommunity.com/profiles/${steamId}?xml=1`,
+          timeout: 15000,
+        });
+
+        if (profileResponse.includes("<error>")) {
+          return {
+            accessible: false,
+            issue: "profile_not_found",
+            message: "Steam 个人资料不存在或无法访问",
+          };
+        }
+
+        if (
+          profileResponse.includes("<privacyState>private</privacyState>") ||
+          profileResponse.includes("<privacyState>friendsonly</privacyState>")
+        ) {
+          return {
+            accessible: false,
+            issue: "profile_private",
+            message: "Steam 个人资料设置为私密或仅好友可见",
+          };
+        }
+
+        return { accessible: true, message: "个人资料可访问" };
+      } catch (error) {
+        return {
+          accessible: false,
+          issue: "profile_check_failed",
+          message: "无法检查个人资料可访问性",
+        };
+      }
+    },
+
+    async fetchInventory(steamId) {
+      const endpoints = [
+        {
+          url: `https://steamcommunity.com/inventory/${steamId}/730/2`,
+          params: { l: "schinese", count: 5000 },
+        },
+        {
+          url: `https://steamcommunity.com/inventory/${steamId}/730/2`,
+          params: { l: "schinese", count: 2000 },
+        },
+        {
+          url: `https://steamcommunity.com/inventory/${steamId}/730/2`,
+          params: { l: "schinese" },
+        },
+      ];
+
+      const headers = {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        Accept: "application/json",
+      };
+
+      for (const endpoint of endpoints) {
+        try {
+          const response = await axios(this.$, {
+            url: endpoint.url,
+            params: endpoint.params,
+            timeout: 30000,
+            headers: headers,
+          });
+
+          if (response && response.success !== false && response.assets) {
+            return { success: true, data: response, endpoint: endpoint.url };
+          }
+        } catch (error) {
+          continue;
+        }
+      }
+
+      return { success: false, data: null };
+    },
+  },
+
+  async run({ $ }) {
+    // 验证 Steam ID 格式
+    if (!this.validateSteamId(this.steam_id)) {
+      throw new Error(
+        `Steam ID 格式无效。应为 17 位数字且以 '765' 开头。收到: ${this.steam_id}\n\n获取 Steam ID: 访问 steamidfinder.com`
+      );
+    }
+
+    // 检查个人资料是否可访问
+    const profileCheck = await this.checkProfileAccessibility(this.steam_id);
+
+    if (!profileCheck.accessible) {
+      throw new Error(
+        `个人资料检查失败: ${
+          profileCheck.message
+        }\n\n${this.getPrivacyInstructions()}`
+      );
+    }
+
+    // 获取库存
+    const inventoryResult = await this.fetchInventory(this.steam_id);
+
+    if (!inventoryResult.success) {
+      throw new Error(
+        `库存访问失败。请确保库存已设置为公开。\n\n${this.getPrivacyInstructions()}`
+      );
+    }
+
+    const { assets, descriptions } = inventoryResult.data;
+
+    // 检查库存数据是否存在
+    if (!assets || !descriptions || assets.length === 0) {
+      $.export("$summary", "库存中未找到 CS2 物品");
+      return {
+        total_covert_items: 0,
+        steam_id: this.steam_id,
+        covert_items: [],
+        message: "该用户库存中没有 CS2 物品",
+      };
+    }
+
+    // Create a map of descriptions for quick lookup
+    const descriptionMap = {};
+    descriptions.forEach((desc) => {
+      const key = `${desc.classid}_${desc.instanceid}`;
+      descriptionMap[key] = desc;
+    });
+
+    // Filter and process Covert (red) quality items
+    const covertItems = [];
+
+    for (const asset of assets) {
+      const key = `${asset.classid}_${asset.instanceid}`;
+      const description = descriptionMap[key];
+
+      if (!description) continue;
+
+      // Skip non-tradable items
+      if (description.tradable !== 1) continue;
+
+      // Check item type
+      const typeTag = description.tags?.find((tag) => tag.category === "Type");
+      const typeInternal = typeTag?.internal_name || "";
+
+      // Optionally exclude collectibles (medals, badges, coins)
+      if (
+        this.exclude_collectibles &&
+        typeInternal === "CSGO_Type_Collectible"
+      ) {
+        continue;
+      }
+
+      // Check if it's a knife or glove
+      const isKnifeOrGlove =
+        typeInternal === "CSGO_Type_Knife" ||
+        typeInternal === "Type_Hands" ||
+        description.market_name?.includes("★");
+
+      // Check rarity
+      const rarityTag = description.tags?.find(
+        (tag) => tag.category === "Rarity"
+      );
+      const rarityName = rarityTag?.localized_tag_name || rarityTag?.name || "";
+      const rarityInternal = rarityTag?.internal_name || "";
+
+      const isCovert =
+        rarityInternal === "Rarity_Ancient_Weapon" ||
+        rarityInternal === "Rarity_Ancient_Character" ||
+        rarityInternal === "Rarity_Ancient" ||
+        rarityName === "Covert" ||
+        rarityName.toLowerCase().includes("covert") ||
+        rarityName.includes("隐秘") ||
+        isKnifeOrGlove;
+
+      if (isCovert) {
+        // Extract wear/condition
+        const wearPatterns = {
+          "Factory New": "FN",
+          "Minimal Wear": "MW",
+          "Field-Tested": "FT",
+          "Well-Worn": "WW",
+          "Battle-Scarred": "BS",
+          崭新出厂: "FN",
+          略有磨损: "MW",
+          久经沙场: "FT",
+          破损不堪: "WW",
+          战痕累累: "BS",
+        };
+
+        let condition = "未知";
+        let conditionAbbrev = "";
+        const marketName = description.market_name || description.name || "";
+        for (const [wear, abbrev] of Object.entries(wearPatterns)) {
+          if (marketName.includes(wear)) {
+            condition = wear;
+            conditionAbbrev = abbrev;
+            break;
+          }
+        }
+
+        // 提取武器名称和皮肤名称
+        let weaponName = "未知";
+        let skinName = "";
+
+        if (description.market_name) {
+          const nameParts = description.market_name.split(" | ");
+          if (nameParts.length > 0) {
+            weaponName = nameParts[0].replace(/★\s*/, "");
+          }
+          if (nameParts.length > 1) {
+            skinName = nameParts[1].replace(/\s*\([^)]+\)$/, "");
+          }
+        }
+
+        const marketHashName = description.market_hash_name;
+        const marketUrl = marketHashName
+          ? `https://steamcommunity.com/market/listings/730/${encodeURIComponent(
+              marketHashName
+            )}`
+          : null;
+
+        covertItems.push({
+          assetid: asset.assetid,
+          name: description.market_name || description.name,
+          weapon_name: weaponName,
+          skin_name: skinName,
+          item_type: typeTag?.localized_tag_name || "未知",
+          condition: condition,
+          condition_abbrev: conditionAbbrev,
+          rarity: rarityTag?.localized_tag_name || "隐秘",
+          market_hash_name: marketHashName,
+          market_url: marketUrl,
+          marketable: description.marketable === 1,
+          icon_url: description.icon_url
+            ? `https://steamcommunity-a.akamaihd.net/economy/image/${description.icon_url}`
+            : null,
+          inspect_url:
+            description.actions?.find(
+              (action) => action.name === "Inspect in Game..."
+            )?.link || null,
+        });
+      }
+    }
+
+    // Sort by item type
+    covertItems.sort((a, b) => a.item_type.localeCompare(b.item_type));
+
+    // Debug info
+    let debugInfo = null;
+    if (this.debug_mode) {
+      const sampleItems = [];
+      for (let i = 0; i < Math.min(10, assets.length); i++) {
+        const asset = assets[i];
+        const key = `${asset.classid}_${asset.instanceid}`;
+        const desc = descriptionMap[key];
+        if (desc) {
+          sampleItems.push({
+            name: desc.market_name || desc.name,
+            type: desc.type,
+            tags: desc.tags?.map((t) => ({
+              category: t.category,
+              internal_name: t.internal_name,
+              localized_tag_name: t.localized_tag_name,
+            })),
+            tradable: desc.tradable,
+          });
+        }
+      }
+      debugInfo = {
+        sample_items: sampleItems,
+        total_descriptions: descriptions.length,
+      };
+    }
+
+    if (covertItems.length === 0) {
+      $.export("$summary", "未找到可交易的隐秘品质物品");
+      const result = {
+        total_covert_items: 0,
+        steam_id: this.steam_id,
+        covert_items: [],
+        total_items: assets.length,
+        message: "未找到可交易的隐秘（红色）品质物品",
+      };
+      if (debugInfo) result.debug = debugInfo;
+      return result;
+    }
+
+    $.export("$summary", `找到 ${covertItems.length} 个可交易的隐秘品质物品`);
+
+    const result = {
+      total_covert_items: covertItems.length,
+      total_items: assets.length,
+      steam_id: this.steam_id,
+      covert_items: covertItems,
+    };
+    if (debugInfo) result.debug = debugInfo;
+    return result;
+  },
+});
