@@ -19,6 +19,13 @@ export default defineComponent({
         "Steam Web API Key，如果库存访问有问题可以尝试提供",
       optional: true,
     },
+    steam_login_secure: {
+      type: "string",
+      label: "Steam loginSecure Cookie (可选)",
+      description:
+        "Steam 的 loginSecure cookie，用于访问私有库存",
+      optional: true,
+    },
   },
   methods: {
     validateSteamId(steamId) {
@@ -77,7 +84,7 @@ export default defineComponent({
       }
     },
 
-    async fetchInventory(steamId, apiKey) {
+    async fetchInventory(steamId, apiKey, loginSecure) {
       const baseParams = { l: "schinese" };
       if (apiKey) {
         baseParams.key = apiKey;
@@ -107,6 +114,11 @@ export default defineComponent({
         Referer: `https://steamcommunity.com/profiles/${steamId}/inventory`,
         Origin: "https://steamcommunity.com",
       };
+      
+      // 添加 loginSecure cookie
+      if (loginSecure) {
+        headers.Cookie = `steamLoginSecure=${loginSecure}`;
+      }
 
       for (const endpoint of endpoints) {
         try {
@@ -149,7 +161,11 @@ export default defineComponent({
     }
 
     // 获取库存
-    const inventoryResult = await this.fetchInventory(this.steam_id, this.steam_api_key);
+    const inventoryResult = await this.fetchInventory(
+      this.steam_id, 
+      this.steam_api_key,
+      this.steam_login_secure
+    );
 
     if (!inventoryResult.success) {
       throw new Error(
@@ -158,6 +174,9 @@ export default defineComponent({
     }
 
     const { assets, descriptions } = inventoryResult.data;
+
+    console.debug(assets);
+    console.debug(descriptions);
 
     // 检查库存数据是否存在
     if (!assets || !descriptions || assets.length === 0) {
