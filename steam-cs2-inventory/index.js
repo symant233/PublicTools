@@ -12,21 +12,12 @@ export default defineComponent({
       description:
         "The Steam ID of the user whose inventory to retrieve (64-bit Steam ID - should be 17 digits starting with 765)",
     },
-    exclude_collectibles: {
-      type: "boolean",
-      label: "Exclude Collectibles",
+    steam_api_key: {
+      type: "string",
+      label: "Steam API Key (可选)",
       description:
-        "Exclude medals, badges, and coins (only show weapons, knives, gloves)",
+        "Steam Web API Key，如果库存访问有问题可以尝试提供",
       optional: true,
-      default: true,
-    },
-    debug_mode: {
-      type: "boolean",
-      label: "Debug Mode",
-      description:
-        "Enable debug mode to see raw item data and help diagnose filtering issues.",
-      optional: true,
-      default: false,
     },
   },
   methods: {
@@ -86,26 +77,35 @@ export default defineComponent({
       }
     },
 
-    async fetchInventory(steamId) {
+    async fetchInventory(steamId, apiKey) {
+      const baseParams = { l: "schinese" };
+      if (apiKey) {
+        baseParams.key = apiKey;
+      }
+      
       const endpoints = [
         {
           url: `https://steamcommunity.com/inventory/${steamId}/730/2`,
-          params: { l: "schinese", count: 5000 },
+          params: { ...baseParams, count: 5000 },
         },
         {
           url: `https://steamcommunity.com/inventory/${steamId}/730/2`,
-          params: { l: "schinese", count: 2000 },
+          params: { ...baseParams, count: 2000 },
         },
         {
           url: `https://steamcommunity.com/inventory/${steamId}/730/2`,
-          params: { l: "schinese" },
+          params: baseParams,
         },
       ];
 
       const headers = {
         "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-        Accept: "application/json",
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        Accept: "application/json, text/plain, */*",
+        "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
+        "Accept-Encoding": "gzip, deflate, br",
+        Referer: `https://steamcommunity.com/profiles/${steamId}/inventory`,
+        Origin: "https://steamcommunity.com",
       };
 
       for (const endpoint of endpoints) {
@@ -149,7 +149,7 @@ export default defineComponent({
     }
 
     // 获取库存
-    const inventoryResult = await this.fetchInventory(this.steam_id);
+    const inventoryResult = await this.fetchInventory(this.steam_id, this.steam_api_key);
 
     if (!inventoryResult.success) {
       throw new Error(
@@ -193,19 +193,16 @@ export default defineComponent({
       const typeTag = description.tags?.find((tag) => tag.category === "Type");
       const typeInternal = typeTag?.internal_name || "";
 
-      // Optionally exclude collectibles (medals, badges, coins)
-      if (
-        this.exclude_collectibles &&
-        typeInternal === "CSGO_Type_Collectible"
-      ) {
-        continue;
-      }
-
       // Check if it's a knife or glove
+      const hasStarInName = description.market_name?.includes("★") || description.name?.includes("★");
       const isKnifeOrGlove =
         typeInternal === "CSGO_Type_Knife" ||
         typeInternal === "Type_Hands" ||
-        description.market_name?.includes("★");
+        hasStarInName ||
+        description.market_name?.toLowerCase().includes("knife") ||
+        description.market_name?.toLowerCase().includes("gloves") ||
+        description.market_name?.includes("手套") ||
+        description.market_name?.includes("刀");
 
       // Check rarity
       const rarityTag = description.tags?.find(
@@ -214,13 +211,18 @@ export default defineComponent({
       const rarityName = rarityTag?.localized_tag_name || rarityTag?.name || "";
       const rarityInternal = rarityTag?.internal_name || "";
 
+      // 扩展稀有度判断：刀具和手套通常稀有度是 "Rarity_Contraband" 或其他特殊值
       const isCovert =
         rarityInternal === "Rarity_Ancient_Weapon" ||
         rarityInternal === "Rarity_Ancient_Character" ||
         rarityInternal === "Rarity_Ancient" ||
+        rarityInternal === "Rarity_Contraband" ||
+        rarityInternal?.includes("Ancient") ||
         rarityName === "Covert" ||
         rarityName.toLowerCase().includes("covert") ||
         rarityName.includes("隐秘") ||
+        rarityName.includes("违禁") ||
+        rarityName.toLowerCase().includes("contraband") ||
         isKnifeOrGlove;
 
       if (isCovert) {
@@ -296,55 +298,24 @@ export default defineComponent({
     // Sort by item type
     covertItems.sort((a, b) => a.item_type.localeCompare(b.item_type));
 
-    // Debug info
-    let debugInfo = null;
-    if (this.debug_mode) {
-      const sampleItems = [];
-      for (let i = 0; i < Math.min(10, assets.length); i++) {
-        const asset = assets[i];
-        const key = `${asset.classid}_${asset.instanceid}`;
-        const desc = descriptionMap[key];
-        if (desc) {
-          sampleItems.push({
-            name: desc.market_name || desc.name,
-            type: desc.type,
-            tags: desc.tags?.map((t) => ({
-              category: t.category,
-              internal_name: t.internal_name,
-              localized_tag_name: t.localized_tag_name,
-            })),
-            tradable: desc.tradable,
-          });
-        }
-      }
-      debugInfo = {
-        sample_items: sampleItems,
-        total_descriptions: descriptions.length,
-      };
-    }
-
     if (covertItems.length === 0) {
       $.export("$summary", "未找到可交易的隐秘品质物品");
-      const result = {
+      return {
         total_covert_items: 0,
         steam_id: this.steam_id,
         covert_items: [],
         total_items: assets.length,
         message: "未找到可交易的隐秘（红色）品质物品",
       };
-      if (debugInfo) result.debug = debugInfo;
-      return result;
     }
 
     $.export("$summary", `找到 ${covertItems.length} 个可交易的隐秘品质物品`);
 
-    const result = {
+    return {
       total_covert_items: covertItems.length,
       total_items: assets.length,
       steam_id: this.steam_id,
       covert_items: covertItems,
     };
-    if (debugInfo) result.debug = debugInfo;
-    return result;
   },
 });
