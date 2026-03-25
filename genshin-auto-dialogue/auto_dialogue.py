@@ -14,10 +14,13 @@ from pathlib import Path
 
 user32 = ctypes.windll.user32
 gdi32 = ctypes.windll.gdi32
+kernel32 = ctypes.windll.kernel32
 
 # ── 按钮区域（2560x1440） ──────────────────────────────────────────────
 BTN_X, BTN_Y, BTN_W, BTN_H = 293, 1329, 28, 28
 REF_PATH = Path(__file__).parent / "ref.png"
+TARGET_PROCESS = "yuanshen.exe"
+PROCESS_QUERY_LIMITED_INFORMATION = 0x1000
 
 # ── Windows 结构（仅用于屏幕截取） ─────────────────────────────────────
 
@@ -33,6 +36,41 @@ class BITMAPINFOHEADER(ctypes.Structure):
 
 class BITMAPINFO(ctypes.Structure):
     _fields_ = [("bmiHeader", BITMAPINFOHEADER)]
+
+user32.GetForegroundWindow.restype = wt.HWND
+user32.GetWindowThreadProcessId.argtypes = [wt.HWND, ctypes.POINTER(wt.DWORD)]
+user32.GetWindowThreadProcessId.restype = wt.DWORD
+kernel32.OpenProcess.argtypes = [wt.DWORD, wt.BOOL, wt.DWORD]
+kernel32.OpenProcess.restype = wt.HANDLE
+kernel32.QueryFullProcessImageNameW.argtypes = [wt.HANDLE, wt.DWORD, wt.LPWSTR, ctypes.POINTER(wt.DWORD)]
+kernel32.QueryFullProcessImageNameW.restype = wt.BOOL
+kernel32.CloseHandle.argtypes = [wt.HANDLE]
+kernel32.CloseHandle.restype = wt.BOOL
+
+
+def get_foreground_process_name():
+    hwnd = user32.GetForegroundWindow()
+    if not hwnd:
+        return ""
+
+    pid = wt.DWORD(0)
+    user32.GetWindowThreadProcessId(hwnd, ctypes.byref(pid))
+    if pid.value == 0:
+        return ""
+
+    h_process = kernel32.OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, False, pid.value)
+    if not h_process:
+        return ""
+
+    try:
+        size = wt.DWORD(1024)
+        buf = ctypes.create_unicode_buffer(size.value)
+        ok = kernel32.QueryFullProcessImageNameW(h_process, 0, buf, ctypes.byref(size))
+        if not ok:
+            return ""
+        return Path(buf.value).name.lower()
+    finally:
+        kernel32.CloseHandle(h_process)
 
 # ── 截取屏幕区域 ────────────────────────────────────────────────────────
 
@@ -118,6 +156,7 @@ def main():
     print("  原神自动对话工具")
     print("=" * 40)
     print(f"检测区域: ({BTN_X},{BTN_Y}) {BTN_W}x{BTN_H}")
+    print(f"目标窗口进程: {TARGET_PROCESS}")
     print("虚拟 Xbox 手柄已创建")
     print("间隔: 250ms | ESC 暂停/继续")
     print("-" * 40)
@@ -145,9 +184,15 @@ def main():
             time.sleep(0.1)
             continue
 
+        ts = time.strftime('%H:%M:%S')
+        fg_process = get_foreground_process_name()
+        if fg_process != TARGET_PROCESS:
+            print(f"\r[{ts}] 当前前台: {fg_process or 'N/A'} | 等待 {TARGET_PROCESS} | 按键: {count}   ", end="", flush=True)
+            time.sleep(0.25)
+            continue
+
         patch = grab(BTN_X, BTN_Y, BTN_W, BTN_H)
         score = ncc(ref, np.mean(patch, axis=2))
-        ts = time.strftime('%H:%M:%S')
 
         now = time.time()
         if score > 0.85 and now - last >= 0.5:
