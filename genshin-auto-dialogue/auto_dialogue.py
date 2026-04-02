@@ -1,7 +1,7 @@
 """
 原神自动对话工具
 检测屏幕左下角对话按钮，自动模拟 Xbox A 键推进对话。
-每 250ms 检测一次，按 ESC 暂停/继续。
+每 100ms 检测一次，按 ` 暂停/继续。
 """
 
 import ctypes
@@ -21,6 +21,12 @@ BTN_X, BTN_Y, BTN_W, BTN_H = 293, 1329, 28, 28
 REF_PATH = Path(__file__).parent / "ref.png"
 TARGET_PROCESS = "yuanshen.exe"
 PROCESS_QUERY_LIMITED_INFORMATION = 0x1000
+PAUSE_KEY_VK = 0xC0  # `（VK_OEM_3）
+BLACK_THRESHOLD = 5  # 识别区域全黑阈值
+USER_IDLE_SECONDS = 15.0
+IDLE_AUTO_PRESS_INTERVAL_SECONDS = 10.0
+STICK_DEADZONE = 8000
+TRIGGER_DEADZONE = 30
 
 # ── Windows 结构（仅用于屏幕截取） ─────────────────────────────────────
 
@@ -71,6 +77,63 @@ def get_foreground_process_name():
         return Path(buf.value).name.lower()
     finally:
         kernel32.CloseHandle(h_process)
+
+
+# ── XInput（读取真实手柄输入）────────────────────────────────────────────
+
+class XINPUT_GAMEPAD(ctypes.Structure):
+    _fields_ = [
+        ("wButtons", wt.WORD),
+        ("bLeftTrigger", wt.BYTE),
+        ("bRightTrigger", wt.BYTE),
+        ("sThumbLX", ctypes.c_short),
+        ("sThumbLY", ctypes.c_short),
+        ("sThumbRX", ctypes.c_short),
+        ("sThumbRY", ctypes.c_short),
+    ]
+
+
+class XINPUT_STATE(ctypes.Structure):
+    _fields_ = [
+        ("dwPacketNumber", wt.DWORD),
+        ("Gamepad", XINPUT_GAMEPAD),
+    ]
+
+
+try:
+    xinput = ctypes.windll.xinput1_4
+except AttributeError:
+    try:
+        xinput = ctypes.windll.xinput1_3
+    except AttributeError:
+        xinput = None
+
+
+def is_user_gamepad_input_active():
+    """检测任意手柄是否有有效输入（按键/摇杆/扳机）。"""
+    if xinput is None:
+        return False
+
+    for user_index in range(4):
+        state = XINPUT_STATE()
+        result = xinput.XInputGetState(user_index, ctypes.byref(state))
+        if result != 0:
+            continue
+
+        gp = state.Gamepad
+        if gp.wButtons != 0:
+            return True
+        if gp.bLeftTrigger > TRIGGER_DEADZONE or gp.bRightTrigger > TRIGGER_DEADZONE:
+            return True
+        if (
+            abs(gp.sThumbLX) > STICK_DEADZONE
+            or abs(gp.sThumbLY) > STICK_DEADZONE
+            or abs(gp.sThumbRX) > STICK_DEADZONE
+            or abs(gp.sThumbRY) > STICK_DEADZONE
+        ):
+            return True
+
+    return False
 
 # ── 截取屏幕区域 ────────────────────────────────────────────────────────
 
@@ -133,6 +196,7 @@ def ncc(a, b):
         return 0.0
     return float((a * b).sum() / (na * nb))
 
+
 # ── 主程序 ───────────────────────────────────────────────────────────────
 
 def main():
@@ -158,19 +222,22 @@ def main():
     print(f"检测区域: ({BTN_X},{BTN_Y}) {BTN_W}x{BTN_H}")
     print(f"目标窗口进程: {TARGET_PROCESS}")
     print("虚拟 Xbox 手柄已创建")
-    print("间隔: 250ms | ESC 暂停/继续")
+    print("间隔: 100ms | ` 暂停/继续")
+    print(f"待机点按: 无输入 {USER_IDLE_SECONDS:.0f}s 后，每 {IDLE_AUTO_PRESS_INTERVAL_SECONDS:.0f}s 按 A")
     print("-" * 40)
 
     count = 0
     last = 0.0
     paused = False
-    esc_held = False
+    pause_key_held = False
+    last_user_input_time = time.time()
+    last_idle_auto_press_time = 0.0
 
     winsound.Beep(800, 200)
 
     while True:
-        esc_now = bool(user32.GetAsyncKeyState(0x1B) & 0x8000)
-        if esc_now and not esc_held:
+        pause_now = bool(user32.GetAsyncKeyState(PAUSE_KEY_VK) & 0x8000)
+        if pause_now and not pause_key_held:
             paused = not paused
             if paused:
                 winsound.Beep(400, 300)
@@ -178,7 +245,7 @@ def main():
             else:
                 winsound.Beep(800, 200)
                 print(f"\r▶ 已继续                              ", end="", flush=True)
-        esc_held = esc_now
+        pause_key_held = pause_now
 
         if paused:
             time.sleep(0.1)
@@ -188,11 +255,15 @@ def main():
         fg_process = get_foreground_process_name()
         if fg_process != TARGET_PROCESS:
             print(f"\r[{ts}] 当前前台: {fg_process or 'N/A'} | 等待 {TARGET_PROCESS} | 按键: {count}   ", end="", flush=True)
-            time.sleep(0.25)
+            time.sleep(0.1)
             continue
 
+        if is_user_gamepad_input_active():
+            last_user_input_time = time.time()
+
         patch = grab(BTN_X, BTN_Y, BTN_W, BTN_H)
-        score = ncc(ref, np.mean(patch, axis=2))
+        gray_patch = np.mean(patch, axis=2)
+        score = ncc(ref, gray_patch)
 
         now = time.time()
         if score > 0.85 and now - last >= 0.5:
@@ -200,9 +271,24 @@ def main():
             last = now
             count += 1
 
-        print(f"\r[{ts}] 匹配度: {score:.3f} | 按键: {count}   ", end="", flush=True)
+        # 条件 1：目标进程前台 + 识别区域全黑 => 直接按 A
+        if patch.max() <= BLACK_THRESHOLD and now - last >= 0.5:
+            press_a()
+            last = now
+            count += 1
 
-        time.sleep(0.25)
+        idle_seconds = now - last_user_input_time
+        # 条件 2：用户手柄无输入超过阈值后，按固定间隔待机点按
+        if idle_seconds >= USER_IDLE_SECONDS:
+            if (now - last_idle_auto_press_time) >= IDLE_AUTO_PRESS_INTERVAL_SECONDS and (now - last) >= 0.5:
+                press_a()
+                last = now
+                last_idle_auto_press_time = now
+                count += 1
+
+        print(f"\r[{ts}] 匹配度: {score:.3f} | 空闲: {idle_seconds:4.1f}s | 按键: {count}   ", end="", flush=True)
+
+        time.sleep(0.1)
 
 if __name__ == "__main__":
     main()
