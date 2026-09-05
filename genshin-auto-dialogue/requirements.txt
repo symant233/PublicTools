@@ -1,0 +1,4 @@
+# Python 3.10+ / 3.13
+numpy>=2.0
+Pillow>=10.0
+vgamepad>=0.1.0  # 需要 ViGEm Bus Driver: https://github.com/nefarius/ViGEmBus/releases

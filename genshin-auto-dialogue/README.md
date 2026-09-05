@@ -5,7 +5,7 @@
 ## 依赖
 
 ```
-pip install numpy Pillow vgamepad
+pip install -r requirements.txt
 ```
 
 > `vgamepad` 需要 [ViGEm Bus Driver](https://github.com/nefarius/ViGEmBus/releases)。
